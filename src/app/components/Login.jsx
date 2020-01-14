@@ -16,7 +16,7 @@ import {
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
-
+require("../styles/styles.css");
 class Login extends React.Component {
   static propTypes = {
     history: PropTypes.object.isRequired
@@ -63,57 +63,56 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <Grid
-          textAlign="center"
-          style={{ height: "100vh" }}
-          verticalAlign="middle"
-        >
-          <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="teal" textAlign="center">
-              {/* <Image src="" />  */}
-              Log-in to your account
-            </Header>
-            {this.props.auth.loginError &&
-              <Message warning>
-                <Message.Header>Login Failed!</Message.Header>
-                <p>Your email or password doesn't look right.</p>
-              </Message>}
-            <Form size="large">
-              <Segment stacked>
-                <Form.Input
-                  fluid
-                  icon="user"
-                  iconPosition="left"
-                  placeholder="E-mail address"
+      <Segment.Group
+        raised
+        style={{
+          marginLeft: "15%",
+          marginTop: "5%",
+          width: "70%",
+          overflow: "hidden",
+          height: "550px"
+        }}
+      >
+        <Segment style={{ height: "500px" }}>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={8}>
+                <h2>logo</h2>
+              </Grid.Column>
+              <Grid.Column width={8}>
+                {this.props.auth.loginError && (
+                  <Message warning>
+                    <Message.Header>Login Failed!</Message.Header>
+                    <p>Your email or password doesn't look right.</p>
+                  </Message>
+                )}
+                <p className="sign">Login</p>
+                <input
+                  className="un "
+                  type="text"
+                  align="center"
+                  placeholder="Username"
                   onChange={this.handleUsernameChange}
                 />
-                <Form.Input
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  placeholder="Password"
+                <input
+                  className="pass"
                   type="password"
+                  align="center"
+                  placeholder="Password"
                   onChange={this.handlePasswordChange}
                   onKeyDown={this.handleKeyPress}
                 />
-
-                <Button
-                  color="teal"
-                  fluid
-                  size="large"
-                  onClick={this.authenticate}
-                >
+                <a class="submit" align="center" onClick={this.authenticate}>
                   Login
-                </Button>
-              </Segment>
-            </Form>
-            {/* <Message>
-              New to us? <a href="#">Sign Up</a>
-            </Message> */}
-          </Grid.Column>
-        </Grid>
-      </div>
+                </a>
+                <p className="forgot">
+                  <a href="#">Forgot Password?</a>
+                </p>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+      </Segment.Group>
     );
   }
 }

@@ -1,5 +1,5 @@
 var config = {
-    api_url: 'http://192.168.1.20:3118/',
+    api_url: 'http://08ba03e8.ngrok.io/'
 };
 
 export default config;

@@ -4,7 +4,7 @@ import * as types from "./types";
 export const loginAction = (name, password) => {
   return function(dispatch) {
     axios
-      .post(types.API_URL + "admin/login", {
+      .post(types.API_URL + "hdfc/v1/login", {
         email: name,
         password: password
       })
@@ -28,3 +28,9 @@ export const logoutAction = () => {
     type: types.LOGOUT_ACTION
   };
 };
+export const selectMenuAction = (selectedMenu) => {
+  return {
+      type: types.SELECT_MENU_ACTION,
+      payload: selectedMenu
+  }
+}
