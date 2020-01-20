@@ -1,5 +1,5 @@
 var config = {
-    api_url: 'http://08ba03e8.ngrok.io/'
+    api_url: 'http://479bc4dd.ngrok.io/'
 };
 
 export default config;

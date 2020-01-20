@@ -16,15 +16,14 @@ export default function(state = INIT_STATE, action) {
         expiresIn: moment().add(action.payload.expires_in, "seconds").format(),
         loginError: false
       };
-      console.log("login success");
       setupAxios(state.accessToken);
       return state;
 
     case LOGIN_FAILURE:
       state = {
-        loginError: true
+        loginError: true,
+        loginMessage:action.payload.data.message
       };
-      console.log("login failed");
       return state;
 
     case LOGOUT_ACTION:

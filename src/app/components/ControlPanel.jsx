@@ -13,7 +13,7 @@ import {
   Button,
   Dropdown
 } from "semantic-ui-react";
-import Hdfc from "../components/HdfcComponents/HdfcAudits.jsx";
+import Hdfc from "../components/ControlPanelComponents/Hdfc.jsx";
 
 class Home extends Component {
   constructor(props) {
@@ -43,8 +43,8 @@ class Home extends Component {
     this.setState({ sideBarVisible: !this.state.sideBarVisible });
   };
 
-  openControlPanel = () => {
-    this.props.history.push(`/controlpanel`);
+  openHome = () => {
+    this.props.history.push(`/`);
   };
   render() {
     var activeItem = this.props.home.selectedMenu || "hdfc";
@@ -88,27 +88,16 @@ class Home extends Component {
             src="../images/matrix-logo.png"
           /> */}
         </div>
-        <div
-            style={{
-              display: "inline-block",
-              float: "right",
-              paddingRight: 50
-            }}
-          >
-            <Menu.Menu
-              style={{ display: "inline", float: "right", marginTop: 8 }}
-            >
-              <Dropdown pointing text={this.props.auth.displayName}>
-                <Dropdown.Menu>
-                  {isAdmin(this.props.auth) &&
-                    <Dropdown.Item onClick={this.openControlPanel}>
-                      Control Panel
-                    </Dropdown.Item>}
-                  <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Menu.Menu>
-          </div>
+        <div style={{ display: 'inline-block', float: 'right', paddingRight: 50 }}>
+                        <Menu.Menu style={{ display: 'inline', float: 'right', marginTop: 8 }}>
+                            <Dropdown pointing text={this.props.auth.displayName}>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={this.openHome}>Home</Dropdown.Item>
+                                    <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Menu.Menu>
+                    </div>
           </Segment>
           <Sidebar.Pushable
           as={Segment}

@@ -2,17 +2,19 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Image, Divider } from "semantic-ui-react";
-import { isLoggedIn } from "../util";
+import { isLoggedIn, isFieldExecutive } from "../util";
 import { loginAction } from "../actions/index";
 import {
   Grid,
   GridColumn,
   Message,
   GridRow,
+  Input,
   Header,
   Form,
   Segment,
-  Button
+  Button,
+  Icon
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
@@ -27,7 +29,8 @@ class Login extends React.Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      platform: "web"
     };
   }
   handleUsernameChange = e => {
@@ -44,8 +47,13 @@ class Login extends React.Component {
     }
   };
 
-  authenticate = () => {
-    this.props.login(this.state.username, this.state.password);
+  authenticate = e => {
+    e.preventDefault();
+    this.props.login(
+      this.state.username,
+      this.state.password,
+      this.state.platform
+    );
   };
 
   componentWillMount() {
@@ -83,17 +91,20 @@ class Login extends React.Component {
                 {this.props.auth.loginError && (
                   <Message warning>
                     <Message.Header>Login Failed!</Message.Header>
-                    <p>Your email or password doesn't look right.</p>
+                    <p>{this.props.auth.loginMessage}</p>
                   </Message>
                 )}
                 <p className="sign">Login</p>
+                <form>
                 <input
                   className="un "
                   type="text"
                   align="center"
-                  placeholder="Username"
+                  placeholder="your Email Address"
+                  iconPosition="left"
                   onChange={this.handleUsernameChange}
                 />
+                <br></br>
                 <input
                   className="pass"
                   type="password"
@@ -102,12 +113,14 @@ class Login extends React.Component {
                   onChange={this.handlePasswordChange}
                   onKeyDown={this.handleKeyPress}
                 />
+                <br></br>
                 <a class="submit" align="center" onClick={this.authenticate}>
                   Login
                 </a>
                 <p className="forgot">
                   <a href="#">Forgot Password?</a>
                 </p>
+                </form>
               </Grid.Column>
             </Grid.Row>
           </Grid>

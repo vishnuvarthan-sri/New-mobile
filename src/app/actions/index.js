@@ -1,12 +1,14 @@
 import axios from "axios";
 import * as types from "./types";
 
-export const loginAction = (name, password) => {
+export const loginAction = (name, password,web) => {
   return function(dispatch) {
     axios
-      .post(types.API_URL + "hdfc/v1/login", {
+      .post(types.API_URL + "ebgc/v1/login", {
+        
         email: name,
-        password: password
+        password: password,
+        platform: web,
       })
       .then(function(response) {
         dispatch({
@@ -17,7 +19,7 @@ export const loginAction = (name, password) => {
       .catch(function(error) {
         dispatch({
           type: types.LOGIN_FAILURE,
-          payload: error
+          payload: error.response
         });
       });
   };
