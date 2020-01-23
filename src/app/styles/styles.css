@@ -76,3 +76,27 @@
         padding-top: 20px;
         margin-left: 35%;
     }
+    .react-table-dropdown {
+        min-height: 28px !important;
+        max-height: 28px !important;
+        line-height: 0em !important;
+        border-radius: 0px !important;
+        position: fixed !important;
+        width: 150px !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .react-table-dropdown input{
+        height: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .react-table-dropdown div{
+        vertical-align: sub !important;
+        /* text-align: left; */
+        /* inline-size: max-content; */
+    }
+    
+    .react-table-dropdown i{
+        padding: 6px !important
+    }

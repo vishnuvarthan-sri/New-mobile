@@ -8,3 +8,8 @@ export const SELECT_MENU_ACTION = 'select_menu';
 export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAILURE = 'login_failure';
 export const LOGOUT_ACTION = 'logout';
+
+//hdfc
+
+export const FETCH_HDFC_TEMPLATE_SUCCESS_ACTION = "hdfc_template_success";
+export const FETCH_HDFC_TEMPLATE_FAILURE_ACTION = "hdfc_template_failure";

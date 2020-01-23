@@ -1,3 +1,6 @@
+
+import 'react-table-6/react-table.css'
+
 import React from "react";
 import ReactDOM from "react-dom";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
@@ -6,7 +9,6 @@ import reducers from "./reducers/index";
 import Login from "./components/Login.jsx";
 import Home from "./components/Home.jsx";
 import ControlPanel from './components/ControlPanel.jsx';
-
 import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
 import { HashRouter, Route } from "react-router-dom";

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { isLoggedIn, isAdmin ,isQualityControl} from "./../util";
+import { isLoggedIn, isAdmin } from './../util';
 import { selectMenuAction, logoutAction } from "../actions/index";
 import { Container, Segment, Input, Icon, Label } from "semantic-ui-react";
 import {
@@ -13,25 +13,26 @@ import {
   Button,
   Dropdown
 } from "semantic-ui-react";
-import Hdfc from "../components/HdfcComponents/HdfcAudits.jsx";
-
-class Home extends Component {
+import HdfcAudits from "./HdfcComponents/HdfcAudits.jsx"
+export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sideBarVisible: true
     };
   }
+
   handleItemClick = (e, { name }) => this.props.selectMenu(name);
+
   logout = () => {
     this.props.logout();
   };
-
   componentWillMount() {
     if (!isLoggedIn(this.props.auth)) {
       this.props.history.push(`/login`);
     }
   }
+
   shouldComponentUpdate(nextProps, nextState) {
     if (!isLoggedIn(nextProps.auth)) {
       this.props.history.push(`/login`);
@@ -39,6 +40,7 @@ class Home extends Component {
     }
     return true;
   }
+
   toggleSidebar = () => {
     this.setState({ sideBarVisible: !this.state.sideBarVisible });
   };
@@ -48,47 +50,30 @@ class Home extends Component {
   };
   render() {
     var activeItem = this.props.home.selectedMenu || "hdfc";
-    var pusherStyle = { height: "500px", overflow: "auto", width: "85%" };
+    console.log(activeItem)
+    var pusherStyle = { height: 800, overflow: "auto", width: "85%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
     }
     return (
-      <div style={{ height: "100%" }}>
-      <Segment raised style={{ backgroundColor: "#fafafa", height: 60 }}>
+      <div style={{height:"100%"}}>
+        <Segment raised style={{ backgroundColor: "#fafafa", height: 60 }}>
         <div style={{ display: "inline-block" }}>
-          <Icon
-            style={{
-              display: "inline-block",
-              cursor: "pointer",
-              float: "left",
-              color: "#606060",
-              marginTop: 4
-            }}
-            onClick={this.toggleSidebar}
-            size="big"
-            name="bars"
-          />
-
-          {/* <img
-            style={{
-              height: 120,
-              marginTop: -40,
-              float: "left"
-            }}
-            src="../images/textLogo.png"
-          />
-
-          <img
-            style={{
-              height: 60,
-              marginTop: -13,
-              float: "left"
-            }}
-            src="../images/matrix-logo.png"
-          /> */}
-        </div>
-        <div
+            <Icon
+              style={{
+                display: "inline-block",
+                cursor: "pointer",
+                float: "left",
+                color: "#606060",
+                marginTop: 4
+              }}
+              onClick={this.toggleSidebar}
+              size="big"
+              name="bars"
+            />
+          </div>
+          <div
             style={{
               display: "inline-block",
               float: "right",
@@ -109,8 +94,8 @@ class Home extends Component {
               </Dropdown>
             </Menu.Menu>
           </div>
-          </Segment>
-          <Sidebar.Pushable
+        </Segment> 
+        <Sidebar.Pushable
           as={Segment}
           style={{
             marginTop: -15,
@@ -134,23 +119,17 @@ class Home extends Component {
             vertical
             inverted
           >
-
-            {/* hdfc */
-              <Menu.Item
-                name="hdfc"
-                active={activeItem === "hdfc"}
-                color="teal"
-                onClick={this.handleItemClick}
-              >
-                <Icon name="check" />
-                Hdfc
-              </Menu.Item>}
-
-
-
-            
-          </Sidebar>
-          <Sidebar.Pusher style={pusherStyle}>
+            <Menu.Item
+              name="hdfc"
+              active={activeItem === "hdfc"}
+              color="teal"
+              onClick={this.handleItemClick}
+            >
+              <Icon name="rupee" />
+              <span style={{color:"black"}}>HDFC</span>
+            </Menu.Item>
+            </Sidebar>
+            <Sidebar.Pusher style={pusherStyle}>
             <Segment
               basic
               style={{
@@ -159,17 +138,14 @@ class Home extends Component {
                 padding: "10px 0px 0px 0px"
               }}
             >
-              {activeItem === "hdfc" && <Hdfc/>}
+              {activeItem === "hdfc" && <HdfcAudits />}
             </Segment>
           </Sidebar.Pusher>
-        </Sidebar.Pushable>
-        
-       
+            </Sidebar.Pushable>  
       </div>
-    );
+    )
   }
 }
-
 const mapStateToProps = state => {
   return {
     auth: state.auth,
@@ -188,3 +164,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+

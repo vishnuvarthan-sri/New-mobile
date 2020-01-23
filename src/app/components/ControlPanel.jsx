@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+
+import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { isLoggedIn, isAdmin ,isQualityControl} from "./../util";
+import { isLoggedIn, isAdmin, isQualityControl } from "./../util";
 import { selectMenuAction, logoutAction } from "../actions/index";
 import { Container, Segment, Input, Icon, Label } from "semantic-ui-react";
 import {
@@ -13,16 +14,19 @@ import {
   Button,
   Dropdown
 } from "semantic-ui-react";
-import Hdfc from "../components/ControlPanelComponents/Hdfc.jsx";
+import User from "../components/ControlPanelComponents/User.jsx";
+import HdfcReport from "../components/ControlPanelComponents/HdfcReport.jsx";
 
-class Home extends Component {
+class ControlPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       sideBarVisible: true
     };
   }
+
   handleItemClick = (e, { name }) => this.props.selectMenu(name);
+
   logout = () => {
     this.props.logout();
   };
@@ -31,14 +35,24 @@ class Home extends Component {
     if (!isLoggedIn(this.props.auth)) {
       this.props.history.push(`/login`);
     }
+
+    if (!isAdmin(this.props.auth)) {
+      this.props.history.push(`/`);
+    }
   }
+
   shouldComponentUpdate(nextProps, nextState) {
     if (!isLoggedIn(nextProps.auth)) {
       this.props.history.push(`/login`);
       return false;
     }
+    if (!isAdmin(this.props.auth)) {
+      this.props.history.push(`/`);
+      return false;
+    }
     return true;
   }
+
   toggleSidebar = () => {
     this.setState({ sideBarVisible: !this.state.sideBarVisible });
   };
@@ -47,59 +61,50 @@ class Home extends Component {
     this.props.history.push(`/`);
   };
   render() {
-    var activeItem = this.props.home.selectedMenu || "hdfc";
-    var pusherStyle = { height: "500px", overflow: "auto", width: "85%" };
+    var activeItem = this.props.home.selectedMenu || "user";
+    console.log(activeItem)
+    var pusherStyle = { height: "800px", overflow: "auto", width: "87.5%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
     }
     return (
       <div style={{ height: "100%" }}>
-      <Segment raised style={{ backgroundColor: "#fafafa", height: 60 }}>
-        <div style={{ display: "inline-block" }}>
-          <Icon
+        <Segment raised style={{ backgroundColor: "#fafafa", height: 60 }}>
+          <div style={{ display: "inline-block" }}>
+            <Icon
+              style={{
+                display: "inline-block",
+                cursor: "pointer",
+                float: "left",
+                color: "#606060",
+                marginTop: 4
+              }}
+              onClick={this.toggleSidebar}
+              size="big"
+              name="bars"
+            />
+          </div>
+          <div
             style={{
               display: "inline-block",
-              cursor: "pointer",
-              float: "left",
-              color: "#606060",
-              marginTop: 4
+              float: "right",
+              paddingRight: 50
             }}
-            onClick={this.toggleSidebar}
-            size="big"
-            name="bars"
-          />
-
-          {/* <img
-            style={{
-              height: 120,
-              marginTop: -40,
-              float: "left"
-            }}
-            src="../images/textLogo.png"
-          />
-
-          <img
-            style={{
-              height: 60,
-              marginTop: -13,
-              float: "left"
-            }}
-            src="../images/matrix-logo.png"
-          /> */}
-        </div>
-        <div style={{ display: 'inline-block', float: 'right', paddingRight: 50 }}>
-                        <Menu.Menu style={{ display: 'inline', float: 'right', marginTop: 8 }}>
-                            <Dropdown pointing text={this.props.auth.displayName}>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item onClick={this.openHome}>Home</Dropdown.Item>
-                                    <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </Menu.Menu>
-                    </div>
-          </Segment>
-          <Sidebar.Pushable
+          >
+            <Menu.Menu
+              style={{ display: "inline", float: "right", marginTop: 8 }}
+            >
+              <Dropdown pointing text={this.props.auth.displayName}>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={this.openHome}>Home</Dropdown.Item>
+                  <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Menu.Menu>
+          </div>
+        </Segment>
+        <Sidebar.Pushable
           as={Segment}
           style={{
             marginTop: -15,
@@ -123,21 +128,26 @@ class Home extends Component {
             vertical
             inverted
           >
-
-            {/* hdfc */
-              <Menu.Item
-                name="hdfc"
-                active={activeItem === "hdfc"}
-                color="teal"
-                onClick={this.handleItemClick}
-              >
-                <Icon name="check" />
-                Hdfc
-              </Menu.Item>}
-
-
-
-            
+            <Menu.Item
+              name="user"
+              active={activeItem === "user"}
+              color="teal"
+              onClick={this.handleItemClick}
+              style={{ marginTop: 10 }}
+            >
+              <Icon name="users" />
+             <span style={{color:"black"}}>Users</span>
+            </Menu.Item>
+            <Menu.Item
+              name="report"
+              active={activeItem === "report"}
+              color="teal"
+              onClick={this.handleItemClick}
+              style={{ marginTop: 10 }}
+            >
+              <Icon name="file excel" />
+              <span style={{color:"black"}}>Report</span>
+            </Menu.Item>
           </Sidebar>
           <Sidebar.Pusher style={pusherStyle}>
             <Segment
@@ -148,12 +158,11 @@ class Home extends Component {
                 padding: "10px 0px 0px 0px"
               }}
             >
-              {activeItem === "hdfc" && <Hdfc/>}
+              {activeItem === "user" && <User />}
+              {activeItem === "report" && <HdfcReport/>}
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-        
-       
       </div>
     );
   }
@@ -176,4 +185,6 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ControlPanel)
+);
