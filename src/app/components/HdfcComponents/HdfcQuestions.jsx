@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {fetchHdfcTemplatesAction} from "../../actions/hdfc_action";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
@@ -28,7 +27,7 @@ const mapStateToProps = state => {
   };
   
   const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ fetchHdfcTemplates: fetchHdfcTemplatesAction }, dispatch);
+    return bindActionCreators({ }, dispatch);
   };
   
   export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HdfcQuestions));

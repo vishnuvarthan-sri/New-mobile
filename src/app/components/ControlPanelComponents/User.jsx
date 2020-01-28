@@ -18,6 +18,21 @@ import {
   Button,
   Dropdown
 } from "semantic-ui-react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import {
+  fetchUserAction,
+  saveUserDetailAction,
+  setCurrentUser,
+  fetchAssignedLineItemAction,
+  forgotPasswordAction,
+  generatePinAction,
+} from "../../actions/user_action";
+import { isLoggedIn, isAdmin } from "./../../util";
+import { SemanticToastContainer, toast } from 'react-semantic-toasts';
+import 'react-semantic-toasts/styles/react-semantic-alert.css';
+
 
 export class User extends Component {
   constructor(props) {
@@ -29,74 +44,66 @@ export class User extends Component {
       email: "",
       role: "",
       imei: "",
-      pin: ""
+      pin: "",
+      saveError: false,
+      newUser: false,
     };
   }
+  componentDidMount() {
+    this.props.fetchUser();
+  }
+
+
   editUserDetail = data => {
+    this.props.fetchUser();
+    this.props.fetchAssignedLineItem();
+    this.props.setCurrentUser(data);
     this.setState({
       editMode: true,
-      name: data.name,
-      phone: data.phone,
+      name: data.displayName,
+      phone: data.mobileNo,
       email: data.email,
       role: data.role,
       imei: data.imei,
-      pin: data.pin
+      newUser: false
     });
+  };
+  saveEditedUser = () => {
+    var user = this.props.user.currentUser;
+    user.displayName = this.state.name;
+    user.mobileNo = this.state.phone;
+    user.email = this.state.email;
+    user.role = this.state.role;
+    this.props.setCurrentUser(user);
+    this.props.saveUserDetail(user);
+    this.setState({ newUser: {}, editMode: false, saveError: false });
+  };
+  onNameChange = e => {
+    this.setState({ name: e.target.value });
+  };
+  onEmailChange = e => {
+    this.setState({ email: e.target.value });
+  };
+  onPhoneChange = e => {
+    this.setState({ phone: e.target.value });
+  };
+  onRoleChange = data => {
+    this.setState({ role: data });
   };
   closeEditUser = () => {
     this.setState({ editMode: false });
   };
+  forgotPasswordaction = () => {
+    var userId = this.props.user.currentUser;
+    this.props.forgotPassword(userId._id)
+  } 
+  generatePinaction = () => {
+    var userId = this.props.user.currentUser;
+    this.props.generatePin(userId._id)
+  } 
+
   render() {
-    const data = [
-      {
-        name: "Ayaan",
-        email: "ayan@gmail.com",
-        phone: 7896541225,
-        role: "F.E",
-        imei: "IMEKIF878452",
-        pin: 7854
-      },
-      {
-        name: "Ahana",
-        email: "ahana@gmail.com",
-        phone: 8888888888,
-        role: "F.E",
-        imei: "AHANA8452",
-        pin: 1547
-      },
-      {
-        name: "Peter",
-        email: "peter@gmail.com",
-        phone: 7777777777,
-        role: "Admin",
-        imei: "PETER78952",
-        pin: 7854
-      },
-      {
-        name: "Virat",
-        email: "virat@gmail.com",
-        phone: 6666666666,
-        role: "F.E",
-        imei: "VIRAT878452",
-        pin: 1111
-      },
-      {
-        name: "Rohit",
-        email: "rohit@gmail.com",
-        phone: 5555555555,
-        role: "Q.C",
-        imei: "ROHIT878452",
-        pin: 8965
-      },
-      {
-        name: "Dhoni",
-        email: "dhoni@gmail.com",
-        phone: 44444444444,
-        role: "F.E",
-        imei: "IMEKIF878452",
-        pin: 7854
-      }
-    ];
+    var userList = this.props.user.allUsers;
     const dat = [
       {
         name: "Dhoni",
@@ -112,42 +119,47 @@ export class User extends Component {
       { key: 2, text: "Choice 2", value: 2 },
       { key: 3, text: "Choice 3", value: 3 }
     ];
+    const roleOptions = [
+      { key: 1, value: "admin", text: "admin" },
+      {
+        key: 2,
+        value: "quality Control Agents",
+        text: "quality Control Agents"
+      },
+      { key: 3, value: "Field Ececutive", text: "Field Ececutive" }
+    ];
     const columns = [
       {
         Header: "Name",
-        accessor: "name",
-        style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell row={row.original} text={row.original.name} />
-        // )
+        accessor: "displayName",
+        style: { textAlign: "center", cursor: "pointer" },
+        Cell: row => (
+          <AuditTableCell row={row.original} text={row.original.displayName} />
+        )
       },
       {
         Header: "Email",
         accessor: "email",
-        style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell row={row.original} text={row.original.email} />
-        // )
+        style: { textAlign: "center", cursor: "pointer" },
+        Cell: row => (
+          <AuditTableCell row={row.original} text={row.original.email} />
+        )
       },
       {
         Header: "PhoneNumber",
-        accessor: "phone",
-        style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell row={row.original} text={row.original.phone} />
-        // )
+        accessor: "mobileNo",
+        style: { textAlign: "center", cursor: "pointer" },
+        Cell: row => (
+          <AuditTableCell row={row.original} text={row.original.mobileNo} />
+        )
       },
       {
         Header: "Role",
         accessor: "role",
-        style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.role}
-
-        //   />
-        // )
+        style: { textAlign: "center", cursor: "pointer" },
+        Cell: row => (
+          <AuditTableCell row={row.original} text={row.original.role} />
+        )
       },
       {
         Header: "Action",
@@ -243,7 +255,7 @@ export class User extends Component {
                 sortable={true}
                 style={{ height: "85%", width: "95%", marginLeft: 30 }}
                 columns={columns}
-                data={data}
+                data={userList}
               />
             </div>
             <Modal
@@ -261,6 +273,7 @@ export class User extends Component {
                           type="text"
                           placeholder="Your name"
                           value={this.state.name}
+                          onChange={this.onNameChange}
                         />
                       </Grid.Column>
                       <Grid.Column>
@@ -269,6 +282,7 @@ export class User extends Component {
                           type="any"
                           placeholder="Your phone number"
                           value={this.state.phone}
+                          onChange={this.onPhoneChange}
                         />
                       </Grid.Column>
                       <Grid.Column>
@@ -277,14 +291,21 @@ export class User extends Component {
                           type="email"
                           placeholder="Your Email"
                           value={this.state.email}
+                          onChange={this.onEmailChange}
                         />
                       </Grid.Column>
                       <Grid.Column>
-                        <Form.Input
-                          label="Role"
-                          type="text"
+                        <label for="role">Role</label>
+                        <br />
+                        <Dropdown
+                          style={{ width: "100%" }}
+                          selection
                           placeholder="Your Role"
+                          options={roleOptions}
                           value={this.state.role}
+                          onChange={(e, data) => {
+                            this.onRoleChange(data.value);
+                          }}
                         />
                       </Grid.Column>
                       <Grid.Column>
@@ -293,6 +314,7 @@ export class User extends Component {
                           type="any"
                           placeholder="Your IMEI"
                           value={this.state.imei}
+                          onChange={this.onValueChange}
                         />
                       </Grid.Column>
                       <Grid.Column>
@@ -300,13 +322,19 @@ export class User extends Component {
                           label="Pin"
                           type="any"
                           placeholder="Your Pin"
-                          value={this.state.pin}
+                          disabled
+                          value={this.props.user.pin != null ? this.props.user.pin : "" }
+                          onChange={this.onValueChange}
                         />
+                      </Grid.Column>
+                      <Grid.Column style={{marginTop:"20px"}} spacing={10}>
+                        <Button color="teal" onClick = {this.generatePinaction}>Generate Pin</Button>
+                        <Button color="orange"onClick = {this.forgotPasswordaction}>Forgot password</Button>
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>
                 </Form>
-
+                    
                 <ReactTable
                   noDataText="We couldn't find anything"
                   filterable={true}
@@ -322,7 +350,9 @@ export class User extends Component {
                   <Icon name="remove" /> No
                 </Button>
 
-                <Button color="black">Save</Button>
+                <Button color="black" onClick={this.saveEditedUser}>
+                  Save
+                </Button>
               </Modal.Actions>
             </Modal>
           </div>
@@ -332,4 +362,35 @@ export class User extends Component {
   }
 }
 
-export default User;
+function AuditTableCell(props) {
+  function onClick() {
+    props.onClick(props.row);
+  }
+  return (
+    <div style={props.style} onClick={onClick}>
+      {props.text}
+    </div>
+  );
+}
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      fetchUser: fetchUserAction,
+      saveUserDetail: saveUserDetailAction,
+      setCurrentUser: setCurrentUser,
+      fetchAssignedLineItem: fetchAssignedLineItemAction,
+      forgotPassword:forgotPasswordAction,
+      generatePin: generatePinAction,
+    },
+    dispatch
+  );
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(User));

@@ -24,6 +24,7 @@
     "react-redux": "^7.1.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-semantic-toasts": "^0.6.5",
     "react-table": "^7.0.0-rc.15",
     "react-table-6": "^6.11.0",
     "redux": "^4.0.1",

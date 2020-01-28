@@ -8,11 +8,13 @@ import { createStore, applyMiddleware, compose } from "redux";
 import reducers from "./reducers/index";
 import Login from "./components/Login.jsx";
 import Home from "./components/Home.jsx";
+import ForgotPassword from "./components/ForgotPassword.jsx";
 import ControlPanel from './components/ControlPanel.jsx';
 import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
 import { HashRouter, Route } from "react-router-dom";
 import Throttle from "lodash/throttle";
+import { SemanticToastContainer, toast } from 'react-semantic-toasts';
 
 import { saveState, loadState } from "./util";
 
@@ -34,9 +36,11 @@ store.subscribe(Throttle(() => {
 
 const App = () =>
   <div style={{ height: "100%" }}>
+    <SemanticToastContainer />
     <Route path="/" exact component={Home} />
     <Route exact path="/home" component={Home} />
     <Route path="/login" component={Login} />
+    <Route path = "/forgotpassword" component = {ForgotPassword}/>
     <Route path="/controlpanel" component={ControlPanel} />
   </div>;
 ReactDOM.render(
