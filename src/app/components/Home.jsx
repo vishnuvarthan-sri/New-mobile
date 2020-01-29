@@ -51,7 +51,7 @@ export class Home extends Component {
   render() {
     var activeItem = this.props.home.selectedMenu || "hdfc";
     console.log(activeItem)
-    var pusherStyle = { height: 800, overflow: "auto", width: "85%" };
+    var pusherStyle = { height:"900px", overflow: "auto", width: "85%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
@@ -110,7 +110,7 @@ export class Home extends Component {
             activeIndex="0"
             style={{
               flex: "0 0 150px",
-              backgroundColor: "#E9E4F0",
+              backgroundColor: "#1d2b64",
               paddingTop: 30
             }}
             animation="slide along"

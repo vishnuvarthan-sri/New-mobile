@@ -28,6 +28,7 @@ import {
   fetchAssignedLineItemAction,
   forgotPasswordAction,
   generatePinAction,
+  reassignAuditAction,
 } from "../../actions/user_action";
 import { isLoggedIn, isAdmin } from "./../../util";
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
@@ -39,6 +40,7 @@ export class User extends Component {
     super(props);
     this.state = {
       editMode: false,
+      id:"",
       name: "",
       phone: "",
       email: "",
@@ -47,26 +49,39 @@ export class User extends Component {
       pin: "",
       saveError: false,
       newUser: false,
+      auditId: null
     };
   }
   componentDidMount() {
     this.props.fetchUser();
   }
-
-
+  componentWillReceiveProps(nextprops){
+    var reassign = "";
+    if(nextprops.user.assignedLineItem != this.props.user.assignedLineItem){
+      nextprops.user.assignedLineItem.map((id)=>{
+         reassign  = id._id;
+      })
+      this.setState({
+        auditId: reassign
+      })
+    }
+  }
   editUserDetail = data => {
+    const userId = data._id;
     this.props.fetchUser();
-    this.props.fetchAssignedLineItem();
+    this.props.fetchAssignedLineItem(userId);
     this.props.setCurrentUser(data);
     this.setState({
       editMode: true,
-      name: data.displayName,
+      id: data._id
+,     name: data.displayName,
       phone: data.mobileNo,
       email: data.email,
       role: data.role,
       imei: data.imei,
       newUser: false
     });
+   
   };
   saveEditedUser = () => {
     var user = this.props.user.currentUser;
@@ -78,6 +93,16 @@ export class User extends Component {
     this.props.saveUserDetail(user);
     this.setState({ newUser: {}, editMode: false, saveError: false });
   };
+  reassignAudits = (data) => {
+    console.log(data)
+    console.log(this.state.auditId);
+    let userId = ""
+    if(this.props.user.allUsers && this.props.user.allUsers.map((id)=>{
+      userId = id._id;
+    }))
+    console.log(userId);
+    this.props.reassignAudit(this.state.auditId,data);
+  }
   onNameChange = e => {
     this.setState({ name: e.target.value });
   };
@@ -104,6 +129,16 @@ export class User extends Component {
 
   render() {
     var userList = this.props.user.allUsers;
+    console.log(userList)
+    var assignedLineItem = this.props.user.assignedLineItem;
+    let userOptions = [];
+    {this.props.user.allUsers && this.props.user.allUsers.map((name)=>{
+      return(
+        userOptions.push({
+          key:name._id, text: name.displayName, value: name._id
+        })
+      )
+    })}
     const dat = [
       {
         name: "Dhoni",
@@ -192,52 +227,66 @@ export class User extends Component {
     const column = [
       {
         Header: "Name",
-        accessor: "name",
-        style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell row={row.original} text={row.original.name} />
-        // )
+        accessor: "customerName",
+        style: { textAlign: "center", cursor: "pointer" },
+        Cell: row => (
+          <AuditTableCell row={row.original} text={row.original.customerName} />
+        )
+
       },
       {
         Header: "Email",
-        accessor: "email",
-        style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell row={row.original} text={row.original.email} />
-        // )
+        accessor: "emailId",
+        style: { textAlign: "center", cursor: "pointer" },
+        Cell: row => (
+          <AuditTableCell row={row.original} text={row.original.emailId} />
+        )
+
       },
       {
         Header: "PhoneNumber",
-        accessor: "phone",
+        accessor: "telephoneNumber",
         style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell row={row.original} text={row.original.phone} />
-        // )
+
+      },
+
+      {
+        Header: "File No",
+        accessor: "fileNo",
+        style: { textAlign: "center", cursor: "pointer" }
+
       },
       {
-        Header: "Role",
-        accessor: "role",
+        Header: "Ext NO",
+        accessor: "extNo",
         style: { textAlign: "center", cursor: "pointer" }
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.role}
 
-        //   />
-        // )
+      },
+      {
+        Header: "Fax NO",
+        accessor: "faxNo",
+        style: { textAlign: "center", cursor: "pointer" }
+
       },
       {
         Header: "Reassign",
         accessor: "role",
         Cell: row => (
           <Dropdown
-            selectOnNavigation={false}
             className="react-table-dropdown"
             placeholder=""
             fluid
             search
             selection
-            options={options}
+            onChange={(e,data) => {this.reassignAudits(data.value)}}
+            // onChange={(e, data) => {
+            //   this.handleDealerAssessmentOptionsSelect(
+            //     question._id,
+            //     data.value
+            //   );
+            // }}
+            options={userOptions}
+            style={{zIndex:"1000 !important",position:"absolute",width:"150px"}}
           />
         )
       }
@@ -342,7 +391,7 @@ export class User extends Component {
                   sortable={true}
                   style={{ marginTop: "5%", height: "250px" }}
                   columns={column}
-                  data={dat}
+                  data={assignedLineItem}
                 />
               </Modal.Content>
               <Modal.Actions>
@@ -388,6 +437,7 @@ const mapDispatchToProps = dispatch => {
       fetchAssignedLineItem: fetchAssignedLineItemAction,
       forgotPassword:forgotPasswordAction,
       generatePin: generatePinAction,
+      reassignAudit: reassignAuditAction
     },
     dispatch
   );

@@ -1,162 +1,146 @@
 import React from "react";
 import ReactTable from "react-table-6";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import { fetchHdfcMasterAction } from "../../actions/hdfc_action";
 import HdfcQuestions from "./HdfcQuestions.jsx";
 
 class HdfcAudits extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       auditsView: true,
-    }
+      selectedAudit:null
+    };
   }
-  handleTableClick = (audit,props) => {
-    console.log(this.state.question)
+  componentDidMount() {
+    this.props.fetchHdfcMasterAction();
+  }
+  handleTableClick = (audit, props) => {
     this.setState({ selectedAudit: audit, auditsView: false });
   };
+  handleCloseClick = () => {
+    this.setState({ auditsView: true });
+  };
   render() {
-    const data = [
-      {
-        name: "Ayaan",
-        company:"vknowlabs",
-        fileNo:7899999,
-        address:"Srp tools",
-        extNo:111,
-        faxNo: 14524
-      },
-      {
-        name: "Ahana",
-        company:"orangeScape",
-        fileNo:14578,
-        address:"Tharamani",
-        extNo:128,
-        faxNo: 222222
-      },
-      {
-        name: "Peter",
-        company:"vknowlabs",
-        fileNo: 889966,
-        address:"Baby Nagar",
-        extNo:444,
-        faxNo: 854712
-      },
-      {
-        name: "Virat",
-        company:"guvi",
-        fileNo:89654,
-        address:"pillayarKovil",
-        extNo:114,
-        faxNo: 45875
-      },
-      {
-        name: "Rohit",
-        company:"CTS",
-        fileNo:102545,
-        address:"Velachery",
-        extNo:113,
-        faxNo: 78965
-      },
-      {
-        name: "Dhoni",
-        company:"TCS",
-        fileNo:2221455,
-        address:"Thiruvanmiur",
-        extNo:121,
-        faxNo: 89657
-      }
-    ];
+    var audits = this.props.hdfc.auditedAudits;
+
     const columns = [
       {
         Header: "Name",
-        accessor: "name",
+        accessor: "customerName",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row =>
-        <AuditTableCell
-          row={row.original}
-          text={row.original.name}
-          onClick={this.handleTableClick}
-        />
+        Cell: row => (
+          <AuditTableCell
+            row={row.original}
+            text={row.original.customerName}
+            onClick={(row) => {this.handleTableClick(row)}}
+          />
+        )
       },
       {
         Header: "File No",
         accessor: "fileNo",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row =>
-        <AuditTableCell
-          row={row.original}
-          text={row.original.fileNo}
-          onClick={this.handleTableClick}
-        />
+        Cell: row => (
+          <AuditTableCell
+            row={row.original}
+            text={row.original.fileNo}
+            onClick={this.handleTableClick}
+          />
+        )
       },
       {
         Header: "Company",
-        accessor: "company",
+        accessor: "nameOfCompany",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row =>
-        <AuditTableCell
-          row={row.original}
-          text={row.original.company}
-          onClick={this.handleTableClick}
-        />
+        Cell: row => (
+          <AuditTableCell
+            row={row.original}
+            text={row.original.nameOfCompany}
+            onClick={this.handleTableClick}
+          />
+        )
       },
       {
         Header: "Address",
         accessor: "address",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row =>
-        <AuditTableCell
-          row={row.original}
-          text={row.original.address}
-          onClick={this.handleTableClick}
-        />
+        Cell: row => (
+          <AuditTableCell
+            row={row.original}
+            text={row.original.address}
+            onClick={this.handleTableClick}
+          />
+        )
       },
       {
         Header: "Ext No",
         accessor: "extNo",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row =>
-        <AuditTableCell
-          row={row.original}
-          text={row.original.extNo}
-          onClick={this.handleTableClick}
-        />
+        Cell: row => (
+          <AuditTableCell
+            row={row.original}
+            text={row.original.extNo}
+            onClick={this.handleTableClick}
+          />
+        )
       },
       {
         Header: "Fax No",
         accessor: "faxNo",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row =>
-        <AuditTableCell
-          row={row.original}
-          text={row.original.faxNo}
-          onClick={this.handleTableClick}
-        />
+        Cell: row => (
+          <AuditTableCell
+            row={row.original}
+            text={row.original.faxNo}
+            onClick={this.handleTableClick}
+          />
+        )
       },
-
+      {
+        Header: "Location",
+        accessor: "landmark",
+        style: { textAlign: "center", cursor: "pointer" },
+        Cell: row => (
+          <AuditTableCell
+            row={row.original}
+            text={row.original.faxNo}
+            onClick={this.handleTableClick}
+          />
+        )
+      }
     ];
     return (
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
-       {this.state.auditsView && 
-        <div>
-          <h1 style={{ paddingLeft: 30, flex: "0 0 30px" }}>HDFC Audits</h1>
-          <div style={{ display: "flex", flexGrow: 1, flexFlow: "column" }}>
-            <div>
-              <ReactTable
-                noDataText="We couldn't find anything"
-                filterable={true}
-                defaultPageSize={20}
-                sortable={true}
-                style={{ height: "85%", width: "95%", marginLeft: 30 }}
-                columns={columns}
-                data={data}
-              />
+        {console.log(this.props.hdfc)}
+        {this.state.auditsView && (
+          <div>
+            <h1 style={{ paddingLeft: 30, flex: "0 0 30px" }}>HDFC Audits</h1>
+            <div style={{ display: "flex", flexGrow: 1, flexFlow: "column" }}>
+              <div>
+                <ReactTable
+                  noDataText="We couldn't find anything"
+                  filterable={true}
+                  defaultPageSize={20}
+                  sortable={true}
+                  style={{ height: "85%", width: "95%", marginLeft: 30 }}
+                  columns={columns}
+                  data={audits}
+                />
+              </div>
             </div>
           </div>
-        </div>}
-        {!this.state.auditsView && 
-        <div style={{ flexGrow: 1, display: "flex" }}>
-        <HdfcQuestions/>
-      </div>
-        }
+        )}
+        {!this.state.auditsView && (
+          <div style={{ flexGrow: 1, display: "flex" }}>
+            <HdfcQuestions
+              editableAudits={this.state.selectedAudit}
+              onClose={this.handleCloseClick}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -172,4 +156,23 @@ function AuditTableCell(props) {
     </div>
   );
 }
-export default HdfcAudits;
+
+const mapStateToProps = state => {
+  return {
+    home: state.home,
+    hdfc: state.hdfc
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      fetchHdfcMasterAction: fetchHdfcMasterAction
+    },
+    dispatch
+  );
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HdfcAudits)
+);

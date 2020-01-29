@@ -52,10 +52,10 @@ export const setCurrentUser = (user) => {
 
 
 // Initial Audits for assigning to another auditor
-export const fetchAssignedLineItemAction = () => {
+export const fetchAssignedLineItemAction = (user) => {
   return function(dispatch) {
     axios
-      .get(types.API_URL + "employee/v1/masterdata")
+      .get(types.API_URL + "employee/v1/get/masterdata?userId=" + user)
       .then(function(response) {
         dispatch({
           type: types.FETCH_ASSIGNED_LINEITEM_SUCCESS_ACTION,
@@ -119,11 +119,34 @@ export const generatePinAction = (userId) => {
               type: types.GENERATEPIN_SUCCESS_ACTION,
               payload: response.data
           });
-          console.log(response.data);
+          
       })
       .catch(function(err) {
           dispatch({
               type: types.GENERATEPIN_FAILURE_ACTION,
+              payload: err
+          });
+        
+      });
+  };
+};
+
+//reassign audits -active
+
+export const reassignAuditAction = (auditId,userId) => {
+  return function(dispatch) {
+    axios
+    .put(types.API_URL + `ebgc/v1/reassign?auditId=${auditId}&userId=${userId}`)
+      .then(function(response) {
+          dispatch({
+              type: types.REASSIGN_SUCCESS_ACTION,
+              payload: response.data
+          });
+          console.log(response.data);
+      })
+      .catch(function(err) {
+          dispatch({
+              type: types.REASSIGN_FAILURE_ACTION,
               payload: err
           });
           console.log(err);

@@ -7,8 +7,9 @@ export default function(state = INIT_STATE, action) {
 
   switch (action.type) {
     case FETCH_HDFC_MASTER_SUCCESS_ACTION:
-      state.master = action.payload.templates;
+      state.auditedAudits = action.payload.audits;
       state.fetchMasterError = false;
+      console.log(state);
       return state;
 
     case FETCH_HDFC_MASTER_FAILURE_ACTION:

@@ -23,6 +23,8 @@ export const SAVE_RESET_SUCCESS_ACTION = "save_reset_password_success";
 export const SAVE_RESET_FAILURE_ACTION = "save_reset_password_failure";
 export const GENERATEPIN_SUCCESS_ACTION = "generate_pin_success";
 export const GENERATEPIN_FAILURE_ACTION = "generate_pin_failure";
+export const REASSIGN_SUCCESS_ACTION = "reassign_success";
+export const REASSIGN_FAILURE_ACTION = "reassign_failure";
 
 
 //hdfc

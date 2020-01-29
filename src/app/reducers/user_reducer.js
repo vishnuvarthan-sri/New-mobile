@@ -11,7 +11,9 @@ import {
   SAVE_RESET_SUCCESS_ACTION,
   SAVE_RESET_FAILURE_ACTION,
   GENERATEPIN_SUCCESS_ACTION,
-  GENERATEPIN_FAILURE_ACTION
+  GENERATEPIN_FAILURE_ACTION,
+  REASSIGN_SUCCESS_ACTION,
+  REASSIGN_FAILURE_ACTION
 } from "../actions/types";
 
 import { toast } from "react-semantic-toasts";
@@ -22,13 +24,20 @@ export default function(state = INIT_STATE, action) {
 
   switch (action.type) {
     case FETCH_USER_SUCCESS_ACTION:
-    case FETCH_ASSIGNED_LINEITEM_SUCCESS_ACTION:
       state.allUsers = action.payload.users;
       state.fetchUserError = false;
       return state;
 
-    case FETCH_USER_FAILURE_ACTION:
+    case FETCH_ASSIGNED_LINEITEM_SUCCESS_ACTION:
+      state.assignedLineItem = action.payload.masterdata;
+      state.fetchAssignedLineItemError = false;
+      return state;
+
     case FETCH_ASSIGNED_LINEITEM_FAILURE_ACTION:
+      state.fetchAssignedLineItemError = true;
+      return state;
+
+    case FETCH_USER_FAILURE_ACTION:
       state.fetchUserError = true;
       return state;
     case SAVE_USERDETAILS_SUCCESS_ACTION:
@@ -36,7 +45,7 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case GENERATEPIN_SUCCESS_ACTION:
-      console.log(action.payload.pin)
+      console.log(action.payload.pin);
       state.pin = action.payload.pin;
       state.fetchPinError = false;
       setTimeout(() => {
@@ -119,6 +128,32 @@ export default function(state = INIT_STATE, action) {
         });
       }, 0);
       return state;
+      case REASSIGN_SUCCESS_ACTION:
+        state.reassignSuccessError = false;
+        setTimeout(() => {
+          toast({
+            type: "success",
+            icon: "thumbs up outline",
+            title: "Success",
+            description: "Audits Reassigned Succesfully",
+            time: 5000
+          });
+        }, 0);
+        return state;
+
+        case REASSIGN_SUCCESS_ACTION:
+          console.log(action.payload);
+          state.reassignSuccessError = true;
+          setTimeout(() => {
+            toast({
+              type: "error",
+              icon: "thumbs down outline",
+              title: "error",
+              description: "contact system admin",
+              time: 5000
+            });
+          }, 0);
+    
 
     case SET_CURRENT_USER:
       state.currentUser = action.payload;
