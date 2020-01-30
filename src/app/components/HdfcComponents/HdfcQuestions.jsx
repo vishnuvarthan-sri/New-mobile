@@ -34,13 +34,15 @@ export class HdfcQuestions extends Component {
       editedAudits: this.props.editableAudits,
       editMode: false,
       startDate: new Date(),
-      setDate:{}
+      setDate:{},
+      saveButton: false,
     };
   }
 
   editAudit = () => {
     this.setState({
-      editMode: true
+      editMode: true,
+      saveButton: true,
     })
   }
 
@@ -83,13 +85,18 @@ export class HdfcQuestions extends Component {
       editedAudit: audit
     });
   };
-
+  cancelAudit = () => {
+    this.setState({
+      editMode:false,
+      saveButton: false
+    })
+  }
   saveAudit = () => {
     let audit = this.state.editedAudit;
     console.log(audit)
     this.props.saveHdfcAudit(audit._id, audit);
 
-    this.setState({ editMode: false });
+    this.setState({ editMode: false,saveButton:false });
   };
 
 
@@ -100,7 +107,7 @@ export class HdfcQuestions extends Component {
           flexGrow: 1,
           display: "flex",
           flexFlow: "column",
-          backgroundColor: "#ece9e6",
+          // backgroundColor: "#ece9e6",
           marginLeft: "4%",
           height:"100%"
         }}
@@ -323,12 +330,22 @@ export class HdfcQuestions extends Component {
         </Segment>
         <Divider horizontal>Audited Questions</Divider>
         <div>
-          <Button.Group style={{ marginLeft:"85%" }}>
-            <Button color="black" onClick={this.editAudit}>Edit</Button>
+          {
+            !this.state.saveButton &&
+            <Button style={{ marginLeft:"85%" }} color="black" onClick={this.editAudit}>Edit</Button>
+          }
+          
+           {
+             this.state.saveButton &&
+             <div>
+
+             <Button style={{ marginLeft:"85%" }} primary onClick={this.saveAudit}>Save</Button>
+             <Button danger onClick={this.cancelAudit}>Cancel</Button>
+             </div>
+           } 
+           
             
-            <Button primary onClick={this.saveAudit}>Save</Button>
-            
-          </Button.Group>
+          
         </div>
         <AuditedQuestions auditQuestions={this.state.audits} state={this.state} changeAnswer={this.editedQuestionsAnswer} handleChange={this.handleDateChange}/>
         <hr/>
@@ -429,7 +446,7 @@ const AuditedQuestions = function(props){
     )
   })
   return(
-    <Segment
+    <Segment raised
     style={{ width: "93%", marginLeft: "3%",height:"50%",overflow:"scroll" }}
   >
     <Grid>

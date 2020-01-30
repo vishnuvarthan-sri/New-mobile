@@ -70,14 +70,14 @@ class ControlPanel extends React.Component {
     }
     return (
       <div style={{ height: "100%" }}>
-        <Segment raised style={{ backgroundColor: "#fafafa", height: 60 }}>
+        <Segment raised style={{ backgroundColor: "fofcf7", height: 60 }}>
           <div style={{ display: "inline-block" }}>
             <Icon
               style={{
                 display: "inline-block",
                 cursor: "pointer",
                 float: "left",
-                color: "#606060",
+                color: "c1c7c4",
                 marginTop: 4
               }}
               onClick={this.toggleSidebar}
@@ -119,7 +119,7 @@ class ControlPanel extends React.Component {
             activeIndex="0"
             style={{
               flex: "0 0 150px",
-              backgroundColor: "#E9E4F0",
+              backgroundColor: "#ebebfc",
               paddingTop: 30
             }}
             animation="slide along"
@@ -135,7 +135,7 @@ class ControlPanel extends React.Component {
               onClick={this.handleItemClick}
               style={{ marginTop: 10 }}
             >
-              <Icon name="users" />
+              <Icon name="users" color="black" />
              <span style={{color:"black"}}>Users</span>
             </Menu.Item>
             <Menu.Item
@@ -145,7 +145,7 @@ class ControlPanel extends React.Component {
               onClick={this.handleItemClick}
               style={{ marginTop: 10 }}
             >
-              <Icon name="file excel" />
+              <Icon name="file excel" color="black" />
               <span style={{color:"black"}}>Report</span>
             </Menu.Item>
           </Sidebar>

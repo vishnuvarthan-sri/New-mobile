@@ -49,23 +49,23 @@ export class Home extends Component {
     this.props.history.push(`/controlpanel`);
   };
   render() {
-    var activeItem = this.props.home.selectedMenu || "hdfc";
+    var activeItem =  "hdfc";
     console.log(activeItem)
-    var pusherStyle = { height:"900px", overflow: "auto", width: "85%" };
+    var pusherStyle = { height:"100%", overflow: "auto", width: "85%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
     }
     return (
       <div style={{height:"100%"}}>
-        <Segment raised style={{ backgroundColor: "#fafafa", height: 60 }}>
+        <Segment raised style={{ backgroundColor: "#fofcf7", height: 60 }}>
         <div style={{ display: "inline-block" }}>
             <Icon
               style={{
                 display: "inline-block",
                 cursor: "pointer",
                 float: "left",
-                color: "#606060",
+                color: "#c1c7c4",
                 marginTop: 4
               }}
               onClick={this.toggleSidebar}
@@ -110,7 +110,7 @@ export class Home extends Component {
             activeIndex="0"
             style={{
               flex: "0 0 150px",
-              backgroundColor: "#1d2b64",
+              backgroundColor: "#ebebfc",
               paddingTop: 30
             }}
             animation="slide along"
