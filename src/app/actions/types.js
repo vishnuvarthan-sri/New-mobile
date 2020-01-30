@@ -27,7 +27,17 @@ export const REASSIGN_SUCCESS_ACTION = "reassign_success";
 export const REASSIGN_FAILURE_ACTION = "reassign_failure";
 
 
+//REPORT
+
+export const FETCH_VERIFIED_AUDITS_SUCCESS_ACTION = "verified_audits_success";
+export const FETCH_VERIFIED_AUDITS_FAILURE_ACTION = "verified_audits_failure";
+export const DOWNLOAD_HDFC_AUDIT_REPORT_SUCCESS_ACTION = "report_success_action";
+export const DOWNLOAD_HDFC_AUDIT_REPORT_FAILURE_ACTION = "report_failure_action";
+
+
 //hdfc
 
 export const FETCH_HDFC_MASTER_SUCCESS_ACTION = "hdfc_template_success";
 export const FETCH_HDFC_MASTER_FAILURE_ACTION = "hdfc_template_failure";
+export const SAVE_AUDIT_SUCCESS_ACTION = "save_audit_success";
+export const SAVE_AUDIT_FAILURE_ACTION = "save_audit_failure";

@@ -114,7 +114,6 @@ class HdfcAudits extends React.Component {
     ];
     return (
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
-        {console.log(this.props.hdfc)}
         {this.state.auditsView && (
           <div>
             <h1 style={{ paddingLeft: 30, flex: "0 0 30px" }}>HDFC Audits</h1>
@@ -148,7 +147,6 @@ class HdfcAudits extends React.Component {
 function AuditTableCell(props) {
   function onClick() {
     props.onClick(props.row);
-    console.log(props.row);
   }
   return (
     <div style={props.style} onClick={onClick}>

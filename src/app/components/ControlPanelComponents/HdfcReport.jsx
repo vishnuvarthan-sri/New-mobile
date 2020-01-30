@@ -7,9 +7,14 @@ import {
   Button,
   Header,
   Container,
-  Step,Icon
+  Step,
+  Icon
 } from "semantic-ui-react";
-
+import ReactTable from "react-table-6";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import { fetchVerifiedAuditsAction,HdfcAuditReportAction } from "../../actions/report_action";
 import "react-datepicker/dist/react-datepicker.css";
 
 export class HdfcReport extends Component {
@@ -19,6 +24,9 @@ export class HdfcReport extends Component {
       fromDate: new Date(),
       toDate: new Date()
     };
+  }
+  componentDidMount() {
+    this.props.fetchVerifiedAudits();
   }
   handleFromDate = date => {
     this.setState({
@@ -30,92 +38,78 @@ export class HdfcReport extends Component {
       toDate: date
     });
   };
+  downloadReport=() => {
+  
+    var From = this.state.fromDate;
+    var To = this.state.toDate;
+    let startDate = From.getDate()+'-'+ (From.getMonth()+1)+'-'+From.getFullYear();
+    let endDate = To.getDate()+'-'+ (To.getMonth()+1)+'-'+To.getFullYear();
+    this.props.HdfcAuditReportAction(startDate,endDate);
+
+  }
   render() {
+
+
     return (
-    
-        <Container style={{marginTop:"3%"}}>
-          <Step.Group fluid style={{backgroundColor:"teal"}}>
+      <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
+        <Container style={{ marginTop: "3%" }}>
+          <Step.Group fluid style={{ backgroundColor: "teal" }}>
             <Step>
-			<Icon name='arrow alternate circle right' />
-              <label for="from"><span style={{fontSize:"15px",fontWeight:"bold"}}>From</span></label>
-			  <hr/>
+              <Icon name="arrow alternate circle right" />
+              <label for="from">
+                <span style={{ fontSize: "15px", fontWeight: "bold" }}>
+                  From
+                </span>
+              </label>
+              <hr />
               <DatePicker
                 selected={this.state.fromDate}
-				onChange={this.handleFromDate}
-				placeholderText="Choose From Date"
+                onChange={this.handleFromDate}
+                placeholderText="Choose From Date"
               />
             </Step>
             <Step>
-			
-			<label for="to"><span style={{fontSize:"15px",fontWeight:"bold"}}>To</span></label>
-			  <hr/>
+              <label for="to">
+                <span style={{ fontSize: "15px", fontWeight: "bold" }}>To</span>
+              </label>
+              <hr />
               <DatePicker
                 selected={this.state.toDate}
-				onChange={this.handleToDate}
-				placeholderText="Choose End Date"
+                onChange={this.handleToDate}
+                placeholderText="Choose End Date"
               />
-			  <Icon style={{marginLeft:"15px"}} name='arrow alternate circle left' />
+              <Icon
+                style={{ marginLeft: "15px" }}
+                name="arrow alternate circle left"
+              />
             </Step>
-			<Step>
-              <Button primary>Download Report</Button>
+            <Step>
+              <Button primary onClick={this.downloadReport}>Download Report</Button>
             </Step>
-            
           </Step.Group>
         </Container>
-      
+      </div>
     );
   }
 }
 
-export default HdfcReport;
 
-// {/* <Segment padded style={{width:"800px",marginLeft:"50%",marginTop:"10%"}}>
-// <div>
-//   <Label style={{ display: "inline-block"}}>From</Label>
-{
-  /* <DatePicker
-  selected={this.state.fromDate}
-  onChange={this.handleFromDate}
-  style = {{display:"inline-block",marginLeft:40,position:"fixed"}}
-/> */
-}
+const mapStateToProps = state => {
+  return {
+    report: state.report
+  };
+};
 
-// {/* </div> */}
-// {/* <div style={{display:"inline-block",marginLeft:"50px"}}> */}
-//   <Label style={{ display: "inline-block",marginLeft:"20px" }}>To</Label>
-// </div>
-// </Segment> */}
-{
-  /* <header style={{ marginBottom: "20px" }}>
-<Grid
-  container
-  direction="row"
-  justify="flex-end"
-  alignItems="center"
-  spacing={3}
->
-  <Grid item xs={2}>
-    <DatePicker
-      selected={this.state.fromDate}
-      onChange={this.handleFromDate}
-      style={{
-        display: "inline-block",
-        marginLeft: 40,
-        position: "fixed"
-      }}
-    />
-  </Grid>
-  <Grid item xs={2}>
-    <DatePicker
-      selected={this.state.toDate}
-      onChange={this.handleToDate}
-      style={{ display: "inline-block", padding: "20px" }}
-    />
-  </Grid>
-  <Grid item xs={2}>
-    <Button variant="outlined">Download Report</Button>
-  </Grid>
-  <Grid item xs={6}></Grid>
-</Grid>
-</header> */
-}
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      fetchVerifiedAudits: fetchVerifiedAuditsAction,
+      HdfcAuditReportAction:HdfcAuditReportAction
+    },
+    dispatch
+  );
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HdfcReport)
+);

@@ -139,21 +139,6 @@ export class User extends Component {
         })
       )
     })}
-    const dat = [
-      {
-        name: "Dhoni",
-        email: "dhoni@gmail.com",
-        phone: 44444444444,
-        role: "F.E",
-        imei: "IMEKIF878452",
-        pin: 7854
-      }
-    ];
-    const options = [
-      { key: 1, text: "Choice 1", value: 1 },
-      { key: 2, text: "Choice 2", value: 2 },
-      { key: 3, text: "Choice 3", value: 3 }
-    ];
     const roleOptions = [
       { key: 1, value: "admin", text: "admin" },
       {
