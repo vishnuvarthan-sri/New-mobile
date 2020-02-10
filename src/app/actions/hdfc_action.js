@@ -20,6 +20,25 @@ export const fetchHdfcMasterAction = () => {
       });
   };
 };
+export const getPhotoUrlAction = (auditId) => {
+  return function(dispatch) {
+    axios
+      .get(types.API_URL + "employee/v1/getPhotoUrls?auditId="+auditId)
+      .then(function(response) {
+        dispatch({
+          type: types.FETCH_HDFC_PHOTO_SUCCESS_ACTION,
+          payload: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        dispatch({
+          type: types.FETCH_HDFC_PHOTO_FAILURE_ACTION,
+          payload: error
+        });
+      });
+  };
+};
 
 export const saveHdfcAuditAction = (auditId,audit) => {
   return function(dispatch) {

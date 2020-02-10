@@ -24,6 +24,7 @@ import { withRouter } from "react-router";
 import {
   fetchUserAction,
   saveUserDetailAction,
+  AddUsersDetailAction,
   setCurrentUser,
   fetchAssignedLineItemAction,
   forgotPasswordAction,
@@ -66,6 +67,23 @@ export class User extends Component {
       })
     }
   }
+  addNewUser = () => {
+    var newUser = {};
+    newUser.displayName = "";
+    newUser.mobileNo = "";
+    newUser.email = "";
+    newUser.role = "";
+    newUser.imei = ""
+    this.props.setCurrentUser(newUser);
+    this.setState({
+      editMode: true,
+      newUser: true,
+      name: "",
+      phone: "",
+      email: "",
+      imei: ""
+    });
+  }
   editUserDetail = data => {
     const userId = data._id;
     this.props.fetchUser();
@@ -92,6 +110,16 @@ export class User extends Component {
     this.props.setCurrentUser(user);
     this.props.saveUserDetail(user);
     this.setState({ newUser: {}, editMode: false, saveError: false });
+  };
+  saveNewUser = () => {
+    var user = this.props.user.currentUser;
+    user.displayName = this.state.name;
+    user.mobileNo = this.state.phone;
+    user.email = this.state.email;
+    user.role =  this.state.role;
+    this.props.setCurrentUser(user);
+    this.props.AddUsersDetailAction(user);
+    this.setState({ newUser: {}, editMode: false, saveError: false, newUser: false  });
   };
   reassignAudits = (data) => {
     console.log(data)
@@ -143,10 +171,10 @@ export class User extends Component {
       { key: 1, value: "admin", text: "admin" },
       {
         key: 2,
-        value: "quality Control Agents",
-        text: "quality Control Agents"
+        value: "qualityControlAgents",
+        text: "qualityControlAgents"
       },
-      { key: 3, value: "Field Ececutive", text: "Field Ececutive" }
+      { key: 3, value: "fieldExecutives", text: "fieldExecutives" }
     ];
     const columns = [
       {
@@ -279,7 +307,11 @@ export class User extends Component {
     return (
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
         <div>
-          <h1 style={{ paddingLeft: 30, flex: "0 0 30px" }}>User Details</h1>
+          <h1 style={{ paddingLeft: 30, flex: "0 0 30px",display:"inline-block" }}>User Details</h1>
+          <Label style={{marginLeft:"70%", cursor:"pointer"}} size="large" color="teal" onClick={this.addNewUser}>
+          <Icon name="user plus"/>
+            AddUsers</Label>
+         
           <div style={{ display: "flex", flexGrow: 1, flexFlow: "column" }}>
             <div>
               <ReactTable
@@ -384,7 +416,7 @@ export class User extends Component {
                   <Icon name="remove" /> No
                 </Button>
 
-                <Button color="black" onClick={this.saveEditedUser}>
+                 <Button color="black" onClick={this.state.newUser ? this.saveNewUser : this.saveEditedUser}>
                   Save
                 </Button>
               </Modal.Actions>
@@ -418,6 +450,7 @@ const mapDispatchToProps = dispatch => {
     {
       fetchUser: fetchUserAction,
       saveUserDetail: saveUserDetailAction,
+      AddUsersDetailAction:AddUsersDetailAction,
       setCurrentUser: setCurrentUser,
       fetchAssignedLineItem: fetchAssignedLineItemAction,
       forgotPassword:forgotPasswordAction,

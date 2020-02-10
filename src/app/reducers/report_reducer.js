@@ -2,7 +2,9 @@ import {
   FETCH_VERIFIED_AUDITS_SUCCESS_ACTION,
   FETCH_VERIFIED_AUDITS_FAILURE_ACTION,
   DOWNLOAD_HDFC_AUDIT_REPORT_SUCCESS_ACTION,
-  DOWNLOAD_HDFC_AUDIT_REPORT_FAILURE_ACTION
+  DOWNLOAD_HDFC_AUDIT_REPORT_FAILURE_ACTION,
+  MAIL_REPORT_SUCCESS_ACTION,
+  MAIL_REPORT_FAILURE_ACTION
 } from "../actions/types";
 import { toast } from "react-semantic-toasts";
 
@@ -54,6 +56,34 @@ export default function(state = INIT_STATE, action) {
         });
       }, 0);
       return state
+
+
+      case MAIL_REPORT_SUCCESS_ACTION:
+        setTimeout(() => {
+          toast({
+            type: "success",
+            icon: "thumbs up outline",
+            title: "Success",
+            description: "Report Sent to your email",
+            time: 5000
+          });
+        }, 0);
+        return Object.assign({}, state, {
+          mailSentStatus: action.payload.success
+        });
+        case MAIL_REPORT_FAILURE_ACTION:
+          setTimeout(() => {
+            toast({
+              type: "success",
+              icon: "thumbs up outline",
+              title: "Success",
+              description: "Report Sent to your email",
+              time: 5000
+            });
+          }, 0);
+          return Object.assign({}, state, {
+            mailSentStatus: false
+          });
   }
   return state;
 }

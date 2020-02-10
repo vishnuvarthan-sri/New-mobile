@@ -49,9 +49,9 @@ export class Home extends Component {
     this.props.history.push(`/controlpanel`);
   };
   render() {
-    var activeItem =  "hdfc";
+    var activeItem = "hdfc";
     console.log(activeItem)
-    var pusherStyle = { height:"100%", overflow: "auto", width: "85%" };
+    var pusherStyle = { height: "100%", width: "85%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
@@ -77,11 +77,11 @@ export class Home extends Component {
             style={{
               display: "inline-block",
               float: "right",
-              paddingRight: 50
+              paddingRight: 50,
             }}
           >
             <Menu.Menu
-              style={{ display: "inline", float: "right", marginTop: 8 }}
+              style={{ display: "inline", float: "right", marginTop: 8, }}
             >
               <Dropdown pointing text={this.props.auth.displayName}>
                 <Dropdown.Menu>
@@ -101,7 +101,8 @@ export class Home extends Component {
             marginTop: -15,
             display: "flex",
             borderRadius: 0,
-            height: "calc(100% - 70px)"
+            height: "calc(100% - 70px)",
+            
           }}
         >
           <Sidebar
@@ -111,7 +112,9 @@ export class Home extends Component {
             style={{
               flex: "0 0 150px",
               backgroundColor: "#ebebfc",
-              paddingTop: 30
+              paddingTop: 30,
+            
+
             }}
             animation="slide along"
             width="thin"

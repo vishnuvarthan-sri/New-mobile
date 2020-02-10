@@ -40,6 +40,27 @@ export const saveUserDetailAction = (user) => {
     };
 };
 
+// add new user
+
+export const AddUsersDetailAction = (user) => {
+  return function(dispatch) {
+    axios
+        .post(types.API_URL + 'ebgc/v1/addUsers',user)
+        .then(function(response) {
+            dispatch({
+                type: types.ADD_USERSDETAILS_SUCCESS_ACTION,
+                payload: response.data
+            });
+        })
+        .catch(function(error) {
+            dispatch({
+                type: types.ADD_USERSDETAILS_FAILURE_ACTION,
+                payload: error
+            });
+        });
+};
+}
+
 //setting currrent user
 export const setCurrentUser = (user) => {
   return function(dispatch) {

@@ -19,11 +19,17 @@ import {
   Icon,
   Label,
   Container,
+  Portal,
+  Modal
 } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {saveHdfcAuditAction} from "../../actions/hdfc_action";
-
+import {
+  saveHdfcAuditAction,
+  getPhotoUrlAction
+} from "../../actions/hdfc_action";
+import config from "../../config.js";
+const storageBaseUrl = config["storage_base_url"];
 
 export class HdfcQuestions extends Component {
   constructor(props) {
@@ -34,17 +40,28 @@ export class HdfcQuestions extends Component {
       editedAudits: this.props.editableAudits,
       editMode: false,
       startDate: new Date(),
-      setDate:{},
+      setDate: {},
       saveButton: false,
+      open: false
     };
+  }
+  componentDidMount() {
+    this.props.getPhotoUrlAction(this.props.editableAudits._id);
   }
 
   editAudit = () => {
     this.setState({
       editMode: true,
-      saveButton: true,
-    })
-  }
+      saveButton: true
+    });
+  };
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+  handleOpen = () => {
+    this.props.getPhotoUrlAction(this.props.editableAudits._id);
+    this.setState({ open: true });
+  };
 
   editedQuestionsAnswer = (question, answerObject) => {
     let answer = "";
@@ -66,13 +83,14 @@ export class HdfcQuestions extends Component {
       });
     }
     this.setState({ editedAudit: audit });
-  }
+  };
   handleDateChange = (question, date) => {
-    console.log(question,date)
     let answer = "";
     let audit = this.state.editedAudits;
     if (question.answerType == "date") {
-      console.log(date.getDate()+'-'+ (date.getMonth()+1)+'-'+date.getFullYear())
+      console.log(
+        date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+      );
       answer = date;
       audit.questions.map(q => {
         if (q._id == question._id) {
@@ -87,46 +105,77 @@ export class HdfcQuestions extends Component {
   };
   cancelAudit = () => {
     this.setState({
-      editMode:false,
+      editMode: false,
       saveButton: false
-    })
-  }
+    });
+  };
   saveAudit = () => {
     let audit = this.state.editedAudit;
-    console.log(audit)
+
     this.props.saveHdfcAudit(audit._id, audit);
 
-    this.setState({ editMode: false,saveButton:false });
+    this.setState({ editMode: false, saveButton: false });
   };
 
-
   render() {
+    const { open } = this.state;
     return (
       <div
         style={{
           flexGrow: 1,
           display: "flex",
           flexFlow: "column",
-          // backgroundColor: "#ece9e6",
-          marginLeft: "4%",
-          height:"100%"
+          marginLeft: "4%"
         }}
       >
         <div>
-          <Button.Group style={{ float: "right" }}>
-            <Button onClick={this.props.onClose}>Previous</Button>
-            <Button.Or />
-            <Popup
-              content="This.is last page"
-              position="top right"
-              inverted
-              trigger={<Button positive>Next</Button>}
-            />
-          </Button.Group>
+        <Button
+            content="Photos"
+            style={{ marginLeft: "2%",marginTop:20 }}
+            disabled={open}
+            color="orange"
+            onClick={this.handleOpen}
+          />
+          <Modal onClose={this.handleClose} open={open}>
+            <Modal.Header>Photos</Modal.Header>
+            <Modal.Content image scrolling>
+              {this.props.hdfc.photos != undefined &&
+                this.props.hdfc.photos &&
+                this.props.hdfc.photos.map(url => {
+                  return (
+                    <Image.Group size="medium">
+                      <Image src={url.uploadedImageUrl[0]} />
+                      <Image src={url.uploadedImageUrl[1]} />
+                    </Image.Group>
+                  );
+                })}
+            </Modal.Content>
+            <Modal.Actions>
+              <Button color="red" onClick={this.handleClose}>
+                <Icon name="remove" /> close
+              </Button>
+            </Modal.Actions>
+          </Modal>
+          <Segment
+            onClick={this.props.onClose}
+            style={{
+              backgroundColor: "#ebebfc",
+              float: "right",
+              cursor: "pointer",
+              marginTop: -13,
+              position: "absolute",
+              right: 58
+            }}
+          >
+            <Icon name="arrow" className="left large" color="brown" />
+          </Segment>
         </div>
+        <Header color="orange" as="h4">
+          Audits done by : Maris, Date: 17-12-1996, Location: Chennai
+        </Header>
         <Segment
           raised
-          style={{ marginTop: "3%", marginLeft: "2.5%", width: "1400px" }}
+          style={{ marginTop: "3.5%", marginLeft: "2.5%", width: "1400px" }}
         >
           <Divider horizontal>Master Data</Divider>
           <Grid columns={3} doubling stackable style={{ paddingLeft: "12%" }}>
@@ -328,94 +377,111 @@ export class HdfcQuestions extends Component {
             </Grid.Column>
           </Grid>
         </Segment>
-        <Divider horizontal>Audited Questions</Divider>
-        <div>
-          {
-            !this.state.saveButton &&
-            <Button style={{ marginLeft:"85%" }} color="black" onClick={this.editAudit}>Edit</Button>
-          }
-          
-           {
-             this.state.saveButton &&
-             <div>
 
-             <Button style={{ marginLeft:"85%" }} primary onClick={this.saveAudit}>Save</Button>
-             <Button danger onClick={this.cancelAudit}>Cancel</Button>
-             </div>
-           } 
-           
-            
-          
+        <div>
+
+
+          {!this.state.saveButton && (
+            <Button
+              style={{ marginLeft: "85%" }}
+              color="black"
+              onClick={this.editAudit}
+            >
+              Edit
+            </Button>
+          )}
+
+          {this.state.saveButton && (
+            <div>
+              <Button
+                style={{ marginLeft: "85%" }}
+                primary
+                onClick={this.saveAudit}
+              >
+                Save
+              </Button>
+              <Button danger onClick={this.cancelAudit}>
+                Cancel
+              </Button>
+            </div>
+          )}
         </div>
-        <AuditedQuestions auditQuestions={this.state.audits} state={this.state} changeAnswer={this.editedQuestionsAnswer} handleChange={this.handleDateChange}/>
-        <hr/>
-        
+        <AuditedQuestions
+          auditQuestions={this.state.audits}
+          state={this.state}
+          changeAnswer={this.editedQuestionsAnswer}
+          handleChange={this.handleDateChange}
+        />
       </div>
     );
   }
 }
 
-const AuditedQuestions = function(props){
-  var Questions=[];
-  props.auditQuestions.questions.map((ques)=>{
+const AuditedQuestions = function(props) {
+  var Questions = [];
+  props.auditQuestions.questions.map(ques => {
     Questions.push(
-      <Grid.Column style={{paddingTop:"4%"}}>
-        {ques.answerType == "text" && 
+      <Grid.Column style={{ paddingTop: "4%" }}>
+        {ques.answerType == "text" && (
           <Grid>
             <Grid.Row>
-              <Grid.Column width={6} style={{display:"inline-block"}}>
-                 <span style={{fontWeight:"bold",fontSize:"16px"}}>{ques.question}</span>
+              <Grid.Column width={6} style={{ display: "inline-block" }}>
+                <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                  {ques.question}
+                </span>
               </Grid.Column>
-              <Grid.Column width={5} style={{display:"inline-block"}}>
+              <Grid.Column width={5} style={{ display: "inline-block" }}>
                 <Input
-                style={{display:"inline-block"}}
-                disabled={!props.state.editMode}
-                value={ques.answer}
-                onChange={(e) => props.changeAnswer(ques,e)}
+                  style={{ display: "inline-block" }}
+                  disabled={!props.state.editMode}
+                  value={ques.answer}
+                  onChange={e => props.changeAnswer(ques, e)}
                 />
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        }
-        {ques.answerType == "options" &&
-            <Grid>
-              <Grid.Row>
-              <Grid.Column width={6} style={{display:"inline-block"}}>
-                 <span style={{fontWeight:"bold",fontSize:"16px"}}>{ques.question}</span>
-              </Grid.Column>
-                <Grid.Column width={5} style={{display:"inline-block"}}>
-                  <Dropdown
-                  style={{display:"inline-block",width:"10%"}}
-                  options={ques.options.map((label,i)=>{
-                    return{
-                      value: label.value,
-                      text: label.value,
-                      key: label.value
-                    }
-                  })}
-                  disabled={!props.state.editMode}
-                  onChange={(e,{value})=> props.changeAnswer(ques,value)}
-                  value={ques.answer}
-                  selection
-                  placeholder={"Select any option"}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-         }
-                 {ques.answerType == "date" && (
+        )}
+        {ques.answerType == "options" && (
           <Grid>
             <Grid.Row>
               <Grid.Column width={6} style={{ display: "inline-block" }}>
-                {console.log(ques.question)}
+                <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                  {ques.question}
+                </span>
+              </Grid.Column>
+              <Grid.Column width={5} style={{ display: "inline-block" }}>
+                <Dropdown
+                  style={{ display: "inline-block", width: "10%" }}
+                  options={ques.options.map((label, i) => {
+                    return {
+                      value: label.value,
+                      text: label.value,
+                      key: label.value
+                    };
+                  })}
+                  disabled={!props.state.editMode}
+                  onChange={(e, { value }) => props.changeAnswer(ques, value)}
+                  value={ques.answer}
+                  selection
+                  placeholder={"Select any option"}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        )}
+        {ques.answerType == "date" && (
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={6} style={{ display: "inline-block" }}>
                 <span style={{ fontWeight: "bold" }}>{ques.question}</span>
               </Grid.Column>
               <Grid.Column width={5} style={{ display: "inline-block" }}>
-                {console.log(ques.answer)}
                 <DatePicker
                   disabled={!props.state.editMode}
                   selected={
-                    ques.answer ? new Date(ques.answer) : props.state.setDate[ques._id]
+                    ques.answer
+                      ? new Date(ques.answer)
+                      : props.state.setDate[ques._id]
                   }
                   onChange={date => props.handleChange(ques, date)}
                   className="form-control"
@@ -441,33 +507,36 @@ const AuditedQuestions = function(props){
             </Grid.Row>
           </Grid>
         )}
-
       </Grid.Column>
-    )
-  })
-  return(
-    <Segment raised
-    style={{ width: "93%", marginLeft: "3%",height:"50%",overflow:"scroll" }}
-  >
-    <Grid>
-      <Grid.Row
-        columns={2}
-        style={{
-          marginTop: "1%",
-          height: 450,
-          width: "80%",
-          marginLeft: "8%"
-        }}
-      >
-        {Questions}
-      </Grid.Row>
-    </Grid>
-  </Segment>
-
-  )
-
-}
-
+    );
+  });
+  return (
+    <Segment
+      raised
+      style={{
+        width: "93%",
+        marginLeft: "3%",
+        height: "50%",
+        overflow: "scroll"
+      }}
+    >
+      <Divider horizontal>Audited Questions</Divider>
+      <Grid>
+        <Grid.Row
+          columns={2}
+          style={{
+            marginTop: "1%",
+            height: 450,
+            width: "80%",
+            marginLeft: "8%"
+          }}
+        >
+          {Questions}
+        </Grid.Row>
+      </Grid>
+    </Segment>
+  );
+};
 
 const mapStateToProps = state => {
   return {
@@ -476,9 +545,13 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({
-    saveHdfcAudit:saveHdfcAuditAction
-  }, dispatch);
+  return bindActionCreators(
+    {
+      saveHdfcAudit: saveHdfcAuditAction,
+      getPhotoUrlAction: getPhotoUrlAction
+    },
+    dispatch
+  );
 };
 
 export default withRouter(
@@ -487,70 +560,3 @@ export default withRouter(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* <Card style={{ width: "100%" }}>
-<Card.Content>
-  <Form.Field>
-<Grid columns={3}>
-<Grid.Row>
-{this.state.audits.questions &&
-this.state.audits.questions.map(ques => {
-  return (
-    
-   <Container>
-  
-    <Grid.Column
-      width={8}
-      style={{ display: "inline-block" }}
-    >
-      {ques.question}
-    </Grid.Column>
-     {ques.answerType == "text" &&
-     <Grid.Column
-       width={8}
-       style={{ display: "inline-block" }}
-     >
-       <Input
-         style={{ display: "inline-block" }}
-         value={ques.answer}
-       />
-     </Grid.Column>}
-     {ques.answerType == "options" &&
-     <Grid.Column
-       width={8}
-       style={{ display: "inline-block" }}
-     >
-       <Dropdown
-         style={{ display: "inline-block" }}
-         value={ques.answer}
-         selection
-       />
-     </Grid.Column>}
-     
-    </Container>
-    
-  );
-})}
-</Grid.Row>
-</Grid> 
-</Form.Field>
-</Card.Content>
-</Card> */}

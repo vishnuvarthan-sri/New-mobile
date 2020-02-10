@@ -45,6 +45,10 @@ class Login extends React.Component {
     if (e.key == "Enter") {
       this.authenticate();
     }
+    this.setState({
+      username: "",
+      password: ""
+    });
   };
 
   authenticate = e => {
@@ -54,6 +58,10 @@ class Login extends React.Component {
       this.state.password,
       this.state.platform
     );
+    this.setState({
+      username: "",
+      password: ""
+    });
   };
 
   componentWillMount() {
@@ -81,7 +89,7 @@ class Login extends React.Component {
           height: "550px"
         }}
       >
-        <Segment style={{ height: "500px" }}>
+        <Segment style={{ height: "550px", backgroundColor: "#ebebfc" }}>
           <Grid>
             <Grid.Row>
               <Grid.Column width={8}>
@@ -94,32 +102,47 @@ class Login extends React.Component {
                     <p>{this.props.auth.loginMessage}</p>
                   </Message>
                 )}
-                <p className="sign">Login</p>
+                {/* <p className="sign">Login</p> */}
                 <form>
-                <input
-                  className="un "
-                  type="text"
-                  align="center"
-                  placeholder="your Email Address"
-                  iconPosition="left"
-                  onChange={this.handleUsernameChange}
-                />
-                <br></br>
-                <input
-                  className="pass"
-                  type="password"
-                  align="center"
-                  placeholder="Password"
-                  onChange={this.handlePasswordChange}
-                  onKeyDown={this.handleKeyPress}
-                />
-                <br></br>
-                <a class="submit" align="center" onClick={this.authenticate}>
+                  <input
+                    className="un "
+                    type="text"
+                    align="center"
+                    placeholder="your Email Address"
+                    onChange={this.handleUsernameChange}
+                    value={this.state.username}
+                  />
+                  <br></br>
+                  <input
+                    className="pass"
+                    type="password"
+                    align="center"
+                    placeholder="Password"
+                    onChange={this.handlePasswordChange}
+                    onKeyDown={this.handleKeyPress}
+                    value={this.state.password}
+                  />
+                  <br></br>
+                  {/* <a className="submit" align="center" onClick={this.authenticate}>
                   Login
-                </a>
-                <p className="forgot">
-                  <a href="#">Forgot Password?</a>
-                </p>
+                </a> */}
+                  <Button
+                    style={{
+                      cursor: "pointer",
+                      borderRadius: "5em",
+                      color: "white",
+                      background: "teal",
+                      paddingLeft: 40,
+                      paddingRight: 40,
+                      paddingBottom: 10,
+                      paddingTop: 10,
+                      marginLeft: "35%"
+                    }}
+                    align="center"
+                    onClick={this.authenticate}
+                  >
+                    Login
+                  </Button>
                 </form>
               </Grid.Column>
             </Grid.Row>

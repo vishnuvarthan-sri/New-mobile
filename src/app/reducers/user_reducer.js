@@ -13,7 +13,9 @@ import {
   GENERATEPIN_SUCCESS_ACTION,
   GENERATEPIN_FAILURE_ACTION,
   REASSIGN_SUCCESS_ACTION,
-  REASSIGN_FAILURE_ACTION
+  REASSIGN_FAILURE_ACTION,
+  ADD_USERSDETAILS_SUCCESS_ACTION,
+  ADD_USERSDETAILS_FAILURE_ACTION
 } from "../actions/types";
 
 import { toast } from "react-semantic-toasts";
@@ -42,6 +44,23 @@ export default function(state = INIT_STATE, action) {
       return state;
     case SAVE_USERDETAILS_SUCCESS_ACTION:
       state.saveUserDetailError = false;
+      setTimeout(() => {
+        toast({
+          type: "success",
+          icon: "thumbs up outline",
+          title: "Success",
+          description: "User Added Successfully",
+          time: 5000
+        });
+      }, 0);
+      return state;
+
+    case ADD_USERSDETAILS_SUCCESS_ACTION:
+      state.addUserDetailError = false;
+      return state;
+
+    case ADD_USERSDETAILS_FAILURE_ACTION:
+      state.addUserDetailError = false;
       return state;
 
     case GENERATEPIN_SUCCESS_ACTION:
@@ -76,6 +95,7 @@ export default function(state = INIT_STATE, action) {
     case SAVE_USERDETAILS_FAILURE_ACTION:
       state.saveUserDetailError = true;
       return state;
+
     case FORGOTPASSWORD_SUCCESS_ACTION:
       state.forgotpasswordError = false;
       setTimeout(() => {
@@ -128,32 +148,31 @@ export default function(state = INIT_STATE, action) {
         });
       }, 0);
       return state;
-      case REASSIGN_SUCCESS_ACTION:
-        state.reassignSuccessError = false;
-        setTimeout(() => {
-          toast({
-            type: "success",
-            icon: "thumbs up outline",
-            title: "Success",
-            description: "Audits Reassigned Succesfully",
-            time: 5000
-          });
-        }, 0);
-        return state;
+    case REASSIGN_SUCCESS_ACTION:
+      state.reassignSuccessError = false;
+      setTimeout(() => {
+        toast({
+          type: "success",
+          icon: "thumbs up outline",
+          title: "Success",
+          description: "Audits Reassigned Succesfully",
+          time: 5000
+        });
+      }, 0);
+      return state;
 
-        case REASSIGN_SUCCESS_ACTION:
-          console.log(action.payload);
-          state.reassignSuccessError = true;
-          setTimeout(() => {
-            toast({
-              type: "error",
-              icon: "thumbs down outline",
-              title: "error",
-              description: "contact system admin",
-              time: 5000
-            });
-          }, 0);
-    
+    case REASSIGN_FAILURE_ACTION:
+      console.log(action.payload);
+      state.reassignSuccessError = true;
+      setTimeout(() => {
+        toast({
+          type: "error",
+          icon: "thumbs down outline",
+          title: "error",
+          description: "contact system admin",
+          time: 5000
+        });
+      }, 0);
 
     case SET_CURRENT_USER:
       state.currentUser = action.payload;

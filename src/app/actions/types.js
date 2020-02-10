@@ -25,6 +25,8 @@ export const GENERATEPIN_SUCCESS_ACTION = "generate_pin_success";
 export const GENERATEPIN_FAILURE_ACTION = "generate_pin_failure";
 export const REASSIGN_SUCCESS_ACTION = "reassign_success";
 export const REASSIGN_FAILURE_ACTION = "reassign_failure";
+export const ADD_USERSDETAILS_SUCCESS_ACTION = "add_user_success";
+export const ADD_USERSDETAILS_FAILURE_ACTION = "add_user_failure";
 
 
 //REPORT
@@ -41,3 +43,7 @@ export const FETCH_HDFC_MASTER_SUCCESS_ACTION = "hdfc_template_success";
 export const FETCH_HDFC_MASTER_FAILURE_ACTION = "hdfc_template_failure";
 export const SAVE_AUDIT_SUCCESS_ACTION = "save_audit_success";
 export const SAVE_AUDIT_FAILURE_ACTION = "save_audit_failure";
+export const MAIL_REPORT_SUCCESS_ACTION = "mail_succes";
+export const MAIL_REPORT_FAILURE_ACTION = "mail_failure";
+export const FETCH_HDFC_PHOTO_SUCCESS_ACTION = "photo_success";
+export const FETCH_HDFC_PHOTO_FAILURE_ACTION = "photo_failure";

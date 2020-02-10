@@ -48,3 +48,21 @@ export const HdfcAuditReportAction = (fromDate,toDate) => {
             });
     };
 };
+
+export const mailAuditReportAction = (fromDate,toDate, mailIds) => {
+  return function (dispatch) {
+      axios.get(types.API_URL + `ebgc/v1/report/mail?startdate=${fromDate}&enddate=${toDate}&email=${mailIds}`)
+          .then(function (response) {
+              dispatch({
+                  type: types.MAIL_REPORT_SUCCESS_ACTION,
+                  payload: response.data
+              });
+          })
+          .catch(function (error) {
+              dispatch({
+                  type: types.MAIL_REPORT_SUCCESS_ACTION,
+                  payload: error
+              });
+          });
+  };
+}
