@@ -45,10 +45,6 @@ class Login extends React.Component {
     if (e.key == "Enter") {
       this.authenticate();
     }
-    this.setState({
-      username: "",
-      password: ""
-    });
   };
 
   authenticate = e => {
@@ -58,10 +54,7 @@ class Login extends React.Component {
       this.state.password,
       this.state.platform
     );
-    this.setState({
-      username: "",
-      password: ""
-    });
+  
   };
 
   componentWillMount() {

@@ -125,15 +125,16 @@ export class HdfcQuestions extends Component {
           flexGrow: 1,
           display: "flex",
           flexFlow: "column",
-          marginLeft: "4%"
+          marginLeft: "4%",
+          height: "100%",
         }}
       >
         <div>
-        <Button
+          <Button
             content="Photos"
-            style={{ marginLeft: "2%",marginTop:20 }}
+            style={{ marginLeft: "2%", marginTop: 28 }}
             disabled={open}
-            color="orange"
+            color="green"
             onClick={this.handleOpen}
           />
           <Modal onClose={this.handleClose} open={open}>
@@ -162,20 +163,26 @@ export class HdfcQuestions extends Component {
               backgroundColor: "#ebebfc",
               float: "right",
               cursor: "pointer",
-              marginTop: -13,
-              position: "absolute",
+              marginTop: 20,
+
               right: 58
             }}
           >
             <Icon name="arrow" className="left large" color="brown" />
           </Segment>
         </div>
-        <Header color="orange" as="h4">
+        <Header color="orange" as="h4" style={{marginLeft:"2%"}}>
           Audits done by : Maris, Date: 17-12-1996, Location: Chennai
         </Header>
         <Segment
           raised
-          style={{ marginTop: "3.5%", marginLeft: "2.5%", width: "1400px" }}
+          style={{
+            marginTop: "1%",
+            marginLeft: "2.5%",
+            width: "1400px",
+            height: "2200px",
+            overflow:"scroll"
+          }}
         >
           <Divider horizontal>Master Data</Divider>
           <Grid columns={3} doubling stackable style={{ paddingLeft: "12%" }}>
@@ -376,42 +383,17 @@ export class HdfcQuestions extends Component {
               </span>
             </Grid.Column>
           </Grid>
+
+          <AuditedQuestions
+            auditQuestions={this.state.audits}
+            state={this.state}
+            changeAnswer={this.editedQuestionsAnswer}
+            handleChange={this.handleDateChange}
+            EditAudit={this.editAudit}
+            SaveAudit={this.saveAudit}
+            CancelAudit={this.cancelAudit}
+          />
         </Segment>
-
-        <div>
-
-
-          {!this.state.saveButton && (
-            <Button
-              style={{ marginLeft: "85%" }}
-              color="black"
-              onClick={this.editAudit}
-            >
-              Edit
-            </Button>
-          )}
-
-          {this.state.saveButton && (
-            <div>
-              <Button
-                style={{ marginLeft: "85%" }}
-                primary
-                onClick={this.saveAudit}
-              >
-                Save
-              </Button>
-              <Button danger onClick={this.cancelAudit}>
-                Cancel
-              </Button>
-            </div>
-          )}
-        </div>
-        <AuditedQuestions
-          auditQuestions={this.state.audits}
-          state={this.state}
-          changeAnswer={this.editedQuestionsAnswer}
-          handleChange={this.handleDateChange}
-        />
       </div>
     );
   }
@@ -448,6 +430,7 @@ const AuditedQuestions = function(props) {
                 <span style={{ fontWeight: "bold", fontSize: "16px" }}>
                   {ques.question}
                 </span>
+                {console.log(ques.answer)}
               </Grid.Column>
               <Grid.Column width={5} style={{ display: "inline-block" }}>
                 <Dropdown
@@ -455,7 +438,7 @@ const AuditedQuestions = function(props) {
                   options={ques.options.map((label, i) => {
                     return {
                       value: label.value,
-                      text: label.value,
+                      text: label.label,
                       key: label.value
                     };
                   })}
@@ -511,30 +494,50 @@ const AuditedQuestions = function(props) {
     );
   });
   return (
-    <Segment
-      raised
-      style={{
-        width: "93%",
-        marginLeft: "3%",
-        height: "50%",
-        overflow: "scroll"
-      }}
-    >
-      <Divider horizontal>Audited Questions</Divider>
-      <Grid>
-        <Grid.Row
-          columns={2}
-          style={{
-            marginTop: "1%",
-            height: 450,
-            width: "80%",
-            marginLeft: "8%"
-          }}
-        >
-          {Questions}
-        </Grid.Row>
-      </Grid>
-    </Segment>
+    <Grid>
+      <Divider horizontal><Label color="green" size="medium">Audited Questions</Label></Divider>
+      <div style={{ marginLeft: "85%" }}>
+        {!props.state.saveButton && (
+          <Button
+            style={{ borderRadius: "14px" }}
+            color="black"
+            onClick={props.EditAudit}
+          >
+            Edit
+          </Button>
+        )}
+
+        {props.state.saveButton && (
+          <div>
+            <Button
+              style={{ borderRadius: "14px" }}
+              primary
+              onClick={props.SaveAudit}
+            >
+              Save
+            </Button>
+            <Button
+              style={{ borderRadius: "14px" }}
+              danger
+              onClick={props.CancelAudit}
+            >
+              Cancel
+            </Button>
+          </div>
+        )}
+      </div>
+      <Grid.Row
+        columns={2}
+        style={{
+          marginTop: "1%",
+          height: 450,
+          width: "80%",
+          marginLeft: "8%"
+        }}
+      >
+        {Questions}
+      </Grid.Row>
+    </Grid>
   );
 };
 
@@ -557,6 +560,3 @@ const mapDispatchToProps = dispatch => {
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(HdfcQuestions)
 );
-
-
-

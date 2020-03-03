@@ -51,21 +51,21 @@ export class Home extends Component {
   render() {
     var activeItem = "hdfc";
     console.log(activeItem)
-    var pusherStyle = { height: "100%", width: "85%" };
+    var pusherStyle={ height: "100%", overflow: "auto", width: "85%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
     }
     return (
       <div style={{height:"100%"}}>
-        <Segment raised style={{ backgroundColor: "#fofcf7", height: 60 }}>
+        <Segment raised style={{ backgroundColor: "#fofcf7", height: 60,position: "-webkit-sticky",position:"relative" }}>
         <div style={{ display: "inline-block" }}>
             <Icon
               style={{
                 display: "inline-block",
                 cursor: "pointer",
                 float: "left",
-                color: "#c1c7c4",
+                color: "black",
                 marginTop: 4
               }}
               onClick={this.toggleSidebar}
@@ -100,7 +100,7 @@ export class Home extends Component {
           style={{
             marginTop: -15,
             display: "flex",
-            borderRadius: 0,
+            borderRadius: 18,
             height: "calc(100% - 70px)",
             
           }}
@@ -111,9 +111,10 @@ export class Home extends Component {
             activeIndex="0"
             style={{
               flex: "0 0 150px",
-              backgroundColor: "#ebebfc",
+              backgroundColor: "#2c3e50",
               paddingTop: 30,
-            
+              position:"fixed",
+              overflow:"scroll"
 
             }}
             animation="slide along"

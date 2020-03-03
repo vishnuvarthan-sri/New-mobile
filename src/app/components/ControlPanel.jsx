@@ -63,7 +63,7 @@ class ControlPanel extends React.Component {
   render() {
     var activeItem = this.props.home.selectedMenu || "user";
     console.log(activeItem)
-    var pusherStyle = { height: "100%", overflow: "auto", width: "87.5%" };
+    var pusherStyle = { height: "900px", overflow: "auto", width: "87.5%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
@@ -119,7 +119,7 @@ class ControlPanel extends React.Component {
             activeIndex="0"
             style={{
               flex: "0 0 150px",
-              backgroundColor: "#ebebfc",
+              backgroundColor: "#2c3e50",
               paddingTop: 30
             }}
             animation="slide along"
@@ -135,7 +135,7 @@ class ControlPanel extends React.Component {
               onClick={this.handleItemClick}
               style={{ marginTop: 10 }}
             >
-              <Icon name="users" color="black" />
+              <Icon name="users" color="white" />
              <span style={{color:"black"}}>Users</span>
             </Menu.Item>
             <Menu.Item
@@ -145,7 +145,7 @@ class ControlPanel extends React.Component {
               onClick={this.handleItemClick}
               style={{ marginTop: 10 }}
             >
-              <Icon name="file excel" color="black" />
+              <Icon name="file excel" color="white" />
               <span style={{color:"black"}}>Report</span>
             </Menu.Item>
           </Sidebar>
