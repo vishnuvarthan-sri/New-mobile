@@ -79,16 +79,14 @@ class Login extends React.Component {
           marginTop: "5%",
           width: "70%",
           overflow: "hidden",
-          height: "550px"
+          height: "550px",
+          boxShadow:"5px 5px 20px grey" 
         }}
       >
-        <Segment style={{ height: "550px", backgroundColor: "#ebebfc" }}>
+        <Segment style={{ height: "550px",}}>
           <Grid>
-            <Grid.Row>
-              <Grid.Column width={8}>
-                <h2>logo</h2>
-              </Grid.Column>
-              <Grid.Column width={8}>
+            <Grid.Row >
+              <Grid.Column width={8} style={{margin: "0 auto"}} >
                 {this.props.auth.loginError && (
                   <Message warning>
                     <Message.Header>Login Failed!</Message.Header>
