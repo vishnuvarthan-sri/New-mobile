@@ -32,7 +32,7 @@ export const HdfcAuditReportAction = (fromDate,toDate) => {
                 responseType: 'blob'
             })
             .then(function(response) {
-                FileSaver.saveAs(response.data, 'Hdfc-Audit-Report.pdf');
+                FileSaver.saveAs(response.data, 'ebgc.xlsx');
                 dispatch({
                     type: types.DOWNLOAD_HDFC_AUDIT_REPORT_SUCCESS_ACTION,
                     payload: response.data
