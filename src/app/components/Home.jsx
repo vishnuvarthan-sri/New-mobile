@@ -100,7 +100,6 @@ export class Home extends Component {
           style={{
             marginTop: -15,
             display: "flex",
-            borderRadius: 18,
             height: "calc(100% - 70px)",
             
           }}
