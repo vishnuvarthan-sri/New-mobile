@@ -49,7 +49,7 @@ export const HdfcAuditReportAction = (fromDate,toDate,status) => {
     };
 };
 
-export const mailAuditReportAction = (fromDate,toDate, mailIds,status) => {
+export const mailAuditReportAction = (fromDate,toDate,status,mailIds) => {
   return function (dispatch) {
       axios.get(types.API_URL + `ebgc/v1/report/mail?startdate=${fromDate}&enddate=${toDate}&status=${status}&email=${mailIds}`)
           .then(function (response) {

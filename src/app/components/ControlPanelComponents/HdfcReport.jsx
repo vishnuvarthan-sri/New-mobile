@@ -54,22 +54,23 @@ export class HdfcReport extends Component {
     this.setState({ status: data });
   };
 
-  handleMailReportClick = e => {
+  handleMailReportClick = () => {
     this.setState({ isMailPopupView: !this.state.isMailPopupView });
   };
-  handleSendMailReportClick = m => {
-    console.log(m);
-    this.setState({ isMailPopupView: !this.state.isMailPopupView, mailIds: m });
+  handleSendMailReportClick = mailIds => {
+    console.log(mailIds);
+    this.setState({ isMailPopupView: !this.state.isMailPopupView, mailId: mailIds });
     var From = this.state.fromDate;
     var To = this.state.toDate;
     var status = this.state.status;
-    var mailId = this.state.mailIds;
+    var mailId = mailIds
+    console.log(mailId)
     if (From < To === true) {
       let startDate =
         From.getDate() + "-" + (From.getMonth() + 1) + "-" + From.getFullYear();
       let endDate =
         To.getDate() + "-" + (To.getMonth() + 1) + "-" + To.getFullYear();
-      this.props.mailAuditReportAction(startDate, endDate,status,mailId);
+      this.props.mailAuditReportAction(startDate,endDate,status,mailId);
     } else {
       alert("choose a date greater than from date");
     }
@@ -83,7 +84,7 @@ export class HdfcReport extends Component {
         From.getDate() + "-" + (From.getMonth() + 1) + "-" + From.getFullYear();
       let endDate =
         To.getDate() + "-" + (To.getMonth() + 1) + "-" + To.getFullYear();
-      this.props.HdfcAuditReportAction(startDate, endDate,status);
+      this.props.HdfcAuditReportAction(startDate,endDate,status);
     } else {
       alert("choose a date greater than from date");
     }
