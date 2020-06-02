@@ -5,6 +5,7 @@ import {
   Label,
   Grid,
   Button,
+  Dropdown,
   Header,
   Container,
   Step,
@@ -31,6 +32,7 @@ export class HdfcReport extends Component {
       toDate: new Date(),
       firstDateChoose: null,
       isMailPopupView: false,
+      status:"",
       mailIds: ""
     };
   }
@@ -48,6 +50,10 @@ export class HdfcReport extends Component {
       toDate: date
     });
   };
+  onStatusChange = data => {
+    this.setState({ status: data });
+  };
+
   handleMailReportClick = e => {
     this.setState({ isMailPopupView: !this.state.isMailPopupView });
   };
@@ -56,13 +62,14 @@ export class HdfcReport extends Component {
     this.setState({ isMailPopupView: !this.state.isMailPopupView, mailIds: m });
     var From = this.state.fromDate;
     var To = this.state.toDate;
+    var status = this.state.status;
     var mailId = this.state.mailIds;
     if (From < To === true) {
       let startDate =
         From.getDate() + "-" + (From.getMonth() + 1) + "-" + From.getFullYear();
       let endDate =
         To.getDate() + "-" + (To.getMonth() + 1) + "-" + To.getFullYear();
-      this.props.mailAuditReportAction(startDate, endDate,mailId);
+      this.props.mailAuditReportAction(startDate, endDate,status,mailId);
     } else {
       alert("choose a date greater than from date");
     }
@@ -70,17 +77,28 @@ export class HdfcReport extends Component {
   downloadReport = () => {
     var From = this.state.fromDate;
     var To = this.state.toDate;
+    var status = this.state.status;
     if (From < To === true) {
       let startDate =
         From.getDate() + "-" + (From.getMonth() + 1) + "-" + From.getFullYear();
       let endDate =
         To.getDate() + "-" + (To.getMonth() + 1) + "-" + To.getFullYear();
-      this.props.HdfcAuditReportAction(startDate, endDate);
+      this.props.HdfcAuditReportAction(startDate, endDate,status);
     } else {
       alert("choose a date greater than from date");
     }
   };
   render() {
+    const statusOptions = [
+      { key: 1, value: "all", text: "all" },
+      {
+        key: 2,
+        value: "initial",
+        text: "initial"
+      },
+      { key: 3, value: "audited", text: "audited" },
+      {key:4,value:"complete",text:"complete"}
+    ];
     return (
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
         <Container style={{ marginTop: "3%" }}>
@@ -110,6 +128,20 @@ export class HdfcReport extends Component {
                   placeholderText="Choose End Date"
                 />
               )}
+            </Step>
+            <Step>
+            <label for="role">Status</label>
+                        <br />
+                        <Dropdown
+                          style={{ borderRadius: 18}}
+                          selection
+                          placeholder="Your Role"
+                          options={statusOptions}
+                          value={this.state.status}
+                          onChange={(e, data) => {
+                            this.onStatusChange(data.value);
+                          }}
+                        />
             </Step>
             <Step>
               <Button
