@@ -25,10 +25,10 @@ export const fetchVerifiedAuditsAction = () => {
 };
 
 
-export const HdfcAuditReportAction = (fromDate,toDate) => {
+export const HdfcAuditReportAction = (fromDate,toDate,status) => {
     return function(dispatch) {
         axios
-            .get(types.API_URL + `ebgc/v1/hdfc/report?startdate=${fromDate}&enddate=${toDate}`,{
+            .get(types.API_URL + `ebgc/v1/hdfc/report?startdate=${fromDate}&enddate=${toDate}&status=${status}`,{
                 responseType: 'blob'
             })
             .then(function(response) {
@@ -49,9 +49,9 @@ export const HdfcAuditReportAction = (fromDate,toDate) => {
     };
 };
 
-export const mailAuditReportAction = (fromDate,toDate, mailIds) => {
+export const mailAuditReportAction = (fromDate,toDate,status,mailIds) => {
   return function (dispatch) {
-      axios.get(types.API_URL + `ebgc/v1/report/mail?startdate=${fromDate}&enddate=${toDate}&email=${mailIds}`)
+      axios.get(types.API_URL + `ebgc/v1/report/mail?startdate=${fromDate}&enddate=${toDate}&status=${status}&email=${mailIds}`)
           .then(function (response) {
               dispatch({
                   type: types.MAIL_REPORT_SUCCESS_ACTION,

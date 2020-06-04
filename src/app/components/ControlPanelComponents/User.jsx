@@ -48,6 +48,7 @@ export class User extends Component {
       role: "",
       imei: "",
       pin: "",
+      pinCode:"",
       saveError: false,
       newUser: false,
       auditId: null
@@ -81,7 +82,8 @@ export class User extends Component {
       name: "",
       phone: "",
       email: "",
-      imei: ""
+      imei: "",
+      pinCode:""
     });
   }
   editUserDetail = data => {
@@ -117,6 +119,7 @@ export class User extends Component {
     user.mobileNo = this.state.phone;
     user.email = this.state.email;
     user.role =  this.state.role;
+    user.pinCode = this.state.pinCode;
     this.props.setCurrentUser(user);
     this.props.AddUsersDetailAction(user);
     this.setState({ newUser: {}, editMode: false, saveError: false, newUser: false  });
@@ -140,6 +143,9 @@ export class User extends Component {
   onPhoneChange = e => {
     this.setState({ phone: e.target.value });
   };
+  onPinCodeChange = e =>{
+    this.setState({pinCode:e.target.value});
+  }
   onRoleChange = data => {
     this.setState({ role: data });
   };
@@ -381,6 +387,15 @@ export class User extends Component {
                           placeholder="Your IMEI"
                           value={this.state.imei}
                           onChange={this.onValueChange}
+                        />
+                      </Grid.Column>
+                      <Grid.Column>
+                        <Form.Input
+                          label="Pin Code"
+                          type="any"
+                          placeholder="Your PinCode"
+                          value={this.state.pinCode}
+                          onChange={this.onPinCodeChange}
                         />
                       </Grid.Column>
                       <Grid.Column>
