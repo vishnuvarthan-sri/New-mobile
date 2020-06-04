@@ -36,6 +36,7 @@ class HdfcAudits extends React.Component {
             row={row.original}
             text={row.original.customerName}
             onClick={(row) => {this.handleTableClick(row)}}
+            PadRowComponent= {<span>&nbsp;</span>}
           />
         )
       },
@@ -48,6 +49,7 @@ class HdfcAudits extends React.Component {
             row={row.original}
             text={row.original.fileNo}
             onClick={this.handleTableClick}
+            PadRowComponent= {<span>&nbsp;</span>}
           />
         )
       },
@@ -60,6 +62,7 @@ class HdfcAudits extends React.Component {
             row={row.original}
             text={row.original.nameOfCompany}
             onClick={this.handleTableClick}
+            PadRowComponent= {<span>&nbsp;</span>}
           />
         )
       },
@@ -72,6 +75,7 @@ class HdfcAudits extends React.Component {
             row={row.original}
             text={row.original.address}
             onClick={this.handleTableClick}
+            PadRowComponent= {<span>&nbsp;</span>}
           />
         )
       },
@@ -84,6 +88,7 @@ class HdfcAudits extends React.Component {
             row={row.original}
             text={row.original.extNo}
             onClick={this.handleTableClick}
+            PadRowComponent= {<span>&nbsp;</span>}
           />
         )
       },
@@ -96,6 +101,7 @@ class HdfcAudits extends React.Component {
             row={row.original}
             text={row.original.faxNo}
             onClick={this.handleTableClick}
+            PadRowComponent= {<span>&nbsp;</span>}
           />
         )
       },
@@ -108,6 +114,7 @@ class HdfcAudits extends React.Component {
             row={row.original}
             text={row.original.faxNo}
             onClick={this.handleTableClick}
+            PadRowComponent= {<span>&nbsp;</span>}
           />
         )
       }
@@ -127,6 +134,7 @@ class HdfcAudits extends React.Component {
                   style={{ height: "85%", width: "95%", marginLeft: 30 }}
                   columns={columns}
                   data={audits}
+                  PadRowComponent= {<span>&nbsp;</span>}
                 />
               </div>
             </div>
