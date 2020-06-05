@@ -1,5 +1,5 @@
 
-import 'react-table-6/react-table.css'
+import 'react-table/react-table.css'
 
 import React from "react";
 import ReactDOM from "react-dom";

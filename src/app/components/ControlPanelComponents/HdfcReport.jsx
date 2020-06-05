@@ -11,7 +11,7 @@ import {
   Step,
   Icon,
 } from "semantic-ui-react";
-import ReactTable from "react-table-6";
+import ReactTable from "react-table";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
@@ -63,7 +63,7 @@ export class HdfcReport extends Component {
     var From = this.state.fromDate;
     var To = this.state.toDate;
     var status = this.state.status;
-    var mailId = mailIds
+    var mailId = mailIds.
     console.log(mailId)
     if (From < To === true) {
       let startDate =
