@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTable from "react-table-6";
+import ReactTable from "react-table";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";

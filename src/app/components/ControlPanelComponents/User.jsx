@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactTable from "react-table-6";
+import ReactTable from "react-table";
 import {
   Container,
   Segment,
