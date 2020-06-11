@@ -59,14 +59,14 @@ class HdfcAudits extends React.Component {
         // style: { textAlign: "center", cursor: "pointer" },
     
  
-            PadRowComponent :  () => <span>&nbsp;</span>
+
           
         
       },
       {
         Header: "File No",
         accessor: "fileNo",
-        PadRowComponent :  () => <span>&nbsp;</span>
+      
 
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
@@ -81,7 +81,7 @@ class HdfcAudits extends React.Component {
       {
         Header: "Company",
         accessor: "nameOfCompany",
-        PadRowComponent :  () => <span>&nbsp;</span>
+     
 
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
@@ -96,7 +96,6 @@ class HdfcAudits extends React.Component {
       {
         Header: "Address",
         accessor: "address",
-        PadRowComponent :  () => <span>&nbsp;</span>
 
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
@@ -112,7 +111,7 @@ class HdfcAudits extends React.Component {
         Header: "Ext No",
         accessor: "extNo",
         // style: { textAlign: "center", cursor: "pointer" },
-        PadRowComponent :  () => <span>&nbsp;</span>
+        
 
         // Cell: row => (
         //   <AuditTableCell
@@ -126,7 +125,7 @@ class HdfcAudits extends React.Component {
       {
         Header: "Fax No",
         accessor: "faxNo",
-        PadRowComponent :  () => <span>&nbsp;</span>
+        
 
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
@@ -141,7 +140,7 @@ class HdfcAudits extends React.Component {
       {
         Header: "Location",
         accessor: "landmark",
-        PadRowComponent :  () => <span>&nbsp;</span>
+        
 
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
@@ -172,7 +171,7 @@ class HdfcAudits extends React.Component {
                   PadRowComponent= {<span>&nbsp;</span>}
                 />
               </div> */}
-              <div style={{height:"900px",width:"100%"}}>
+              <div style={{height:"900px"}}>
               <Table columns={columns} data={auditedData}           rowInfo={this.rowInfo}
 />
               {/* </div> */}
