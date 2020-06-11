@@ -50,7 +50,7 @@ export class Home extends Component {
   };
   render() {
     var activeItem = "hdfc";
-    console.log(activeItem)
+   
     var pusherStyle={ height: "100%", overflow: "auto", width: "85%" };
 
     if (!this.state.sideBarVisible) {

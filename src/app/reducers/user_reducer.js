@@ -31,6 +31,7 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case FETCH_ASSIGNED_LINEITEM_SUCCESS_ACTION:
+      
       state.assignedLineItem = action.payload.masterdata;
       state.fetchAssignedLineItemError = false;
       return state;
@@ -64,7 +65,7 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case GENERATEPIN_SUCCESS_ACTION:
-      console.log(action.payload.pin);
+      
       state.pin = action.payload.pin;
       state.fetchPinError = false;
       setTimeout(() => {
@@ -136,7 +137,7 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case SAVE_RESET_FAILURE_ACTION:
-      console.log(action.payload);
+      
       state.saveResetPasswordError = true;
       setTimeout(() => {
         toast({
@@ -162,7 +163,7 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case REASSIGN_FAILURE_ACTION:
-      console.log(action.payload);
+      
       state.reassignSuccessError = true;
       setTimeout(() => {
         toast({

@@ -62,7 +62,7 @@ class ControlPanel extends React.Component {
   };
   render() {
     var activeItem = this.props.home.selectedMenu || "user";
-    console.log(activeItem)
+   
     var pusherStyle = { height: "900px", overflow: "auto", width: "87.5%" };
 
     if (!this.state.sideBarVisible) {

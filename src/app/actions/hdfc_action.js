@@ -29,7 +29,7 @@ export const getPhotoUrlAction = (auditId) => {
           type: types.FETCH_HDFC_PHOTO_SUCCESS_ACTION,
           payload: response.data
         });
-        console.log(response.data);
+      
       })
       .catch(function(error) {
         dispatch({
