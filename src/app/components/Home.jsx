@@ -51,7 +51,7 @@ export class Home extends Component {
   render() {
     var activeItem = "hdfc";
    
-    var pusherStyle={ height: "100%", overflow: "auto", width: "85%" };
+    var pusherStyle={ height: "100%", overflow: "auto",overflowX:"hidden", width: "85%" };
 
     if (!this.state.sideBarVisible) {
       pusherStyle.width = "100%";
