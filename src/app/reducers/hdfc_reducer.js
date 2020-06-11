@@ -24,7 +24,7 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case FETCH_HDFC_PHOTO_SUCCESS_ACTION:
-      console.log(action.payload.data)
+      
       state.photos = action.payload.data;
       state.fetchPhotoError = false;
       return state;

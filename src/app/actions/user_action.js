@@ -112,7 +112,7 @@ export const forgotPasswordAction = (userId) => {
 };
 
 export const saveResetPasswordAction = (email,newPassword,code) => {
-  console.log(email,newPassword,code);
+ 
   return function(dispatch) {
       axios.post(types.API_URL + `ebgc/v1/resetpassword?mailid=${email}&newpassword=${newPassword}&code=${code}`)
       .then(function(response) {
@@ -163,14 +163,14 @@ export const reassignAuditAction = (auditId,userId) => {
               type: types.REASSIGN_SUCCESS_ACTION,
               payload: response.data
           });
-          console.log(response.data);
+          
       })
       .catch(function(err) {
           dispatch({
               type: types.REASSIGN_FAILURE_ACTION,
               payload: err
           });
-          console.log(err);
+     
       });
   };
 };

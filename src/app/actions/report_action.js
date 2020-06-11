@@ -12,14 +12,14 @@ export const fetchVerifiedAuditsAction = () => {
           type: types.FETCH_VERIFIED_AUDITS_SUCCESS_ACTION,
           payload: response.data
         });
-        console.log(response.data);
+        
       })
       .catch(function(error) {
         dispatch({
           type: types.FETCH_VERIFIED_AUDITS_FAILURE_ACTION,
           payload: error
         });
-        console.log(error);
+       
       });
   };
 };
@@ -37,10 +37,10 @@ export const HdfcAuditReportAction = (fromDate,toDate,status) => {
                     type: types.DOWNLOAD_HDFC_AUDIT_REPORT_SUCCESS_ACTION,
                     payload: response.data
                 });
-                console.log(response.data);
+               
             })
             .catch(function(error) {
-                console.log(error);
+                
                 dispatch({
                     type: types.DOWNLOAD_HDFC_AUDIT_REPORT_FAILURE_ACTION,
                     payload: error

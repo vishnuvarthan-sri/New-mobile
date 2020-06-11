@@ -430,7 +430,7 @@ const AuditedQuestions = function(props) {
                 <span style={{ fontWeight: "bold", fontSize: "16px" }}>
                   {ques.question}
                 </span>
-                {console.log(ques.answer)}
+                
               </Grid.Column>
               <Grid.Column width={5} style={{ display: "inline-block" }}>
                 <Dropdown

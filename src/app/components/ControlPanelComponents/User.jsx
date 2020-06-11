@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactTable from "react-table";
+
 import {
   Container,
   Segment,
@@ -18,6 +18,7 @@ import {
   Button,
   Dropdown
 } from "semantic-ui-react";
+import Table from '../Table.jsx'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
@@ -34,7 +35,23 @@ import {
 import { isLoggedIn, isAdmin } from "./../../util";
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
-
+const ModalTableStyle = {
+  width:"100%",
+  marginLeft:"-10px",
+  textAlign:"center",
+  padding:"0"
+  // height:"250px"
+  
+}
+const controlPanelTableStyle = {
+  width:"90%",
+  borderSpacing: 0,
+  border: '1px solid #dde0e5',
+  /* background-color:#F5FFFA; */
+  marginLeft: '80px',
+  marginTopp: "2%",
+  outline: "thick"
+}
 
 export class User extends Component {
   constructor(props) {
@@ -51,22 +68,35 @@ export class User extends Component {
       pinCode:"",
       saveError: false,
       newUser: false,
-      auditId: null
+      auditId: null,
+      totalUsers: [],
+      assignedItemsForUser:[],
+      showTable: false
     };
   }
   componentDidMount() {
     this.props.fetchUser();
   }
   componentWillReceiveProps(nextprops){
+  
     var reassign = "";
+    if(nextprops.user.allUsers !== this.props.user.allUsers){
+      
+      this.setState({
+        totalUsers: [...nextprops.user.allUsers]
+      })
+    }
     if(nextprops.user.assignedLineItem != this.props.user.assignedLineItem){
+     
       nextprops.user.assignedLineItem.map((id)=>{
          reassign  = id._id;
       })
       this.setState({
-        auditId: reassign
+        auditId: reassign,
+        assignedItemsForUser:[...nextprops.user.assignedLineItem]
       })
     }
+    
   }
   addNewUser = () => {
     var newUser = {};
@@ -87,20 +117,25 @@ export class User extends Component {
     });
   }
   editUserDetail = data => {
-    const userId = data._id;
-    this.props.fetchUser();
-    this.props.fetchAssignedLineItem(userId);
-    this.props.setCurrentUser(data);
-    this.setState({
-      editMode: true,
-      id: data._id
-,     name: data.displayName,
-      phone: data.mobileNo,
-      email: data.email,
-      role: data.role,
-      imei: data.imei,
-      newUser: false
-    });
+  
+    if(data !== undefined){
+      
+      const userId = data.original._id;
+      this.props.fetchUser();
+      this.props.fetchAssignedLineItem(userId);
+      this.props.setCurrentUser(data.original);
+      this.setState({
+        editMode: true,
+        id: data.original._id
+  ,     name: data.original.displayName,
+        phone: data.original.mobileNo,
+        email: data.original.email,
+        role: data.original.role,
+        imei: data.original.imei,
+        newUser: false
+      });
+    }
+
    
   };
   saveEditedUser = () => {
@@ -125,13 +160,11 @@ export class User extends Component {
     this.setState({ newUser: {}, editMode: false, saveError: false, newUser: false  });
   };
   reassignAudits = (data) => {
-    console.log(data)
-    console.log(this.state.auditId);
     let userId = ""
     if(this.props.user.allUsers && this.props.user.allUsers.map((id)=>{
       userId = id._id;
     }))
-    console.log(userId);
+    
     this.props.reassignAudit(this.state.auditId,data);
   }
   onNameChange = e => {
@@ -162,9 +195,10 @@ export class User extends Component {
   } 
 
   render() {
-    var userList = this.props.user.allUsers;
-    console.log(userList)
-    var assignedLineItem = this.props.user.assignedLineItem;
+   
+    let userData = this.state.totalUsers.length !== 0 ? this.state.totalUsers : []
+    let assignedItemsForUser = this.state.assignedItemsForUser
+
     let userOptions = [];
     {this.props.user.allUsers && this.props.user.allUsers.map((name)=>{
       return(
@@ -186,34 +220,34 @@ export class User extends Component {
       {
         Header: "Name",
         accessor: "displayName",
-        style: { textAlign: "center", cursor: "pointer" },
-        Cell: row => (
-          <AuditTableCell row={row.original} text={row.original.displayName} />
-        )
+        // style: { textAlign: "center", cursor: "pointer" },
+        // Cell: row => (
+        //   <AuditTableCell row={row.original} text={row.original.displayName} />
+        // )
       },
       {
         Header: "Email",
         accessor: "email",
-        style: { textAlign: "center", cursor: "pointer" },
-        Cell: row => (
-          <AuditTableCell row={row.original} text={row.original.email} />
-        )
+        // style: { textAlign: "center", cursor: "pointer" },
+        // Cell: row => (
+        //   <AuditTableCell row={row.original} text={row.original.email} />
+        // )
       },
       {
         Header: "PhoneNumber",
         accessor: "mobileNo",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row => (
-          <AuditTableCell row={row.original} text={row.original.mobileNo} />
-        )
+        // Cell: row => (
+        //   <AuditTableCell row={row.original} text={row.original.mobileNo} />
+        // )
       },
       {
         Header: "Role",
         accessor: "role",
         style: { textAlign: "center", cursor: "pointer" },
-        Cell: row => (
-          <AuditTableCell row={row.original} text={row.original.role} />
-        )
+        // Cell: row => (
+        //   <AuditTableCell row={row.original} text={row.original.role} />
+        // )
       },
       {
         Header: "Action",
@@ -247,44 +281,44 @@ export class User extends Component {
       {
         Header: "Name",
         accessor: "customerName",
-        style: { textAlign: "center", cursor: "pointer" },
-        Cell: row => (
-          <AuditTableCell row={row.original} text={row.original.customerName} />
-        )
+        // style: { textAlign: "center", cursor: "pointer" },
+        // Cell: row => (
+        //   <AuditTableCell row={row.original} text={row.original.customerName} />
+        // )
 
       },
       {
         Header: "Email",
         accessor: "emailId",
-        style: { textAlign: "center", cursor: "pointer" },
-        Cell: row => (
-          <AuditTableCell row={row.original} text={row.original.emailId} />
-        )
+        // style: { textAlign: "center", cursor: "pointer" },
+        // Cell: row => (
+        //   <AuditTableCell row={row.original} text={row.original.emailId} />
+        // )
 
       },
       {
         Header: "PhoneNumber",
         accessor: "telephoneNumber",
-        style: { textAlign: "center", cursor: "pointer" }
+        // style: { textAlign: "center", cursor: "pointer" }
 
       },
 
       {
         Header: "File No",
         accessor: "fileNo",
-        style: { textAlign: "center", cursor: "pointer" }
+        // style: { textAlign: "center", cursor: "pointer" }
 
       },
       {
         Header: "Ext NO",
         accessor: "extNo",
-        style: { textAlign: "center", cursor: "pointer" }
+        // style: { textAlign: "center", cursor: "pointer" }
 
       },
       {
         Header: "Fax NO",
         accessor: "faxNo",
-        style: { textAlign: "center", cursor: "pointer" }
+        // style: { textAlign: "center", cursor: "pointer" }
 
       },
       {
@@ -292,7 +326,7 @@ export class User extends Component {
         accessor: "role",
         Cell: row => (
           <Dropdown
-            className="react-table-dropdown"
+            // className="react-table-dropdown"
             placeholder=""
             fluid
             search
@@ -305,7 +339,7 @@ export class User extends Component {
             //   );
             // }}
             options={userOptions}
-            style={{zIndex:"1000 !important",position:"absolute",width:"150px"}}
+            style={{zIndex:"1000 !important",width:"150px",marginTop:"-5px",marginLeft:"70px"}}
           />
         )
       }
@@ -318,9 +352,9 @@ export class User extends Component {
           <Icon name="user plus"/>
             AddUsers</Label>
          
-          <div style={{ display: "flex", flexGrow: 1, flexFlow: "column" }}>
+          {/* <div style={{ display: "flex", flexGrow: 1, flexFlow: "column" }}> */}
             <div>
-              <ReactTable
+              {/* <ReactTable
                 noDataText="We couldn't find anything"
                 filterable={true}
                 defaultPageSize={20}
@@ -328,12 +362,13 @@ export class User extends Component {
                 style={{ height: "85%", width: "95%", marginLeft: 30 }}
                 columns={columns}
                 data={userList}
-              />
+              /> */}
+              <Table columns={columns} data = {userData} rowInfo={this.editUserDetail} styles={controlPanelTableStyle}/>
             </div>
             <Modal
               open={this.state.editMode}
               onClose={this.closeEditUser}
-              size="large"
+              size={this.state.newUser === false ? "fullscreen": this.state.newUser === true ? "large":"large"}
             >
               <Modal.Content>
                 <Form>
@@ -416,7 +451,7 @@ export class User extends Component {
                   </Grid>
                 </Form>
                     
-                <ReactTable
+                {/* <ReactTable
                   noDataText="We couldn't find anything"
                   filterable={true}
                   defaultPageSize={20}
@@ -424,7 +459,16 @@ export class User extends Component {
                   style={{ marginTop: "5%", height: "250px" }}
                   columns={column}
                   data={assignedLineItem}
-                />
+                /> */}
+                {/* <div style={{backgroundColor:"brown"}}> */}
+                  {this.state.newUser === false && 
+                  <Table columns={column} data={assignedItemsForUser} styles={ModalTableStyle}/>
+                  }
+                  
+                  
+                  
+                {/* </div> */}
+               
               </Modal.Content>
               <Modal.Actions>
                 <Button color="red" onClick={this.closeEditUser}>
@@ -437,7 +481,7 @@ export class User extends Component {
               </Modal.Actions>
             </Modal>
           </div>
-        </div>
+        {/* </div> */}
       </div>
     );
   }

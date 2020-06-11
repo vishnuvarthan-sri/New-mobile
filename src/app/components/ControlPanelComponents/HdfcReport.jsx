@@ -58,13 +58,12 @@ export class HdfcReport extends Component {
     this.setState({ isMailPopupView: !this.state.isMailPopupView });
   };
   handleSendMailReportClick = mailIds => {
-    console.log(mailIds);
     this.setState({ isMailPopupView: !this.state.isMailPopupView, mailId: mailIds });
     var From = this.state.fromDate;
     var To = this.state.toDate;
     var status = this.state.status;
-    var mailId = mailIds.
-    console.log(mailId)
+    var mailId = mailIds;
+ 
     if (From < To === true) {
       let startDate =
         From.getDate() + "-" + (From.getMonth() + 1) + "-" + From.getFullYear();
