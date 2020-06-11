@@ -55,19 +55,19 @@ class HdfcAudits extends React.Component {
 
         Header: "Name",
         accessor: "customerName",
+        // PadRowComponent:  {<span>&nbsp;</span>}
         // style: { textAlign: "center", cursor: "pointer" },
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.customerName}
-        //     onClick={(row) => {this.handleTableClick(row)}}
-        //     PadRowComponent= {<span>&nbsp;</span>}
-        //   />
-        // )
+    
+ 
+            PadRowComponent :  () => <span>&nbsp;</span>
+          
+        
       },
       {
         Header: "File No",
         accessor: "fileNo",
+        PadRowComponent :  () => <span>&nbsp;</span>
+
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
         //   <AuditTableCell
@@ -81,6 +81,8 @@ class HdfcAudits extends React.Component {
       {
         Header: "Company",
         accessor: "nameOfCompany",
+        PadRowComponent :  () => <span>&nbsp;</span>
+
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
         //   <AuditTableCell
@@ -94,6 +96,8 @@ class HdfcAudits extends React.Component {
       {
         Header: "Address",
         accessor: "address",
+        PadRowComponent :  () => <span>&nbsp;</span>
+
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
         //   <AuditTableCell
@@ -107,7 +111,9 @@ class HdfcAudits extends React.Component {
       {
         Header: "Ext No",
         accessor: "extNo",
-        style: { textAlign: "center", cursor: "pointer" },
+        // style: { textAlign: "center", cursor: "pointer" },
+        PadRowComponent :  () => <span>&nbsp;</span>
+
         // Cell: row => (
         //   <AuditTableCell
         //     row={row.original}
@@ -120,6 +126,8 @@ class HdfcAudits extends React.Component {
       {
         Header: "Fax No",
         accessor: "faxNo",
+        PadRowComponent :  () => <span>&nbsp;</span>
+
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
         //   <AuditTableCell
@@ -133,6 +141,8 @@ class HdfcAudits extends React.Component {
       {
         Header: "Location",
         accessor: "landmark",
+        PadRowComponent :  () => <span>&nbsp;</span>
+
         // style: { textAlign: "center", cursor: "pointer" },
         // Cell: row => (
         //   <AuditTableCell

@@ -3,26 +3,39 @@ table {
     /* height: 80%; */
     width:90%;
     border-spacing: 0;
-    border: 1px solid #dde0e5;
+    /* border: 1px solid #dde0e5; */
     /* background-color:#F5FFFA; */
-    margin-left: 40px;
+    margin-left: 55px;
     margin-top: 2%;
-    outline: thick;
+    /* outline: thick; */
+    /* border-right-color:a; */
    
   }
   
   td {
     
-    padding: 1rem;
+    padding: 0.8rem;
     border-bottom: 1px solid #dde0e5;
+    border-collapse: separate;
+    /* border-right: 1px solid #dde0e5; */
+    /* border-left: 1px solid #dde0e5; */
     cursor: pointer;
     text-align: center;
+    /* box-shadow: 1px 4px #dde0e5; */
+    cursor: pointer;
+    /* background-color: #dde0e5; */
     /* border-right: 1px solid #dde0e5; */
   }
   
   th {
     color: #868a91;
-    padding: 1rem;
-    border-bottom: 1px solid #868a91;
+    padding: 0.9rem;
+    border-bottom: 2px solid #868a91;
+    /* border-right: 1px solid #dde0e5; */
+    font-size: 15px;
+    box-shadow: antiquewhite;
     /* border-top: 1px solid #868a91; */
+  }
+  .pagination {
+    padding: 0.5rem;
   }
