@@ -4,6 +4,7 @@ import {
   useFilters,
   useGlobalFilter,
   useAsyncDebounce,
+  usePagination
 } from "react-table";
 require("../../assets/table.css");
 
@@ -16,12 +17,12 @@ function DefaultColumnFilter({
   return (
     <input
       value={filterValue || ""}
-      style={{marginLeft:"10px",height:"30px",width:"180px",borderBottom:"1px solid #868a91",marginTop:"5px",fontSize:"0.9rem",boxShadow:"none"}}
+      style={{marginLeft:"10px",height:"30px",width:"180px",border:"0px",marginTop:"5px",fontSize:"0.9rem",boxShadow:"none",backgroundColor:"#F4F4F2",textAlign:"justify",textTransform:"capitalize"}}
       onChange={(e) => {
         setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
       // placeholder={`Search ${count} records...`}
-      placeholder = {`Search`}
+      // placeholder = {`Search`}
     />
   );
 }
@@ -99,12 +100,13 @@ function Table({ columns, data, rowInfo,styles }) {
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-           
+              
               <th {...column.getHeaderProps()}>
                 {column.render("Header")}
                 
                 <div>{column.canFilter && column.render('Header') !== "Action" && column.render('Header') !== "Reassign"? column.render("Filter") : null}</div>
               </th>
+          
             ))}
           </tr>
         ))}

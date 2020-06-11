@@ -348,7 +348,7 @@ export class User extends Component {
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
         <div>
           <h1 style={{ paddingLeft: 30, flex: "0 0 30px",display:"inline-block" }}>User Details</h1>
-          <Label style={{marginLeft:"78%", cursor:"pointer"}} size="large" color="orange" onClick={this.addNewUser}>
+          <Label style={{marginLeft:"76%", cursor:"pointer"}} size="large" color="orange" onClick={this.addNewUser}>
           <Icon name="user plus"/>
             AddUsers</Label>
          
