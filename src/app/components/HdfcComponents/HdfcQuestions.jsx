@@ -145,8 +145,8 @@ export class HdfcQuestions extends Component {
                 this.props.hdfc.photos.map(url => {
                   return (
                     <Image.Group size="medium">
-                      <Image src={url.uploadedImageUrl[0]} />
-                      <Image src={url.uploadedImageUrl[1]} />
+                      <Image src={url.uploadedImageUrl} />
+                      {/* <Image src={url.uploadedImageUrl[1]} /> */}
                     </Image.Group>
                   );
                 })}
