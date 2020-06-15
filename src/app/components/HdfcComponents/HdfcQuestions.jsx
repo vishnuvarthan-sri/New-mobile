@@ -20,13 +20,13 @@ import {
   Label,
   Container,
   Portal,
-  Modal
+  Modal,
 } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   saveHdfcAuditAction,
-  getPhotoUrlAction
+  getPhotoUrlAction,
 } from "../../actions/hdfc_action";
 import config from "../../config.js";
 const storageBaseUrl = config["storage_base_url"];
@@ -42,7 +42,7 @@ export class HdfcQuestions extends Component {
       startDate: new Date(),
       setDate: {},
       saveButton: false,
-      open: false
+      open: false,
     };
   }
   componentDidMount() {
@@ -52,7 +52,7 @@ export class HdfcQuestions extends Component {
   editAudit = () => {
     this.setState({
       editMode: true,
-      saveButton: true
+      saveButton: true,
     });
   };
   handleClose = () => {
@@ -68,7 +68,7 @@ export class HdfcQuestions extends Component {
     let audit = this.state.editedAudits;
     if (question.answerType == "text") {
       answer = answerObject.target.value;
-      audit.questions.map(q => {
+      audit.questions.map((q) => {
         if (q._id == question._id) {
           q.answer = answer;
         }
@@ -76,7 +76,7 @@ export class HdfcQuestions extends Component {
     }
     if (question.answerType == "options") {
       answer = answerObject;
-      audit.questions.map(q => {
+      audit.questions.map((q) => {
         if (q._id == question._id) {
           q.answer = answer;
         }
@@ -92,7 +92,7 @@ export class HdfcQuestions extends Component {
         date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
       );
       answer = date;
-      audit.questions.map(q => {
+      audit.questions.map((q) => {
         if (q._id == question._id) {
           q.answer = answer;
         }
@@ -100,13 +100,13 @@ export class HdfcQuestions extends Component {
     }
     this.setState({
       startDate: date,
-      editedAudit: audit
+      editedAudit: audit,
     });
   };
   cancelAudit = () => {
     this.setState({
       editMode: false,
-      saveButton: false
+      saveButton: false,
     });
   };
   saveAudit = () => {
@@ -119,6 +119,23 @@ export class HdfcQuestions extends Component {
 
   render() {
     const { open } = this.state;
+    let photoUrl = [];
+    let photos = this.props.hdfc.photos != undefined && this.props.hdfc.photos;
+    photos.length &&
+      photos.forEach((data) => {
+        data.uploadedImageUrl.length &&
+          data.uploadedImageUrl.map((url) => {
+            return photoUrl.push(
+              <Grid.Column >
+              <Image.Group size="medium" style={{marginBottom:"10px"}}>
+                <Image src={url} />
+               </Image.Group>
+              </Grid.Column>
+
+            );
+          });
+      });
+    console.log(photos);
     return (
       <div
         style={{
@@ -139,17 +156,13 @@ export class HdfcQuestions extends Component {
           />
           <Modal onClose={this.handleClose} open={open}>
             <Modal.Header>Photos</Modal.Header>
-            <Modal.Content image scrolling>
-              {this.props.hdfc.photos != undefined &&
-                this.props.hdfc.photos &&
-                this.props.hdfc.photos.map(url => {
-                  return (
-                    <Image.Group size="medium">
-                      <Image src={url.uploadedImageUrl[0]} />
-                      <Image src={url.uploadedImageUrl[1]} />
-                    </Image.Group>
-                  );
-                })}
+            <Modal.Content  scrolling>
+              <Grid>
+                <Grid.Row columns={3}>
+                {photoUrl}
+
+                </Grid.Row>
+              </Grid>
             </Modal.Content>
             <Modal.Actions>
               <Button color="red" onClick={this.handleClose}>
@@ -165,13 +178,13 @@ export class HdfcQuestions extends Component {
               cursor: "pointer",
               marginTop: 20,
 
-              right: 58
+              right: 58,
             }}
           >
             <Icon name="arrow" className="left large" color="brown" />
           </Segment>
         </div>
-        <Header color="orange" as="h4" style={{marginLeft:"2%"}}>
+        <Header color="orange" as="h4" style={{ marginLeft: "2%" }}>
           Audits done by : Maris, Date: 17-12-1996, Location: Chennai
         </Header>
         <Segment
@@ -181,7 +194,7 @@ export class HdfcQuestions extends Component {
             marginLeft: "2.5%",
             width: "1400px",
             height: "2200px",
-            overflow:"scroll"
+            overflow: "scroll",
           }}
         >
           <Divider horizontal>Master Data</Divider>
@@ -194,7 +207,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.customerName}
@@ -208,7 +221,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.fileNo}
@@ -222,7 +235,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.extNo}
@@ -236,7 +249,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.faxNo}
@@ -250,7 +263,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.dateReferred}
@@ -264,7 +277,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.capacity}
@@ -278,7 +291,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.appraiser}
@@ -292,7 +305,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.landmark}
@@ -306,7 +319,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.auditType}
@@ -320,7 +333,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.nameOfCompany}
@@ -334,7 +347,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.placeOfOrigin}
@@ -348,7 +361,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.status}
@@ -362,7 +375,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.telephoneNumber}
@@ -376,7 +389,7 @@ export class HdfcQuestions extends Component {
                 style={{
                   display: "inline-block",
                   fontWeight: "bold",
-                  marginLeft: "10px"
+                  marginLeft: "10px",
                 }}
               >
                 {this.state.audits.websiteAddress}
@@ -399,9 +412,9 @@ export class HdfcQuestions extends Component {
   }
 }
 
-const AuditedQuestions = function(props) {
+const AuditedQuestions = function (props) {
   var Questions = [];
-  props.auditQuestions.questions.map(ques => {
+  props.auditQuestions.questions.map((ques) => {
     Questions.push(
       <Grid.Column style={{ paddingTop: "4%" }}>
         {ques.answerType == "text" && (
@@ -417,7 +430,7 @@ const AuditedQuestions = function(props) {
                   style={{ display: "inline-block" }}
                   disabled={!props.state.editMode}
                   value={ques.answer}
-                  onChange={e => props.changeAnswer(ques, e)}
+                  onChange={(e) => props.changeAnswer(ques, e)}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -430,7 +443,6 @@ const AuditedQuestions = function(props) {
                 <span style={{ fontWeight: "bold", fontSize: "16px" }}>
                   {ques.question}
                 </span>
-                
               </Grid.Column>
               <Grid.Column width={5} style={{ display: "inline-block" }}>
                 <Dropdown
@@ -439,7 +451,7 @@ const AuditedQuestions = function(props) {
                     return {
                       value: label.value,
                       text: label.label,
-                      key: label.value
+                      key: label.value,
                     };
                   })}
                   disabled={!props.state.editMode}
@@ -466,24 +478,24 @@ const AuditedQuestions = function(props) {
                       ? new Date(ques.answer)
                       : props.state.setDate[ques._id]
                   }
-                  onChange={date => props.handleChange(ques, date)}
+                  onChange={(date) => props.handleChange(ques, date)}
                   className="form-control"
                   monthsShown={1}
                   dateFormat={"dd/MM/yyyy"}
                   popperPlacement="bottom"
                   style={{
-                    display: "inline-block"
+                    display: "inline-block",
                   }}
                   popperModifiers={{
                     flip: {
-                      behavior: ["bottom"]
+                      behavior: ["bottom"],
                     },
                     preventOverflow: {
-                      enabled: false
+                      enabled: false,
                     },
                     hide: {
-                      enabled: false
-                    }
+                      enabled: false,
+                    },
                   }}
                 />
               </Grid.Column>
@@ -495,7 +507,11 @@ const AuditedQuestions = function(props) {
   });
   return (
     <Grid>
-      <Divider horizontal><Label color="green" size="medium">Audited Questions</Label></Divider>
+      <Divider horizontal>
+        <Label color="green" size="medium">
+          Audited Questions
+        </Label>
+      </Divider>
       <div style={{ marginLeft: "85%" }}>
         {!props.state.saveButton && (
           <Button
@@ -532,7 +548,7 @@ const AuditedQuestions = function(props) {
           marginTop: "1%",
           height: 450,
           width: "80%",
-          marginLeft: "8%"
+          marginLeft: "8%",
         }}
       >
         {Questions}
@@ -541,17 +557,17 @@ const AuditedQuestions = function(props) {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    hdfc: state.hdfc
+    hdfc: state.hdfc,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       saveHdfcAudit: saveHdfcAuditAction,
-      getPhotoUrlAction: getPhotoUrlAction
+      getPhotoUrlAction: getPhotoUrlAction,
     },
     dispatch
   );
