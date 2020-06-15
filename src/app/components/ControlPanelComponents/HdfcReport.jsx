@@ -97,7 +97,8 @@ export class HdfcReport extends Component {
         text: "initial"
       },
       { key: 3, value: "audited", text: "audited" },
-      {key:4,value:"complete",text:"complete"}
+      { key : 4, value: "verified" , text:"verified"},
+      {key:5,value:"complete",text:"complete"}
     ];
     return (
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
