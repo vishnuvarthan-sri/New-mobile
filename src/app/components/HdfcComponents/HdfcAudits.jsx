@@ -55,102 +55,26 @@ class HdfcAudits extends React.Component {
 
         Header: "Name",
         accessor: "customerName",
-        // PadRowComponent:  {<span>&nbsp;</span>}
-        // style: { textAlign: "center", cursor: "pointer" },
-    
- 
-
-          
-        
       },
       {
         Header: "File No",
         accessor: "fileNo",
-      
-
-        // style: { textAlign: "center", cursor: "pointer" },
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.fileNo}
-        //     onClick={this.handleTableClick}
-        //     PadRowComponent= {<span>&nbsp;</span>}
-        //   />
-        // )
-      },
-      {
-        Header: "Company",
-        accessor: "nameOfCompany",
-     
-
-        // style: { textAlign: "center", cursor: "pointer" },
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.nameOfCompany}
-        //     onClick={this.handleTableClick}
-        //     PadRowComponent= {<span>&nbsp;</span>}
-        //   />
-        // )
       },
       {
         Header: "Address",
         accessor: "address",
-
-        // style: { textAlign: "center", cursor: "pointer" },
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.address}
-        //     onClick={this.handleTableClick}
-        //     PadRowComponent= {<span>&nbsp;</span>}
-        //   />
-        // )
       },
       {
-        Header: "Ext No",
-        accessor: "extNo",
-        // style: { textAlign: "center", cursor: "pointer" },
-        
-
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.extNo}
-        //     onClick={this.handleTableClick}
-        //     PadRowComponent= {<span>&nbsp;</span>}
-        //   />
-        // )
+        Header: "SR No",
+        accessor: "srno",
       },
       {
-        Header: "Fax No",
-        accessor: "faxNo",
-        
-
-        // style: { textAlign: "center", cursor: "pointer" },
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.faxNo}
-        //     onClick={this.handleTableClick}
-        //     PadRowComponent= {<span>&nbsp;</span>}
-        //   />
-        // )
+        Header: "Unit Name",
+        accessor: "unitName",
       },
       {
-        Header: "Location",
-        accessor: "landmark",
-        
-
-        // style: { textAlign: "center", cursor: "pointer" },
-        // Cell: row => (
-        //   <AuditTableCell
-        //     row={row.original}
-        //     text={row.original.faxNo}
-        //     onClick={this.handleTableClick}
-        //     PadRowComponent= {<span>&nbsp;</span>}
-        //   />
-        // )
+        Header: "Origin Mode",
+        accessor: "originMode",
       }
     ];
     return (
