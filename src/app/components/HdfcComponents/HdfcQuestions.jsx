@@ -87,6 +87,7 @@ export class HdfcQuestions extends Component {
   handleDateChange = (question, date) => {
     let answer = "";
     let audit = this.state.editedAudits;
+
     if (question.answerType == "date") {
       console.log(
         date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
@@ -119,6 +120,7 @@ export class HdfcQuestions extends Component {
 
   render() {
     const { open } = this.state;
+    console.log(this.props.editableAudits.userId.displayName)
     let photoUrl = [];
     let photos = this.props.hdfc.photos != undefined && this.props.hdfc.photos;
     photos.length &&
@@ -127,21 +129,18 @@ export class HdfcQuestions extends Component {
           data.uploadedImageUrl.map((url) => {
             return photoUrl.push(
               <Grid.Column >
-              <Image.Group size="medium" style={{marginBottom:"10px"}}>
-                <Image src={url} />
-               </Image.Group>
+                <Image.Group size="medium" style={{ marginBottom: "10px" }}>
+                  <Image src={url} />
+                </Image.Group>
               </Grid.Column>
 
             );
           });
       });
-    console.log(photos);
+    // console.log(photos);
     return (
       <div
         style={{
-          flexGrow: 1,
-          display: "flex",
-          flexFlow: "column",
           marginLeft: "4%",
           height: "100%",
         }}
@@ -156,10 +155,10 @@ export class HdfcQuestions extends Component {
           />
           <Modal onClose={this.handleClose} open={open}>
             <Modal.Header>Photos</Modal.Header>
-            <Modal.Content  scrolling>
+            <Modal.Content scrolling>
               <Grid>
                 <Grid.Row columns={3}>
-                {photoUrl}
+                  {photoUrl}
 
                 </Grid.Row>
               </Grid>
@@ -184,15 +183,15 @@ export class HdfcQuestions extends Component {
             <Icon name="arrow" className="left large" color="brown" />
           </Segment>
         </div>
-        <Header color="orange" as="h4" style={{ marginLeft: "2%" }}>
+        {/* <Header color="orange" as="h4" style={{ marginLeft: "2%" }}>
           Audits done by : Maris, Date: 17-12-1996, Location: Chennai
-        </Header>
+        </Header> */}
         <Segment
           raised
           style={{
             marginTop: "1%",
-            marginLeft: "2.5%",
-            width: "1400px",
+            marginLeft: "2%",
+            width: "1200px",
             height: "2200px",
             overflow: "scroll",
           }}
@@ -229,7 +228,7 @@ export class HdfcQuestions extends Component {
             </Grid.Column>
             <Grid.Column>
               <label for="extno" style={{ display: "inline-block" }}>
-                Ext No :
+                SR No :
               </label>
               <span
                 style={{
@@ -238,35 +237,7 @@ export class HdfcQuestions extends Component {
                   marginLeft: "10px",
                 }}
               >
-                {this.state.audits.extNo}
-              </span>
-            </Grid.Column>
-            <Grid.Column>
-              <label for="faxno" style={{ display: "inline-block" }}>
-                Fax No :
-              </label>
-              <span
-                style={{
-                  display: "inline-block",
-                  fontWeight: "bold",
-                  marginLeft: "10px",
-                }}
-              >
-                {this.state.audits.faxNo}
-              </span>
-            </Grid.Column>
-            <Grid.Column>
-              <label for="date" style={{ display: "inline-block" }}>
-                Date Reffered :
-              </label>
-              <span
-                style={{
-                  display: "inline-block",
-                  fontWeight: "bold",
-                  marginLeft: "10px",
-                }}
-              >
-                {this.state.audits.dateReferred}
+                {this.state.audits.srno}
               </span>
             </Grid.Column>
             <Grid.Column>
@@ -284,22 +255,8 @@ export class HdfcQuestions extends Component {
               </span>
             </Grid.Column>
             <Grid.Column>
-              <label for="app" style={{ display: "inline-block" }}>
-                Appraiser :
-              </label>
-              <span
-                style={{
-                  display: "inline-block",
-                  fontWeight: "bold",
-                  marginLeft: "10px",
-                }}
-              >
-                {this.state.audits.appraiser}
-              </span>
-            </Grid.Column>
-            <Grid.Column>
               <label for="landmark" style={{ display: "inline-block" }}>
-                Landmark :
+                Unit Name :
               </label>
               <span
                 style={{
@@ -308,7 +265,7 @@ export class HdfcQuestions extends Component {
                   marginLeft: "10px",
                 }}
               >
-                {this.state.audits.landmark}
+                {this.state.audits.unitName}
               </span>
             </Grid.Column>
             <Grid.Column>
@@ -327,7 +284,7 @@ export class HdfcQuestions extends Component {
             </Grid.Column>
             <Grid.Column>
               <label for="company" style={{ display: "inline-block" }}>
-                Company :
+                Origin Mode :
               </label>
               <span
                 style={{
@@ -336,21 +293,7 @@ export class HdfcQuestions extends Component {
                   marginLeft: "10px",
                 }}
               >
-                {this.state.audits.nameOfCompany}
-              </span>
-            </Grid.Column>
-            <Grid.Column>
-              <label for="origin" style={{ display: "inline-block" }}>
-                Place :
-              </label>
-              <span
-                style={{
-                  display: "inline-block",
-                  fontWeight: "bold",
-                  marginLeft: "10px",
-                }}
-              >
-                {this.state.audits.placeOfOrigin}
+                {this.state.audits.originMode}
               </span>
             </Grid.Column>
             <Grid.Column>
@@ -378,21 +321,7 @@ export class HdfcQuestions extends Component {
                   marginLeft: "10px",
                 }}
               >
-                {this.state.audits.telephoneNumber}
-              </span>
-            </Grid.Column>
-            <Grid.Column>
-              <label for="web" style={{ display: "inline-block" }}>
-                WebSite :
-              </label>
-              <span
-                style={{
-                  display: "inline-block",
-                  fontWeight: "bold",
-                  marginLeft: "10px",
-                }}
-              >
-                {this.state.audits.websiteAddress}
+                {this.state.audits.telephone}
               </span>
             </Grid.Column>
           </Grid>
