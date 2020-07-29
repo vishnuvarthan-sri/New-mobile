@@ -111,7 +111,7 @@ export class HdfcQuestions extends Component {
     });
   };
   saveAudit = () => {
-    let audit = this.state.editedAudit;
+    let audit = this.state.editedAudit === undefined ? this.props.editableAudits:this.state.editedAudit;
 
     this.props.saveHdfcAudit(audit._id, audit);
 
