@@ -143,13 +143,13 @@ class HdfcAudits extends React.Component {
 
       this.setState({
         columns,
-        audit: [...nextprops.hdfc.auditedAudits],
+        audit: nextprops.hdfc.auditedAudits,
         selection,
       });
     }
     if (this.props.hdfc.unassigned !== nextprops.hdfc.unassigned) {
       this.setState({
-        unassigned: [...nextprops.hdfc.unassigned],
+        unassigned: nextprops.hdfc.unassigned,
       });
     }
 
