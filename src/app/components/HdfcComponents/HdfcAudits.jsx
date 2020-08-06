@@ -171,7 +171,7 @@ class HdfcAudits extends React.Component {
 
       this.setState({
         userNameColumns,
-        userName: [...nextprops.user.allUsers],
+        userName: nextprops.user.allUsers,
       });
     }
   }
