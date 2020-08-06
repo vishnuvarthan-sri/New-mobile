@@ -47,7 +47,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Button, Modal, Dropdown, Loader } from "semantic-ui-react";
-import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
+// import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 const tableStyle = {
   width: "100%",
   marginLeft: "-20px",

@@ -23,6 +23,7 @@ import {
   Dropdown,
 } from "semantic-ui-react";
 import HdfcAudits from "./HdfcComponents/HdfcAudits.jsx";
+import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 export class Home extends Component {
   constructor(props) {
     super(props);
