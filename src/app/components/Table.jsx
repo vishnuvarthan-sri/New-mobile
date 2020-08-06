@@ -43,7 +43,7 @@ fuzzyTextFilterFn.autoRemove = val => !val
 
 
 function Table({ columns, data, rowInfo,styles }) {
-  
+  // console.log(styles,"table")
 
   const filterTypes = React.useMemo(
     () => ({

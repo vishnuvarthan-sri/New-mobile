@@ -174,3 +174,23 @@ export const reassignAuditAction = (auditId,userId) => {
       });
   };
 };
+
+
+export const unAssignAuditsAction = (data) => {
+  return function (dispatch) {
+    axios
+      .put(types.API_URL + 'ebgc/v1/multiAssign',data)
+      .then(function (response) {
+        dispatch({
+          type: types.ASSIGN_AUDITS_SUCCESS_ACTION,
+          payload: response.data
+        });
+      })
+      .catch(function (error) {
+        dispatch({
+          type: types.ASSIGN_AUDITS_FAILURE_ACTION,
+          payload: error
+        });
+      });
+  };
+};
