@@ -49,7 +49,7 @@ const controlPanelTableStyle = {
   border: '1px solid #dde0e5',
   /* background-color:#F5FFFA; */
   marginLeft: '80px',
-  marginTopp: "2%",
+  marginTop: "2%",
   outline: "thick"
 }
 

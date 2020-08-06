@@ -15,13 +15,15 @@ import {
   REASSIGN_SUCCESS_ACTION,
   REASSIGN_FAILURE_ACTION,
   ADD_USERSDETAILS_SUCCESS_ACTION,
-  ADD_USERSDETAILS_FAILURE_ACTION
+  ADD_USERSDETAILS_FAILURE_ACTION,
+  ASSIGN_AUDITS_SUCCESS_ACTION,
+  ASSIGN_AUDITS_FAILURE_ACTION,
 } from "../actions/types";
 
 import { toast } from "react-semantic-toasts";
 const INIT_STATE = {};
 
-export default function(state = INIT_STATE, action) {
+export default function (state = INIT_STATE, action) {
   state = Object.assign({}, state, {});
 
   switch (action.type) {
@@ -31,7 +33,6 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case FETCH_ASSIGNED_LINEITEM_SUCCESS_ACTION:
-      
       state.assignedLineItem = action.payload.masterdata;
       state.fetchAssignedLineItemError = false;
       return state;
@@ -51,7 +52,7 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs up outline",
           title: "Success",
           description: "User Added Successfully",
-          time: 5000
+          time: 5000,
         });
       }, 0);
       return state;
@@ -65,7 +66,6 @@ export default function(state = INIT_STATE, action) {
       return state;
 
     case GENERATEPIN_SUCCESS_ACTION:
-      
       state.pin = action.payload.pin;
       state.fetchPinError = false;
       setTimeout(() => {
@@ -74,7 +74,7 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs up outline",
           title: "Success",
           description: "PIN will be expired within 10 minutes",
-          time: 5000
+          time: 5000,
         });
       }, 0);
 
@@ -88,7 +88,7 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs down outline",
           title: "error",
           description: "contact system admin",
-          time: 5000
+          time: 5000,
         });
       }, 0);
       return state;
@@ -105,7 +105,7 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs up outline",
           title: "Success",
           description: "Reset password email sent to the user",
-          time: 5000
+          time: 5000,
         });
       }, 0);
       return state;
@@ -118,7 +118,7 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs down outline",
           title: "error",
           description: "contact system admin",
-          time: 5000
+          time: 5000,
         });
       }, 0);
       return state;
@@ -131,13 +131,12 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs up outline",
           title: "Success",
           description: "password changed Succesfully",
-          time: 5000
+          time: 5000,
         });
       }, 0);
       return state;
 
     case SAVE_RESET_FAILURE_ACTION:
-      
       state.saveResetPasswordError = true;
       setTimeout(() => {
         toast({
@@ -145,7 +144,7 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs down outline",
           title: "error",
           description: "contact system admin",
-          time: 5000
+          time: 5000,
         });
       }, 0);
       return state;
@@ -157,13 +156,38 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs up outline",
           title: "Success",
           description: "Audits Reassigned Succesfully",
-          time: 5000
+          time: 5000,
         });
       }, 0);
       return state;
 
+    case ASSIGN_AUDITS_SUCCESS_ACTION:
+      state.assignSuccessError = false;
+      setTimeout(() => {
+        toast({
+          type: "success",
+          icon: "thumbs up outline",
+          title: "Success",
+          description: "Audits assigned Succesfully",
+          time: 5000,
+        });
+      }, 0);
+      return state;
+
+    case ASSIGN_AUDITS_FAILURE_ACTION:
+      state.assignSuccessError = true;
+      setTimeout(() => {
+        toast({
+          type: "error",
+          icon: "thumbs down outline",
+          title: "error",
+          description: "contact system admin",
+          time: 5000,
+        });
+      }, 0);
+
+      return state;
     case REASSIGN_FAILURE_ACTION:
-      
       state.reassignSuccessError = true;
       setTimeout(() => {
         toast({
@@ -171,7 +195,7 @@ export default function(state = INIT_STATE, action) {
           icon: "thumbs down outline",
           title: "error",
           description: "contact system admin",
-          time: 5000
+          time: 5000,
         });
       }, 0);
 
