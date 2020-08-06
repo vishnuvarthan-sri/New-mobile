@@ -111,7 +111,10 @@ export class HdfcQuestions extends Component {
     });
   };
   saveAudit = () => {
-    let audit = this.state.editedAudit === undefined ? this.props.editableAudits:this.state.editedAudit;
+    let audit =
+      this.state.editedAudit === undefined
+        ? this.props.editableAudits
+        : this.state.editedAudit;
 
     this.props.saveHdfcAudit(audit._id, audit);
 
@@ -120,7 +123,7 @@ export class HdfcQuestions extends Component {
 
   render() {
     const { open } = this.state;
-    console.log(this.props.editableAudits.userId.displayName)
+    // console.log(this.props.editableAudits.userId.displayName)
     let photoUrl = [];
     let photos = this.props.hdfc.photos != undefined && this.props.hdfc.photos;
     photos.length &&
@@ -128,12 +131,11 @@ export class HdfcQuestions extends Component {
         data.uploadedImageUrl.length &&
           data.uploadedImageUrl.map((url) => {
             return photoUrl.push(
-              <Grid.Column >
+              <Grid.Column>
                 <Image.Group size="medium" style={{ marginBottom: "10px" }}>
                   <Image src={url} />
                 </Image.Group>
               </Grid.Column>
-
             );
           });
       });
@@ -157,10 +159,7 @@ export class HdfcQuestions extends Component {
             <Modal.Header>Photos</Modal.Header>
             <Modal.Content scrolling>
               <Grid>
-                <Grid.Row columns={3}>
-                  {photoUrl}
-
-                </Grid.Row>
+                <Grid.Row columns={3}>{photoUrl}</Grid.Row>
               </Grid>
             </Modal.Content>
             <Modal.Actions>
@@ -209,7 +208,7 @@ export class HdfcQuestions extends Component {
                   marginLeft: "10px",
                 }}
               >
-                {this.state.audits.customerName}
+                {this.state.audits.customerName ? this.state.audits.customerName : ""}
               </span>
             </Grid.Column>
             <Grid.Column>
@@ -343,146 +342,152 @@ export class HdfcQuestions extends Component {
 
 const AuditedQuestions = function (props) {
   var Questions = [];
-  props.auditQuestions.questions.map((ques) => {
-    Questions.push(
-      <Grid.Column style={{ paddingTop: "4%" }}>
-        {ques.answerType == "text" && (
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width={6} style={{ display: "inline-block" }}>
-                <span style={{ fontWeight: "bold", fontSize: "16px" }}>
-                  {ques.question}
-                </span>
-              </Grid.Column>
-              <Grid.Column width={5} style={{ display: "inline-block" }}>
-                <Input
-                  style={{ display: "inline-block" }}
-                  disabled={!props.state.editMode}
-                  value={ques.answer}
-                  onChange={(e) => props.changeAnswer(ques, e)}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        )}
-        {ques.answerType == "options" && (
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width={6} style={{ display: "inline-block" }}>
-                <span style={{ fontWeight: "bold", fontSize: "16px" }}>
-                  {ques.question}
-                </span>
-              </Grid.Column>
-              <Grid.Column width={5} style={{ display: "inline-block" }}>
-                <Dropdown
-                  style={{ display: "inline-block", width: "10%" }}
-                  options={ques.options.map((label, i) => {
-                    return {
-                      value: label.value,
-                      text: label.label,
-                      key: label.value,
-                    };
-                  })}
-                  disabled={!props.state.editMode}
-                  onChange={(e, { value }) => props.changeAnswer(ques, value)}
-                  value={ques.answer}
-                  selection
-                  placeholder={"Select any option"}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        )}
-        {ques.answerType == "date" && (
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width={6} style={{ display: "inline-block" }}>
-                <span style={{ fontWeight: "bold" }}>{ques.question}</span>
-              </Grid.Column>
-              <Grid.Column width={5} style={{ display: "inline-block" }}>
-                <DatePicker
-                  disabled={!props.state.editMode}
-                  selected={
-                    ques.answer
-                      ? new Date(ques.answer)
-                      : props.state.setDate[ques._id]
-                  }
-                  onChange={(date) => props.handleChange(ques, date)}
-                  className="form-control"
-                  monthsShown={1}
-                  dateFormat={"dd/MM/yyyy"}
-                  popperPlacement="bottom"
-                  style={{
-                    display: "inline-block",
-                  }}
-                  popperModifiers={{
-                    flip: {
-                      behavior: ["bottom"],
-                    },
-                    preventOverflow: {
-                      enabled: false,
-                    },
-                    hide: {
-                      enabled: false,
-                    },
-                  }}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        )}
-      </Grid.Column>
-    );
-  });
+  props.auditQuestions.questions &&
+    props.auditQuestions.questions.map((ques) => {
+      Questions.push(
+        <Grid.Column style={{ paddingTop: "4%" }}>
+          {ques.answerType == "text" && (
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={6} style={{ display: "inline-block" }}>
+                  <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                    {ques.question}
+                  </span>
+                </Grid.Column>
+                <Grid.Column width={5} style={{ display: "inline-block" }}>
+                  <Input
+                    style={{ display: "inline-block" }}
+                    disabled={!props.state.editMode}
+                    value={ques.answer}
+                    onChange={(e) => props.changeAnswer(ques, e)}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          )}
+          {ques.answerType == "options" && (
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={6} style={{ display: "inline-block" }}>
+                  <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                    {ques.question}
+                  </span>
+                </Grid.Column>
+                <Grid.Column width={5} style={{ display: "inline-block" }}>
+                  <Dropdown
+                    style={{ display: "inline-block", width: "10%" }}
+                    options={ques.options.map((label, i) => {
+                      return {
+                        value: label.value,
+                        text: label.label,
+                        key: label.value,
+                      };
+                    })}
+                    disabled={!props.state.editMode}
+                    onChange={(e, { value }) => props.changeAnswer(ques, value)}
+                    value={ques.answer}
+                    selection
+                    placeholder={"Select any option"}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          )}
+          {ques.answerType == "date" && (
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={6} style={{ display: "inline-block" }}>
+                  <span style={{ fontWeight: "bold" }}>{ques.question}</span>
+                </Grid.Column>
+                <Grid.Column width={5} style={{ display: "inline-block" }}>
+                  <DatePicker
+                    disabled={!props.state.editMode}
+                    selected={
+                      ques.answer
+                        ? new Date(ques.answer)
+                        : props.state.setDate[ques._id]
+                    }
+                    onChange={(date) => props.handleChange(ques, date)}
+                    className="form-control"
+                    monthsShown={1}
+                    dateFormat={"dd/MM/yyyy"}
+                    popperPlacement="bottom"
+                    style={{
+                      display: "inline-block",
+                    }}
+                    popperModifiers={{
+                      flip: {
+                        behavior: ["bottom"],
+                      },
+                      preventOverflow: {
+                        enabled: false,
+                      },
+                      hide: {
+                        enabled: false,
+                      },
+                    }}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          )}
+        </Grid.Column>
+      );
+    });
   return (
-    <Grid>
-      <Divider horizontal>
-        <Label color="green" size="medium">
-          Audited Questions
-        </Label>
-      </Divider>
-      <div style={{ marginLeft: "85%" }}>
-        {!props.state.saveButton && (
-          <Button
-            style={{ borderRadius: "14px" }}
-            color="black"
-            onClick={props.EditAudit}
-          >
-            Edit
-          </Button>
-        )}
+    <div>
+      {props.auditQuestions.questions ? (
+        <Grid>
+          <Divider horizontal>
+            <Label color="green" size="medium">
+              Audited Questions
+            </Label>
+          </Divider>
+          <div style={{ marginLeft: "85%" }}>
+            {!props.state.saveButton && (
+              <Button
+                style={{ borderRadius: "14px" }}
+                color="black"
+                onClick={props.EditAudit}
+              >
+                Edit
+              </Button>
+            )}
 
-        {props.state.saveButton && (
-          <div>
-            <Button
-              style={{ borderRadius: "14px" }}
-              primary
-              onClick={props.SaveAudit}
-            >
-              Save
-            </Button>
-            <Button
-              style={{ borderRadius: "14px" }}
-              danger
-              onClick={props.CancelAudit}
-            >
-              Cancel
-            </Button>
+            {props.state.saveButton && (
+              <div>
+                <Button
+                  style={{ borderRadius: "14px" }}
+                  primary
+                  onClick={props.SaveAudit}
+                >
+                  Save
+                </Button>
+                <Button
+                  style={{ borderRadius: "14px" }}
+                  danger
+                  onClick={props.CancelAudit}
+                >
+                  Cancel
+                </Button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <Grid.Row
-        columns={2}
-        style={{
-          marginTop: "1%",
-          height: 450,
-          width: "80%",
-          marginLeft: "8%",
-        }}
-      >
-        {Questions}
-      </Grid.Row>
-    </Grid>
+
+          <Grid.Row
+            columns={2}
+            style={{
+              marginTop: "1%",
+              height: 450,
+              width: "80%",
+              marginLeft: "8%",
+            }}
+          >
+            {Questions}
+          </Grid.Row>
+        </Grid>
+      ): <h5 style = {{textAlign:"center",marginTop:"100px",color:"teal"}}>No Audits Present..</h5>}
+    </div>
   );
 };
 

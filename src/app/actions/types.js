@@ -27,7 +27,10 @@ export const REASSIGN_SUCCESS_ACTION = "reassign_success";
 export const REASSIGN_FAILURE_ACTION = "reassign_failure";
 export const ADD_USERSDETAILS_SUCCESS_ACTION = "add_user_success";
 export const ADD_USERSDETAILS_FAILURE_ACTION = "add_user_failure";
-
+export const FETCH_UNASSIGNED_SUCCESS_ACTION = 'unassigned_success';
+export const FETCH_UNASSIGNED_FAILURE_ACTION = "unassigned_failure"
+export const ASSIGN_AUDITS_SUCCESS_ACTION = "assign_success";
+export const ASSIGN_AUDITS_FAILURE_ACTION = 'assign_failure';
 
 //REPORT
 
