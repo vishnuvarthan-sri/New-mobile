@@ -47,7 +47,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Button, Modal, Dropdown, Loader } from "semantic-ui-react";
-import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
+// import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 const tableStyle = {
   width: "100%",
   marginLeft: "-20px",
@@ -143,13 +143,13 @@ class HdfcAudits extends React.Component {
 
       this.setState({
         columns,
-        audit: [...nextprops.hdfc.auditedAudits],
+        audit: nextprops.hdfc.auditedAudits,
         selection,
       });
     }
     if (this.props.hdfc.unassigned !== nextprops.hdfc.unassigned) {
       this.setState({
-        unassigned: [...nextprops.hdfc.unassigned],
+        unassigned: nextprops.hdfc.unassigned,
       });
     }
 
@@ -171,7 +171,7 @@ class HdfcAudits extends React.Component {
 
       this.setState({
         userNameColumns,
-        userName: [...nextprops.user.allUsers],
+        userName: nextprops.user.allUsers,
       });
     }
   }
