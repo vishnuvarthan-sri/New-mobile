@@ -154,17 +154,20 @@ class HdfcAudits extends React.Component {
     }
 
     if (this.props.user !== nextprops.user) {
-      let neededColumn = Object.keys(nextprops.user.allUsers[0]);
-      neededColumn.forEach((data) => {
-        userNameColumnsNeeded.forEach((el) => {
-          if (el === data) {
-            userNameColumns.push({
-              name: data,
-              title: data,
-            });
-          }
+      if(nextprops.user.allUsers){
+        let neededColumn = Object.keys(nextprops.user.allUsers[0]);
+        neededColumn.forEach((data) => {
+          userNameColumnsNeeded.forEach((el) => {
+            if (el === data) {
+              userNameColumns.push({
+                name: data,
+                title: data,
+              });
+            }
+          });
         });
-      });
+      }
+
 
       this.setState({
         userNameColumns,
