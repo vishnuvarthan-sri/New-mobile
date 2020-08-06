@@ -290,7 +290,7 @@ class HdfcAudits extends React.Component {
 
     return (
       <div>
-        {this.props.hdfc.isLoading === true ? (
+        {this.state.audit.length === 0 ? (
           <div style={{ height: "875px", width: "2200px" }}>
             <Loader
               style={{ marginTop: "10px", marginRight: "100px" }}
