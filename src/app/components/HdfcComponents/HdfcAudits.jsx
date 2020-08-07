@@ -86,6 +86,7 @@ class HdfcAudits extends React.Component {
       fromDate: new Date(),
       toDate: new Date(),
       isLoading: "",
+      userId: "",
     };
 
     this.changeSelection = (selection) => {
@@ -223,22 +224,27 @@ class HdfcAudits extends React.Component {
       showDropdown: true,
     });
   };
-  assignAudits = (data, rowObject) => {
+  assignAudits = (data) => {
+    this.setState({
+      userId: data,
+    });
+  };
+
+  assignSubmit = () => {
     let initialIds = [];
 
-    if (this.state.selectedRowsData) {
+    if (this.state.selectedRowsData.length !== 0) {
       this.state.selectedRowsData.forEach((el) => {
         initialIds.push(el._id);
       });
     }
 
     var data = {
-      userId: data,
-      initialAuditsId: initialIds,
+      userId: this.state.userId,
+      initialAuditsId: initialIds.length ? initialIds : []
     };
     this.props.unAssignAuditsAction(data);
     this.filterAudits();
-
     this.setState({
       openUnassignedModal: false,
       enable: true,
@@ -267,14 +273,15 @@ class HdfcAudits extends React.Component {
     this.props.fetchHdfcMasterAction(startDate, endDate);
   };
 
+  checkStatus(status) {
+    return status === "initial";
+  }
+
   render() {
-    console.log(
-      this.state.auditsView,
-      this.state.audit,
-      this.state.columns,
-      "load"
-    );
+  
     let userOptions = [];
+    let status = [];
+    let disable = true;
     {
       this.props.user.allUsers &&
         this.props.user.allUsers.map((name) => {
@@ -293,6 +300,15 @@ class HdfcAudits extends React.Component {
             });
           }
         });
+    }
+    if (this.state.selectedRowsData.length !== 0) {
+      this.state.selectedRowsData.forEach((data) => {
+        status.push(data.status);
+      });
+    }
+    if (status.length !== 0) {
+      
+      disable = status.every(this.checkStatus);
     }
 
     return (
@@ -333,27 +349,39 @@ class HdfcAudits extends React.Component {
                     color="teal"
                     style={{ display: "inline-block", marginLeft: "1100px" }}
                     onClick={this.openUnassignedModal}
-                    disabled={this.state.enable}
+                    disabled={
+                      status.every(this.checkStatus) === true ? false : true
+                    }
                   >
                     Assign Audits
                   </Button>
                 ) : (
-                  <Dropdown
-                    placeholder=""
-                    fluid
-                    search
-                    selection
-                    onChange={(e, data, row) => {
-                      this.assignAudits(data.value, this.state.auditId);
-                    }}
+                  <div
                     style={{
-                      width: "180px",
                       display: "inline-block",
                       float: "right",
-                      marginRight: "-25px",
+                      marginRight: "40px",
                     }}
-                    options={userOptions}
-                  />
+                  >
+                    <Dropdown
+                      placeholder=""
+                      fluid
+                      search
+                      selection
+                      onChange={(e, data, row) => {
+                        this.assignAudits(data.value, this.state.auditId);
+                      }}
+                      style={{
+                        width: "180px",
+                        display: "inline-block",
+                        // // float: "right",
+                        // // marginRight: "-25px",
+                        // marginLeft:"1000px"
+                      }}
+                      options={userOptions}
+                    />
+                    <Button color="teal" onClick={this.assignSubmit}>Submit</Button>
+                  </div>
                 )}
                 <div
                   style={{
