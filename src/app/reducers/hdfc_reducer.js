@@ -31,26 +31,26 @@ export default function (state = INIT_STATE, action) {
 
     case FETCH_UNASSIGNED_SUCCESS_ACTION:
       state.unassigned = action.payload.data;
-      state.isLoading = false
+  
       state.fetchUnassignedError = false;
       return state;
     case FETCH_UNASSIGNED_FAILURE_ACTION:
       state.fetchUnassignedError = true;
-      state.isLoading = false
+    
       return state;
     case FETCH_HDFC_PHOTO_SUCCESS_ACTION:
       state.photos = action.payload.data;
-      state.isLoading = false
+   
       state.fetchPhotoError = false;
       return state;
     case FETCH_HDFC_PHOTO_FAILURE_ACTION:
       state.fetchPhotosError = true;
-      state.isLoading = false
+ 
       return state;
 
     case SAVE_AUDIT_SUCCESS_ACTION:
       state.saveAuditsError = false;
-      state.isLoading = false
+   
       setTimeout(() => {
         toast({
           type: "success",
@@ -64,7 +64,7 @@ export default function (state = INIT_STATE, action) {
 
     case SAVE_AUDIT_FAILURE_ACTION:
       state.saveAuditsError = true;
-      state.isLoading = false
+ 
       setTimeout(() => {
         toast({
           type: "error",
