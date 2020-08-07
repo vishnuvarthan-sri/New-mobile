@@ -46,7 +46,7 @@ import HdfcQuestions from "./HdfcQuestions.jsx";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { Button, Modal, Dropdown, Loader, Label } from "semantic-ui-react";
+import { Button, Modal, Dropdown, Loader, Label, ModalActions } from "semantic-ui-react";
 // import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 const tableStyle = {
   width: "100%",
@@ -60,7 +60,7 @@ const getRowId = (row) => {
 };
 
 const TableComponent = ({ ...restProps }) => (
-  <Table.Table {...restProps} className="table-striped" />
+  <Table.Table {...restProps}  />
 );
 
 class HdfcAudits extends React.Component {
@@ -131,7 +131,7 @@ class HdfcAudits extends React.Component {
               if (data === el) {
                 columns.push({
                   name: data,
-                  title: data,
+                  title: data.charAt(0).toUpperCase() + data.slice(1)
                 });
               }
             });
@@ -272,10 +272,15 @@ class HdfcAudits extends React.Component {
       To.getDate() + "-" + (To.getMonth() + 1) + "-" + To.getFullYear();
     this.props.fetchHdfcMasterAction(startDate, endDate);
   };
-
+  close = () => {
+    this.setState({
+      openUnassignedModal: false
+    })
+  }
   checkStatus(status) {
     return status === "initial";
   }
+
 
   render() {
     let userOptions = [];
@@ -385,7 +390,7 @@ class HdfcAudits extends React.Component {
                     </Label>
                   </div>
                   <div style={{ display: "inline-block", marginLeft: "10px" }}>
-                    {this.state.openUnassignedModal === false ? (
+                    
                       <Button
                         color="teal"
                         size="mini"
@@ -397,8 +402,15 @@ class HdfcAudits extends React.Component {
                       >
                         <span style={{fontSize:"14px"}}>Assign Audits</span>
                       </Button>
-                    ) : (
-                      <Dropdown
+                  
+                      <Modal open={this.state.openUnassignedModal} size="tiny" style={{height:"300px",marginLeft:"37%",marginTop:"10%"}}>
+                       <Modal.Header>
+                       <Label color="orange" ><span style={{fontSize:"14px"}}>Assign To Users</span></Label> 
+                       </Modal.Header>
+                        <Modal.Content>
+                         
+                       <div style={{height:"100px"}}>
+                       <Dropdown
                         placeholder=""
                         fluid
                         search
@@ -407,24 +419,34 @@ class HdfcAudits extends React.Component {
                           this.assignAudits(data.value, this.state.auditId);
                         }}
                         style={{
-                          width: "110px",
-                          // display: "inline-block",
+                          width: "150px",
+                          display: "inline-block",
                           // // float: "right",
                           // // marginRight: "-25px",
-                          // marginLeft:"1000px"
+
+                          marginLeft:"180px"
                         }}
                         options={userOptions}
                       />
-                    )}
+                       </div>
+                        
+                        </Modal.Content>
+                        <Modal.Actions style={{marginTop:"15px"}}>
+                          <Button primary onClick={this.assignSubmit}>Save</Button>
+                          <Button color="red" onClick={this.close}>Cancel</Button>
+                        </Modal.Actions>
+                      </Modal>
+                     
+                    
                   </div>
-                  {this.state.openUnassignedModal === true && (
+                  {/* {this.state.openUnassignedModal === true && (
                     <div style={{ display: "inline-block", marginLeft: "3px" }}>
                       <Label color="teal" onClick={this.assignSubmit} size="medium">
                         
                         <span style={{fontSize:"14px"}}>Submit</span>
                       </Label>
                     </div>
-                  )}
+                  )} */}
                 </div>
 
                 {this.props.hdfc.isLoading === false &&
@@ -445,7 +467,7 @@ class HdfcAudits extends React.Component {
                         getRowId={getRowId}
                       >
                         <PagingState
-                          defaultCurrentPage={0}
+                          // defaultCurrentPage={0}
                           defaultPageSize={15}
                         />
                         <FilteringState />
