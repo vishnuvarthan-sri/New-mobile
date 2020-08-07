@@ -46,7 +46,7 @@ import HdfcQuestions from "./HdfcQuestions.jsx";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { Button, Modal, Dropdown, Loader } from "semantic-ui-react";
+import { Button, Modal, Dropdown, Loader, Label } from "semantic-ui-react";
 // import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 const tableStyle = {
   width: "100%",
@@ -232,7 +232,7 @@ class HdfcAudits extends React.Component {
 
   assignSubmit = () => {
     let initialIds = [];
-
+    console.log(typeof this.state.selectedRowsData);
     if (this.state.selectedRowsData.length !== 0) {
       this.state.selectedRowsData.forEach((el) => {
         initialIds.push(el._id);
@@ -241,7 +241,7 @@ class HdfcAudits extends React.Component {
 
     var data = {
       userId: this.state.userId,
-      initialAuditsId: initialIds.length ? initialIds : []
+      initialAuditsId: initialIds.length ? initialIds : [],
     };
     this.props.unAssignAuditsAction(data);
     this.filterAudits();
@@ -278,10 +278,14 @@ class HdfcAudits extends React.Component {
   }
 
   render() {
-  
     let userOptions = [];
     let status = [];
     let disable = true;
+    // console.log(this.state.selectedRowsData,"selectable")
+    console.log(typeof this.state.selectedRowsData);
+
+    // console.log(())
+
     {
       this.props.user.allUsers &&
         this.props.user.allUsers.map((name) => {
@@ -301,14 +305,12 @@ class HdfcAudits extends React.Component {
           }
         });
     }
-    if (this.state.selectedRowsData.length !== 0) {
-      this.state.selectedRowsData.forEach((data) => {
-        status.push(data.status);
-      });
-    }
-    if (status.length !== 0) {
-      
-      disable = status.every(this.checkStatus);
+    if (Array.isArray(this.state.selectedRowsData)) {
+      if (this.state.selectedRowsData.length !== 0) {
+        this.state.selectedRowsData.forEach((data) => {
+          status.push(data.status);
+        });
+      }
     }
 
     return (
@@ -344,73 +346,85 @@ class HdfcAudits extends React.Component {
                 >
                   HDFC Audits
                 </h1>
-                {this.state.openUnassignedModal === false ? (
-                  <Button
-                    color="teal"
-                    style={{ display: "inline-block", marginLeft: "1100px" }}
-                    onClick={this.openUnassignedModal}
-                    disabled={
-                      status.every(this.checkStatus) === true ? false : true
-                    }
-                  >
-                    Assign Audits
-                  </Button>
-                ) : (
-                  <div
-                    style={{
-                      display: "inline-block",
-                      float: "right",
-                      marginRight: "40px",
-                    }}
-                  >
-                    <Dropdown
-                      placeholder=""
-                      fluid
-                      search
-                      selection
-                      onChange={(e, data, row) => {
-                        this.assignAudits(data.value, this.state.auditId);
-                      }}
-                      style={{
-                        width: "180px",
-                        display: "inline-block",
-                        // // float: "right",
-                        // // marginRight: "-25px",
-                        // marginLeft:"1000px"
-                      }}
-                      options={userOptions}
-                    />
-                    <Button color="teal" onClick={this.assignSubmit}>Submit</Button>
-                  </div>
-                )}
+
                 <div
                   style={{
                     margin: "auto",
                     width: "50%",
-                    padding: 10,
+                    // padding: 10,
+                    // border: "1px solid black",
                   }}
                 >
-                  <div style={{ display: "inline-block", marginLeft: "90px" }}>
-                    <label for="from">From</label>
-                    <br />
+                  <div style={{ display: "inline-block"}}>
+                    <Label color="orange" size="medium"><span style={{fontSize:"14px"}}>From</span></Label>
+                  </div>
+                  <div style={{ display: "inline-block", marginLeft: "5px" }}>
                     <DatePicker
                       selected={this.state.fromDate}
                       onChange={this.handleChangeFromDate}
                     />
                   </div>
-                  <div style={{ display: "inline-block", marginLeft: "60px" }}>
-                    <label for="to">To</label>
-                    <br />
+                  <div style={{ display: "inline-block", marginLeft: "10px" }}>
+                    <Label color="orange" size="medium"><span style={{fontSize:"14px"}}>To</span></Label>
+                  </div>
+                  <div style={{ display: "inline-block", marginLeft: "5px" }}>
                     <DatePicker
                       selected={this.state.toDate}
                       onChange={this.handleChangeToDate}
                     />
                   </div>
-                  <div style={{ display: "inline-block", marginLeft: "40px" }}>
-                    <Button color="teal" onClick={this.filterAudits}>
-                      FilterAudits
-                    </Button>
+                  <div style={{ display: "inline-block", marginLeft: "10px" }}>
+                    <Label
+                      color="teal"
+                      size="medium"
+                      style={{ cursor: "pointer" }}
+                      onClick={this.filterAudits}
+                    >
+                      {/* FilterAudits */}
+                      <span style={{fontSize:"14px"}}>Filter Audits</span>
+                    </Label>
                   </div>
+                  <div style={{ display: "inline-block", marginLeft: "10px" }}>
+                    {this.state.openUnassignedModal === false ? (
+                      <Button
+                        color="teal"
+                        size="mini"
+                        style={{ cursor:"ponter" }}
+                        onClick={this.openUnassignedModal}
+                        disabled={
+                          status.every(this.checkStatus) === true ? false : true
+                        }
+                      >
+                        <span style={{fontSize:"14px"}}>Assign Audits</span>
+                      </Button>
+                    ) : (
+                      <Dropdown
+                        placeholder=""
+                        fluid
+                        search
+                        selection
+                        onChange={(e, data, row) => {
+                          this.assignAudits(data.value, this.state.auditId);
+                        }}
+                        style={{
+                          width: "110px",
+                          // display: "inline-block",
+                          // // float: "right",
+                          // // marginRight: "-25px",
+                          // marginLeft:"1000px"
+                        }}
+                        options={userOptions}
+                      />
+                    )}
+                  </div>
+                  {this.state.openUnassignedModal === true && (
+                    <div style={{ display: "inline-block", marginLeft: "3px" }}>
+                      <Label color="teal" onClick={this.assignSubmit} size="medium">
+                        
+                        <span style={{fontSize:"14px"}}>Submit</span>
+                      </Label>
+                    </div>
+                  )}
                 </div>
 
                 {this.props.hdfc.isLoading === false &&
