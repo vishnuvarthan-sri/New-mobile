@@ -27,6 +27,7 @@ export default function (state = INIT_STATE, action) {
   state = Object.assign({}, state, {});
 
   switch (action.type) {
+
     case FETCH_USER_SUCCESS_ACTION:
       state.allUsers = action.payload.users;
       state.fetchUserError = false;
@@ -162,26 +163,28 @@ export default function (state = INIT_STATE, action) {
       return state;
 
     case ASSIGN_AUDITS_SUCCESS_ACTION:
+     
       state.assignSuccessError = false;
       setTimeout(() => {
         toast({
           type: "success",
           icon: "thumbs up outline",
           title: "Success",
-          description: "Audits assigned Succesfully",
+          description: action.payload.assignData,
           time: 5000,
         });
       }, 0);
       return state;
 
     case ASSIGN_AUDITS_FAILURE_ACTION:
+      
       state.assignSuccessError = true;
       setTimeout(() => {
         toast({
           type: "error",
           icon: "thumbs down outline",
           title: "error",
-          description: "contact system admin",
+          description: action.payload.response.data.message,
           time: 5000,
         });
       }, 0);
