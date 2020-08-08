@@ -331,13 +331,13 @@ class HdfcAudits extends React.Component {
             </Loader>
           </div>
         )}
-        <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
+        <div style={{width:"2100px"}}>
           {this.props.hdfc.isLoading === false &&
-            this.state.auditsView === true && (
+            this.state.auditsView === true && (this.state.audit.length === 0 || this.state.audit.length > 0) && (
               <div
                 style={{
                   height: "875px",
-                  width: "100%",
+                  width: "75%",
                   marginLeft: "50px",
                 }}
               >
