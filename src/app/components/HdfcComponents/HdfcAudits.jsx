@@ -337,7 +337,7 @@ class HdfcAudits extends React.Component {
               <div
                 style={{
                   height: "875px",
-                  width: "75%",
+                  width: "72%",
                   marginLeft: "50px",
                 }}
               >
