@@ -16,6 +16,7 @@ import {
 } from "semantic-ui-react";
 import User from "../components/ControlPanelComponents/User.jsx";
 import HdfcReport from "../components/ControlPanelComponents/HdfcReport.jsx";
+import Vendor from "../components/ControlPanelComponents/Vendor.jsx";
 
 class ControlPanel extends React.Component {
   constructor(props) {
@@ -139,6 +140,16 @@ class ControlPanel extends React.Component {
              <span style={{color:"black"}}>Users</span>
             </Menu.Item>
             <Menu.Item
+              name="vendor"
+              active={activeItem === "vendor"}
+              color="teal"
+              onClick={this.handleItemClick}
+              style={{ marginTop: 10 }}
+            >
+              <Icon name="users" color="white" />
+             <span style={{color:"black"}}>Vendors</span>
+            </Menu.Item>
+            <Menu.Item
               name="report"
               active={activeItem === "report"}
               color="teal"
@@ -160,6 +171,7 @@ class ControlPanel extends React.Component {
             >
               {activeItem === "user" && <User />}
               {activeItem === "report" && <HdfcReport/>}
+              {activeItem === "vendor" && <Vendor />}
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
