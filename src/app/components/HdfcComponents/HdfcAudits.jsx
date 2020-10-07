@@ -278,7 +278,7 @@ class HdfcAudits extends React.Component {
     })
   }
   checkStatus(status) {
-    return status === "initial";
+    return (status === "initial" || status === "assigned");
   }
 
 
