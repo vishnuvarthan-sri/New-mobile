@@ -7,7 +7,9 @@ import {
     SAVE_VENDORDETAILS_FAILURE_ACTION,
     SET_CURRENT_VENDOR,
     FETCH_AUDITOR_FAILURE_ACTION,
-    FETCH_AUDITOR_SUCCESS_ACTION
+    FETCH_AUDITOR_SUCCESS_ACTION,
+    DELETE_VENDORDETAILS_SUCCESS_ACTION,
+    DELETE_VENDORDETAILS_FAILURE_ACTION
 } from "../actions/types";
 
 import { toast } from "react-semantic-toasts";
@@ -63,8 +65,18 @@ export default function (state = INIT_STATE, action) {
             return state;
 
 
+
+        case DELETE_VENDORDETAILS_SUCCESS_ACTION:
+            state.deleteUserDetailError = true;
+            return state;
+
+        case DELETE_VENDORDETAILS_FAILURE_ACTION:
+            state.deleteUserDetailError = false;
+            return state;
+
+
         case SET_CURRENT_VENDOR:
-            console.log(action.payload,"oooooooooooooooooooooooooo")
+            console.log(action.payload, "oooooooooooooooooooooooooo")
             state.currentVendor = action.payload;
             state.pin = "";
             return state;
