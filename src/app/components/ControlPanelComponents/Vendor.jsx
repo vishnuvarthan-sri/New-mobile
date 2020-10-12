@@ -20,6 +20,7 @@ import {
   Dropdown
 } from "semantic-ui-react";
 import Table from '../Table.jsx'
+// import ReactTable from "react-table-stable";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
@@ -28,7 +29,8 @@ import {
   saveVendorDetailAction,
   AddVendorDetailAction,
   setCurrentVendor,
-  fetchAuditorAction
+  fetchAuditorAction,
+  deleteVendorAction
 } from "../../actions/vendor_action";
 import {fetchAssignedLineItemAction} from "../../actions/user_action";
 import { isLoggedIn, isAdmin } from "./../../util";
@@ -89,7 +91,8 @@ export class Vendor extends Component {
       assignedItemsForUser:[],
       showTable: false,
       SelectedMembers:[],
-      allUser:[]
+      allUser:[],
+      button : ''
     };
   }
   componentDidMount() {
@@ -135,6 +138,7 @@ export class Vendor extends Component {
     this.setState({
       editMode: true,
       newUser: true,
+      button:'',
       name: "",
       phone: "",
       email: "",
@@ -155,6 +159,7 @@ export class Vendor extends Component {
   ,     name: data.original.displayName,
         phone: data.original.mobileNo,
         email: data.original.email,
+        button : 'visible',
         allUser:{
           auditors: data.original.auditors
         },
@@ -186,6 +191,7 @@ export class Vendor extends Component {
     this.props.setCurrentVendor(user);
     // console.log(user,"saveeeeeeeeeeeeeeeeeeeeeeeeeeee")
     this.props.AddVendorDetailAction(user);
+   
     this.setState({ newUser: {}, editMode: false, saveError: false, newUser: false,SelectedMembers:[]  });
   };
   reassignAudits = (data) => {
@@ -277,6 +283,15 @@ export class Vendor extends Component {
     this.setState({checked:false})
   }
 
+  deleteUserDetail = () => {
+    // if (data != undefined){
+      // console.log(data.original,"asaaaaaaaaa")
+      this.props.deleteVendorAction(this.state.id)
+      window.location.reload(false)
+    // }
+    
+  }
+
   render() {
     console.log(this.state.allUser)
   //  console.log(this.state.SelectedMembers,"state.selectedMemebers")
@@ -338,21 +353,25 @@ export class Vendor extends Component {
                   <Icon name="undo alternate" />
                 </Button.Content>
               </Button>
+              
             )}
           </div>
+          
         )
       }
     ];
-   
+    console.log(columns)
     return (
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
         <div>
           <h1 style={{ paddingLeft: 30, flex: "0 0 30px",display:"inline-block" }}>Vendor Details</h1>
-          <Label style={{marginLeft:"76%", cursor:"pointer"}} size="large" color="orange" onClick={this.addNewUser}>
+          <Label style={{marginLeft:"76%", cursor:"pointer"}} size="large" color="orange" onClick={this.addNewUser} >
+           
           <Icon name="user plus"/>
             AddVendors</Label>
             <div>
-              <Table columns={columns} data = {userData} rowInfo={this.editUserDetail} styles={controlPanelTableStyle}/>
+              <Table columns={columns} data = {userData} rowInfo={this.editUserDetail} styles={controlPanelTableStyle}
+              />
             </div>
             <Modal
               open={this.state.editMode}
@@ -446,13 +465,21 @@ export class Vendor extends Component {
                 </Form>
               </Modal.Content>
               <Modal.Actions>
-                <Button color="red" onClick={this.closeEditUser}>
-                  <Icon name="remove" /> No
-                </Button>
+             
+             
 
                  <Button color="black" onClick={this.state.newUser ? this.saveNewUser : this.saveEditedUser}>
-                  Save
+                  Save User
                 </Button>
+                <Button color="red" onClick={this.closeEditUser}>
+                  <Icon name="remove" /> Cancel
+                </Button>
+                {this.state.button == 'visible' &&
+                <Button color="black"  onClick={this.deleteUserDetail}>
+                  Delete User
+                </Button>
+                    }
+               
               </Modal.Actions>
             </Modal>
           </div>
@@ -487,7 +514,8 @@ const mapDispatchToProps = dispatch => {
       AddVendorDetailAction:AddVendorDetailAction,
       setCurrentVendor:setCurrentVendor,
       fetchAuditorAction:fetchAuditorAction,
-      fetchAssignedLineItem:fetchAssignedLineItemAction
+      fetchAssignedLineItem:fetchAssignedLineItemAction,
+      deleteVendorAction:deleteVendorAction
     },
     dispatch
   );

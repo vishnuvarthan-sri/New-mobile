@@ -89,6 +89,25 @@ export const setCurrentVendor = (user) => {
     }
   }
 
+export const deleteVendorAction = (userId) => {
+  console.log(userId)
+    return function(dispatch) {
+        axios.delete(types.API_URL + '/ebgc/v1/deleteVendors?userId='+ userId)
+        .then(function(response) {
+            dispatch({
+                type: types.DELETE_VENDORDETAILS_SUCCESS_ACTION,
+                payload: response.data
+            });
+        })
+        .catch(function(err) {
+            dispatch({
+                type: types.DELETE_VENDORDETAILS_FAILURE_ACTION,
+                payload: err
+            });
+        });
+    };
+};
+
 
 
 
