@@ -191,7 +191,7 @@ export class Vendor extends Component {
     this.props.setCurrentVendor(user);
     // console.log(user,"saveeeeeeeeeeeeeeeeeeeeeeeeeeee")
     this.props.AddVendorDetailAction(user);
-    window.location.reload(false)
+   
     this.setState({ newUser: {}, editMode: false, saveError: false, newUser: false,SelectedMembers:[]  });
   };
   reassignAudits = (data) => {
