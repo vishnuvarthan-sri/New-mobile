@@ -80,6 +80,7 @@ export class Vendor extends Component {
       id:"",
       name: "",
       phone: "",
+      pinCode:'',
       email: "",
       role: "",
       saveError: false,
@@ -158,6 +159,8 @@ export class Vendor extends Component {
         id: data.original._id
   ,     name: data.original.displayName,
         phone: data.original.mobileNo,
+        role:data.original.role,
+        pinCode : data.original.pinCode,
         email: data.original.email,
         button : 'visible',
         allUser:{
@@ -175,6 +178,7 @@ export class Vendor extends Component {
     user.displayName = this.state.name;
     user.mobileNo = this.state.phone;
     user.email = this.state.email;
+    user.pinCode = this.state.pinCode;
     user.role = this.state.role;
     this.props.setCurrentVendor(user);
     // console.log(user,'llll')
@@ -211,6 +215,9 @@ export class Vendor extends Component {
   onPhoneChange = e => {
     this.setState({ phone: e.target.value });
   };
+  onPinCodeChange = e => {
+    this.setState({pinCode:e.target.value});
+  }
   
   onRoleChange = data => {
     this.setState({ role: data });
@@ -332,6 +339,11 @@ export class Vendor extends Component {
         style: { textAlign: "center", cursor: "pointer" },
       },
       {
+        Header: "Pin Code",
+        accessor: "pinCode",
+        style: { textAlign: "center", cursor: "pointer" },
+      },
+      {
         Header: "Action",
         accessor: "editing",
         Cell: row => (
@@ -383,7 +395,7 @@ export class Vendor extends Component {
               <Modal.Content>
 
                 <Form>
-                  <Grid columns={2}>
+                  <Grid columns={3}>
                     <Grid.Row>
                       <Grid.Column>
                         <Form.Input
@@ -412,6 +424,17 @@ export class Vendor extends Component {
                           onChange={this.onEmailChange}
                         />
                       </Grid.Column>
+                      <Grid.Column>
+                        <Form.Input
+                          label="Pin Code"
+                          type="any"
+                          style ={{paddingBottom:50}}
+                          placeholder="Your PinCode"
+                          value={this.state.pinCode}
+                          onChange={this.onPinCodeChange}
+                        />
+                      </Grid.Column>
+                   
                       <Grid.Column style={{ marginTop: "5%" }}>
                       <Segment.Group
                         style={{ overflow: "auto", maxHeight: 200 }}
@@ -460,6 +483,7 @@ export class Vendor extends Component {
                           })}
                       </Segment.Group>
                     </Grid.Column>
+                  
                     </Grid.Row>
                   </Grid>
                 </Form>
