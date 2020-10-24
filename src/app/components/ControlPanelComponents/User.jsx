@@ -32,6 +32,7 @@ import {
   generatePinAction,
   reassignAuditAction,
 } from "../../actions/user_action";
+import {deleteVendorAction} from "../../actions/vendor_action";
 import { isLoggedIn, isAdmin } from "./../../util";
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
@@ -71,7 +72,8 @@ export class User extends Component {
       auditId: null,
       totalUsers: [],
       assignedItemsForUser:[],
-      showTable: false
+      showTable: false,
+      button:''
     };
   }
   componentDidMount() {
@@ -113,6 +115,7 @@ export class User extends Component {
       phone: "",
       email: "",
       imei: "",
+      button:'',
       pinCode:""
     });
   }
@@ -129,10 +132,12 @@ export class User extends Component {
         id: data.original._id
   ,     name: data.original.displayName,
         phone: data.original.mobileNo,
+        pinCode:data.original.pinCode,
         email: data.original.email,
         role: data.original.role,
         imei: data.original.imei,
-        newUser: false
+        newUser: false,
+        button : 'visible',
       });
     }
 
@@ -143,6 +148,7 @@ export class User extends Component {
     user.displayName = this.state.name;
     user.mobileNo = this.state.phone;
     user.email = this.state.email;
+    user.pinCode = this.state.pinCode;
     user.role = this.state.role;
     this.props.setCurrentUser(user);
     this.props.saveUserDetail(user);
@@ -193,6 +199,15 @@ export class User extends Component {
     var userId = this.props.user.currentUser;
     this.props.generatePin(userId._id)
   } 
+
+  deleteUserDetail = () => {
+    // if (data != undefined){
+      // console.log(data.original,"asaaaaaaaaa")
+      this.props.deleteVendorAction(this.state.id)
+      window.location.reload(false)
+    // }
+    
+  }
 
   render() {
    
@@ -478,6 +493,11 @@ export class User extends Component {
                  <Button color="black" onClick={this.state.newUser ? this.saveNewUser : this.saveEditedUser}>
                   Save
                 </Button>
+                {this.state.button == 'visible' &&
+                <Button color="black"  onClick={this.deleteUserDetail}>
+                  Delete User
+                </Button>
+                    }
               </Modal.Actions>
             </Modal>
           </div>
@@ -514,7 +534,8 @@ const mapDispatchToProps = dispatch => {
       fetchAssignedLineItem: fetchAssignedLineItemAction,
       forgotPassword:forgotPasswordAction,
       generatePin: generatePinAction,
-      reassignAudit: reassignAuditAction
+      reassignAudit: reassignAuditAction,
+      deleteVendorAction:deleteVendorAction
     },
     dispatch
   );
