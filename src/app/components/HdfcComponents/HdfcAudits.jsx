@@ -46,7 +46,7 @@ import HdfcQuestions from "./HdfcQuestions.jsx";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { Button, Modal, Dropdown, Loader, Label, ModalActions } from "semantic-ui-react";
+import { Button, Modal, Dropdown, Loader, Label, ModalActions, Form } from "semantic-ui-react";
 // import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 const tableStyle = {
   width: "100%",
@@ -73,7 +73,7 @@ class HdfcAudits extends React.Component {
       rowObject: {},
       openUnassignedModal: false,
       unassigned: [],
-      columnsNeeded: ["customerName", "fileNo", "status", "address"],
+      columnsNeeded: ["customerName", "fileNo", "status", "pinCode"],
       showDropdown: false,
       auditId: "",
       selection: [],
@@ -252,6 +252,7 @@ class HdfcAudits extends React.Component {
   };
 
   handleChangeFromDate = (date) => {
+    console.log(date)
     this.setState({
       fromDate: date,
     });

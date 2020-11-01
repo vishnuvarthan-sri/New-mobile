@@ -283,7 +283,7 @@ export class HdfcQuestions extends Component {
             </Grid.Column>
             <Grid.Column>
               <label for="company" style={{ display: "inline-block" }}>
-                Origin Mode :
+                Address :
               </label>
               <span
                 style={{
@@ -292,7 +292,7 @@ export class HdfcQuestions extends Component {
                   marginLeft: "10px",
                 }}
               >
-                {this.state.audits.originMode}
+                {this.state.audits.address}
               </span>
             </Grid.Column>
             <Grid.Column>
