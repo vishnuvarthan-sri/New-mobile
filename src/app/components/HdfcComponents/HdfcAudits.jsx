@@ -159,7 +159,7 @@ class HdfcAudits extends React.Component {
 
     if (this.props.user !== nextprops.user) {
       if (nextprops.user.allUsers) {
-        let neededColumn = Object.keys(nextprops.user.allUsers[0]);
+        let neededColumn = Object.keys(nextprops.user.allUsers[0] != null ? nextprops.user.allUsers[0]:{});
         neededColumn.forEach((data) => {
           userNameColumnsNeeded.forEach((el) => {
             if (el === data) {
@@ -295,7 +295,16 @@ class HdfcAudits extends React.Component {
     {
       this.props.user.allUsers &&
         this.props.user.allUsers.map((name) => {
+          console.log(name)
+          if (name != null){
           if (name.role === "fieldExecutives") {
+            userOptions.push({
+              key: name._id,
+              text: name.displayName,
+              value: name._id,
+            });
+          }
+          if (name.role === "vendor") {
             userOptions.push({
               key: name._id,
               text: name.displayName,
@@ -309,6 +318,7 @@ class HdfcAudits extends React.Component {
               value: name._id,
             });
           }
+        }
         });
     }
     if (Array.isArray(this.state.selectedRowsData)) {
