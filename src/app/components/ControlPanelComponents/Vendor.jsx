@@ -151,7 +151,7 @@ export class Vendor extends Component {
   editUserDetail = data => {
   
     if(data !== undefined){
-      // console.log(data,"dataaaaaaaaaaaaaaaaaaaaaaaaaaa")
+      console.log(data,"dataaaaaaaaaaaaaaaaaaaaaaaaaaa")
       const userId = data.original._id;
       this.props.fetchAuditorAction();
       this.setState({
@@ -338,11 +338,11 @@ export class Vendor extends Component {
         accessor: "mobileNo",
         style: { textAlign: "center", cursor: "pointer" },
       },
-      {
-        Header: "Pin Code",
-        accessor: "pinCode",
-        style: { textAlign: "center", cursor: "pointer" },
-      },
+      // {
+      //   Header: "Pin Code",
+      //   accessor: "pinCode",
+      //   style: { textAlign: "center", cursor: "pointer" },
+      // },
       {
         Header: "Action",
         accessor: "editing",
