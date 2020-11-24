@@ -3,7 +3,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { isLoggedIn, isAdmin, isQualityControl } from "./../util";
+import { isLoggedIn, isAdmin, isQualityControl,isVendor } from "./../util";
 import { selectMenuAction, logoutAction } from "../actions/index";
 import { Container, Segment, Input, Icon, Label } from "semantic-ui-react";
 import {
@@ -37,9 +37,10 @@ class ControlPanel extends React.Component {
       this.props.history.push(`/login`);
     }
 
-    if (!isAdmin(this.props.auth)) {
+    if (!isAdmin(this.props.auth) && !isVendor(this.props.auth)) {
       this.props.history.push(`/`);
     }
+   
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -47,7 +48,7 @@ class ControlPanel extends React.Component {
       this.props.history.push(`/login`);
       return false;
     }
-    if (!isAdmin(this.props.auth)) {
+    if (!isAdmin(this.props.auth) && !isVendor(this.props.auth)) {
       this.props.history.push(`/`);
       return false;
     }
@@ -129,27 +130,29 @@ class ControlPanel extends React.Component {
             vertical
             inverted
           >
-            <Menu.Item
-              name="user"
-              active={activeItem === "user"}
-              color="teal"
-              onClick={this.handleItemClick}
-              style={{ marginTop: 10 }}
-            >
-              <Icon name="users" color="white" />
-             <span style={{color:"black"}}>Users</span>
-            </Menu.Item>
-            <Menu.Item
-              name="vendor"
-              active={activeItem === "vendor"}
-              color="teal"
-              onClick={this.handleItemClick}
-              style={{ marginTop: 10 }}
-            >
-              <Icon name="users" color="white" />
-             <span style={{color:"black"}}>Vendors</span>
-            </Menu.Item>
-            <Menu.Item
+            {isAdmin(this.props.auth) &&(
+              <div>
+               <Menu.Item
+               name="user"
+               active={activeItem === "user"}
+               color="teal"
+               onClick={this.handleItemClick}
+               style={{ marginTop: 10 }}
+             >
+               <Icon name="users" color="white" />
+              <span style={{color:"black"}}>Users</span>
+             </Menu.Item>
+             <Menu.Item
+               name="vendor"
+               active={activeItem === "vendor"}
+               color="teal"
+               onClick={this.handleItemClick}
+               style={{ marginTop: 10 }}
+             >
+               <Icon name="users" color="white" />
+              <span style={{color:"black"}}>Vendors</span>
+             </Menu.Item>
+             <Menu.Item
               name="report"
               active={activeItem === "report"}
               color="teal"
@@ -159,6 +162,24 @@ class ControlPanel extends React.Component {
               <Icon name="file excel" color="white" />
               <span style={{color:"black"}}>Report</span>
             </Menu.Item>
+             </div>
+            )}
+            {isVendor(this.props.auth) &&(
+              <div>
+                 <Menu.Item
+                  name="report"
+                  active={activeItem === "report"}
+                  color="teal"
+                  onClick={this.handleItemClick}
+                  style={{ marginTop: 10 }}
+                >
+                  <Icon name="file excel" color="white" />
+                  <span style={{color:"black"}}>Report</span>
+                </Menu.Item>
+                 </div>
+            )}
+           
+            
           </Sidebar>
           <Sidebar.Pusher style={pusherStyle}>
             <Segment

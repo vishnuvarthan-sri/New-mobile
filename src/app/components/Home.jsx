@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { isLoggedIn, isAdmin } from "./../util";
+import { isLoggedIn, isAdmin, isVendor } from "./../util";
 import { selectMenuAction, logoutAction } from "../actions/index";
 import { fetchHdfcMasterAction } from "../actions/hdfc_action";
 import {
@@ -145,6 +145,11 @@ export class Home extends Component {
               <Dropdown pointing text={this.props.auth.displayName}>
                 <Dropdown.Menu>
                   {isAdmin(this.props.auth) && (
+                    <Dropdown.Item onClick={this.openControlPanel}>
+                      Control Panel
+                    </Dropdown.Item>
+                  )}
+                  {isVendor(this.props.auth) && (
                     <Dropdown.Item onClick={this.openControlPanel}>
                       Control Panel
                     </Dropdown.Item>
