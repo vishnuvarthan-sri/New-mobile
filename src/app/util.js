@@ -16,6 +16,11 @@ export const isFieldExecutive = user => {
   return user.role == "fieldexecutive";
 };
 
+export const isVendor = user => {
+  console.log(user.role)
+  return user.role == "vendor";
+};
+
 export function isLoggedIn(authState) {
   try {
     if (!authState.accessToken) return false;

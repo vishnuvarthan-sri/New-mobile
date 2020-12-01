@@ -73,7 +73,7 @@ class HdfcAudits extends React.Component {
       rowObject: {},
       openUnassignedModal: false,
       unassigned: [],
-      columnsNeeded: ["customerName", "fileNo", "status", "pinCode","assignedName","assignedDate","dataType"],
+      columnsNeeded: ["customerName", "fileNo", "status", "pinCode","assignedName","assignedDate","dataType","unitName"],
       showDropdown: false,
       auditId: "",
       selection: [],

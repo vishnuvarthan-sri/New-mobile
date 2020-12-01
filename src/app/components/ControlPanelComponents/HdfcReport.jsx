@@ -40,6 +40,7 @@ export class HdfcReport extends Component {
     this.props.fetchVerifiedAudits();
   }
   handleFromDate = date => {
+    console.log(date)
     this.setState({
       fromDate: date,
       firstDateChoose: date
@@ -96,9 +97,14 @@ export class HdfcReport extends Component {
         value: "initial",
         text: "initial"
       },
-      { key: 3, value: "audited", text: "audited" },
-      { key : 4, value: "verified" , text:"verified"},
-      {key:5,value:"complete",text:"complete"}
+      {
+        key: 3,
+        value: "assigned",
+        text: "assigned"
+      },
+      { key: 4, value: "audited", text: "audited" },
+      { key : 5, value: "verified" , text:"verified"},
+      {key:6,value:"complete",text:"complete"}
     ];
     return (
       <div style={{ flexGrow: 1, display: "flex", flexFlow: "column" }}>
