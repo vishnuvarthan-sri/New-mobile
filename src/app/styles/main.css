@@ -1,0 +1,115 @@
+body {
+    margin: 0px;
+    background: #f1f1f1;
+}
+
+.vcenter {
+    margin-top: 300%;
+    height: 100%;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.login-page {
+    background: #FFFFFF;
+    height: 100%;
+}
+
+.login-form {
+    height: 100%;
+    width: 80%;
+}
+
+.ui.toggle.checkbox .box:before,
+.ui.toggle.checkbox label:before {
+    background: rgba(0, 0, 0, 0.27);
+}
+
+.ui.toggle.checkbox .box:after,
+.ui.toggle.checkbox label:after {
+    border: 1px solid #e1e1e1;
+}
+
+.headerless .rt-tr-group {
+    flex: none;
+}
+
+.headerless .rt-thead.-header {
+    display: none;
+}
+
+.-pagination {
+    height: 50px;
+}
+
+.ui.table td {
+    padding: 6px 6px;
+}
+
+.twoColumnCard>canvas {
+    margin-left: 40px;
+    width: 200px !important;
+    height: 200px !important;
+}
+
+.DayPickerInput input {    
+    margin: 0;
+    max-width: 100%;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    outline: 0;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+    text-align: left;
+    line-height: 1.21428571em;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    padding: .67857143em 1em;
+    background: #fff;
+    border: 1px solid rgba(34,36,38,.15);
+    color: rgba(0,0,0,.87);
+    border-radius: .28571429rem;
+    -webkit-transition: border-color .1s ease,-webkit-box-shadow .1s ease;
+    transition: border-color .1s ease,-webkit-box-shadow .1s ease;
+    transition: box-shadow .1s ease,border-color .1s ease;
+    transition: box-shadow .1s ease,border-color .1s ease,-webkit-box-shadow .1s ease;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.DayPickerInput-OverlayWrapper div {
+    z-index: 1000;
+}
+
+/* As the default pointing color(black) is applied to tab items we are overriding it the match the custom theme (teal) */
+#pandgQuestionarie .ui.inverted.pointing.menu .active.item:after,
+#pandgQuestionarie .ui.inverted.pointing.menu .active.item:hover:after {
+    background: #00a39b !important;
+}
+
+.react-table-dropdown {
+    min-height: 28px !important;
+    max-height: 28px !important;
+    line-height: 0em !important;
+    border-radius: 0px !important;
+    position: fixed !important;
+    width: 150px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.react-table-dropdown input{
+    height: 100% !important;
+    padding: 0 !important;
+}
+
+.react-table-dropdown div{
+    vertical-align: sub !important;
+    /* text-align: left; */
+    /* inline-size: max-content; */
+}
+
+.react-table-dropdown i{
+    padding: 6px !important
+}
