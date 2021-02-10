@@ -34,13 +34,19 @@ class Login extends React.Component {
 
     componentWillMount() {
         if (isLoggedIn(this.props.auth)) {
-            this.props.history.push(`/home`);
+            this.props.history.push({
+            pathname: `/home`,
+            state: {details:this.props.auth}
+            });
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         if (isLoggedIn(nextProps.auth)) {
-            this.props.history.push(`/home`);
+            this.props.history.push({
+                 pathname: `/home`,
+                 state: {details:this.props.auth}
+                });
             return false;
         }
         return true;

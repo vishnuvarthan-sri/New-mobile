@@ -5,7 +5,7 @@ import Main from './Maincomponents/Main.jsx';
 import { logoutAction } from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isLoggedOUT } from '../util'
+import { isLoggedIn } from '../util'
 import { withRouter } from 'react-router';
 
 class Home extends React.Component {
@@ -18,21 +18,33 @@ class Home extends React.Component {
     }
    
     logout = () => {
-        let token = this.props.auth.accessToken;
+        let token = this.props.location.state.details.accessToken;
         this.props.logout(token)
     }
  
+    componentDidUpdate(props){
+        if(props.auth.logout){
+            this.props.history.push('/login')
+        }
+        else return;
+    }
+
+    componentWillMount() {
+        if (!isLoggedIn(this.props.auth)) {
+            this.props.history.push(`/login`)
+        }
+    }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.auth.logout) {
-            this.props.history.push(`/login`);
+        if (!isLoggedIn(nextProps.auth)) {
+            this.props.history.push(`/login`)
             return false;
         }
         return true;
     }
 
     render() {
-        console.log(this.props.auth.accessToken,"The logout reply")
+        console.log(this.props.auth.Name,"The logout reply")
         if (isBrowser) return <Message>The Browser is not supported</Message>
 
         return (
@@ -59,9 +71,6 @@ class Home extends React.Component {
                     >
                         <Dropdown pointing >
                             <Dropdown.Menu>
-                                <Dropdown.Item >
-                                    Control Panel
-                    </Dropdown.Item>
                                 <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
